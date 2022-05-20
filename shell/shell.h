@@ -1,0 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
+/*   Updated: 2022/05/19 21:52:41 by alee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef SHELL_H
+# define SHELL_H
+
+//---------------------------------------
+#define DEBUG
+#include <stdio.h>
+//---------------------------------------
+#include <termios.h>
+
+typedef enum e_shell_status
+{
+	S_START = 0,
+	S_INIT,
+	S_ERROR,
+	S_LINE_READ,
+	S_NO_CMD,
+	S_CMD,
+	S_CLOSE,
+}	t_shell_status;
+
+typedef struct s_shell_data
+{
+	//status
+	t_shell_status	status;
+
+	//prompt msg
+	char			*prompt_msg;
+
+	//status value
+	int				last_status;
+
+	//stdin, stdout, stderr
+	int				term_status;
+	int				cp_stdin;
+	int				cp_stdout;
+	int				cp_stderr;
+
+	//command line
+	char			*line;
+	//command array
+	char			**cmd;
+
+	//terminal attr
+	struct termios	default_term_attr;
+	struct termios	new_term_attr;
+
+
+	//argv, env
+	char			***p_argv;
+	char			***p_env;
+}	t_shell_data;
+
+#endif
