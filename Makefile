@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/20 09:43:02 by alee             ###   ########.fr        #
+#    Updated: 2022/05/21 02:51:46 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SHELL_FILE = shell
 INIT_FILE = shell_init
 READ_LINE_FILE = shell_readline
 UTILS_FILE = utils_01 utils_02
-BUILT_IN_FILE = ft_pwd ft_cd ft_echo
+BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include

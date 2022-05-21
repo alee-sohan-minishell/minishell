@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_exit.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/08 02:55:38 by alee              #+#    #+#             */
-/*   Updated: 2022/05/21 10:08:17 by alee             ###   ########.fr       */
+/*   Created: 2022/05/21 02:46:50 by alee              #+#    #+#             */
+/*   Updated: 2022/05/21 08:42:12 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FT_EXIT_H
+# define FT_EXIT_H
 
-void	ft_putstr_fd(const char *s, int fd)
-{
-	size_t	str_len;
+int	ft_exit(char **cmd, long long status);
+int	get_cmd_count(char **cmd);
+int	is_valid_num(char *str);
+int	ft_atol(char *str, long long *o_var);
 
-	if (!s)
-		return ;
-	str_len = ft_strlen(s);
-	write(fd, s, str_len);
-	return ;
-}
+#endif

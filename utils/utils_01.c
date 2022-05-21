@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 07:50:44 by alee              #+#    #+#             */
-/*   Updated: 2022/05/16 05:37:05 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/21 10:19:42 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,11 @@ void	ft_perror_exit(const char *msg, int exit_status)
 {
 	ft_perror(msg);
 	exit(exit_status);
+}
+
+void	ft_msg_exit(const char *msg, int exit_status, int std_type)
+{
+	ft_putendl_fd(msg, std_type);
+	exit(exit_status);
+	return ;
 }

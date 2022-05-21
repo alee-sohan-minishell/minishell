@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/05/19 21:55:38 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/21 15:08:58 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "../built_in/ft_pwd.h"
 #include "../built_in/ft_cd.h"
 #include "../built_in/ft_echo.h"
+#include "../built_in/ft_exit.h"
 #include "../libft/libft.h"
 #include <stdio.h>
 
@@ -51,6 +52,8 @@ void	shell_readline(t_shell_data *p_data)
 		ft_pwd(p_data->cmd);
 	else if (strcmp(p_data->cmd[0], "echo") == 0)
 		ft_echo(p_data->cmd);
+	else if (strcmp(p_data->cmd[0], "exit") == 0)
+		ft_exit(p_data->cmd, 1);
 	if (p_data->line)//free line string
 		free(p_data->line);
 	return ;
