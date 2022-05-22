@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 01:13:11 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 22:11:59 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@
 #include "../built_in/ft_exit.h"
 #include "../libft/libft.h"
 #include <stdio.h>
+#include <unistd.h>
 
 void	shell_readline(t_shell_data *p_data)
 {
 	p_data->line = readline(p_data->prompt_msg);
+	printf("[%s] \n", p_data->line);
 	if (!p_data->line)
 	{
+		ft_putendl_fd("exit", STDOUT_FILENO);
 		p_data->status = S_ERROR;
 		return ;
 	}
@@ -65,14 +68,10 @@ void	insert_cmd_history(const char *cmd)
 	return ;
 }
 
-
-
 //파싱, 트리구조(추상구문트리),
-
 
 //alee : 빌트인, env, export, unset
 
 //min-jo : tree, redirection, pipe
 
 //sohan : Unit test, parsing
-

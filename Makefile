@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/22 18:57:18 by alee             ###   ########.fr        #
+#    Updated: 2022/05/22 19:54:10 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,14 @@ LIBFT_FILE = ft_isalnum ft_isprint ft_memcmp ft_putchar_fd ft_split \
 			ft_lstadd_back ft_lstadd_front ft_lstclear \
 			ft_lstdelone ft_lstiter ft_lstlast \
 			ft_lstmap ft_lstnew ft_lstsize
+
 LOGO_FILE = logo
 SHELL_FILE = shell
 INIT_FILE = shell_init
 READ_LINE_FILE = shell_readline
 UTILS_FILE = utils_01 utils_02
 BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit
-ENV_FILE = env_list env_utils_01
+ENV_FILE = env_list env_utils_01 env_list_interface
 
 
 READLINE_ROOT = $(shell brew --prefix readline)
