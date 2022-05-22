@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:06:41 by alee              #+#    #+#             */
-/*   Updated: 2022/05/21 16:53:01 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 18:33:00 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	ft_echo(char **cmd)
 	idx = 1 + newline_flag;
 	while (cmd[idx])
 	{
-		if (is_hashtag_flag(cmd[idx]))
-			break ;
 		if (space_idx)
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		ft_putstr_fd(cmd[idx], STDOUT_FILENO);

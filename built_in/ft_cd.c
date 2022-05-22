@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 14:57:11 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 12:41:59 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 17:56:53 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_cd(char **cmd)
 			ret = chdir(cmd[1]);
 		if (ret == -1)
 		{
-			ft_cd_perror("cd", cmd[1]);
+			cd_perror("cd", cmd[1]);
 			return (1);
 		}
 	}
@@ -48,7 +48,7 @@ int	is_chdir_home(char **cmd)
 	return (0);
 }
 
-void	ft_cd_perror(const char *pre_cmd, char *param)
+void	cd_perror(const char *pre_cmd, char *param)
 {
 	char	*err_msg;
 	char	*buf;
