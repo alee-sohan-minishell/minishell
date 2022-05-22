@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: alee <alee@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 13:14:27 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 14:10:52 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,32 @@
 #include <stdio.h>
 
 int	main(int argc, char *argv[], char *env[])
-{
-	//
-		if (argc == (int)argv == (int)env)
-			return (1);
-
-	//
-
+{	
+	//[Unit Test] : function env_list_init
+	
 	t_env_list	list;
+	int			idx;
 
+	idx = 0;
 	env_list_init(&list);
-	printf("%d \n", list.node_count);
-	printf("head : %p \n", &list.dummy_head);
-	printf("tail : %p \n", &list.dummy_tail);
+	while (env[idx])
+	{
+		if (env_insert_line(env[idx], &list))
+			
+	}
+	// // printf("%d \n", list.node_count);
+	// // printf("head : %p \n", &list.dummy_head);
+	// // printf("tail : %p \n", &list.dummy_tail);
 
-	printf("head.prev : %p \n", &list.dummy_head.prev);
-	printf("head.next : %p \n", &list.dummy_head.next);
-	printf("tail.prev : %p \n", &list.dummy_tail.prev);
-	printf("tail.Next : %p \n", &list.dummy_tail.next);
+	// // printf("head.prev : %p \n", list.dummy_head.prev);
+	// // printf("head.next : %p \n", list.dummy_head.next);
+	// // printf("tail.prev : %p \n", list.dummy_tail.prev);
+	// // printf("tail.next : %p \n", list.dummy_tail.next);
+	return 0;
+}
 
-
+// int	main(int argc, char *argv[], char *env[])
+// {
 	// t_shell_data	shell;
 
 	// ft_bzero(&shell, sizeof(shell));
@@ -60,4 +66,4 @@ int	main(int argc, char *argv[], char *env[])
 	// 		break ;
 	// }
 	// return (shell.last_status);
-}
+// }
