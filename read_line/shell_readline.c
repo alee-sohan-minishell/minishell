@@ -25,8 +25,21 @@
 #include "../libft/libft.h"
 #include <stdio.h>
 
+void	sigint_handler(int signo)
+{
+	if (signo == SIGINT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		printf("\n");
+		rl_redisplay();
+	}
+}
+
 void	shell_readline(t_shell_data *p_data)
 {
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 	p_data->line = readline(p_data->prompt_msg);
 	if (!p_data->line)
 	{

@@ -72,6 +72,7 @@ int	set_tc_attr(t_shell_data *p_data)
 	{
 		p_data->new_term_attr = p_data->default_term_attr;
 		p_data->new_term_attr.c_lflag &= (~ECHOCTL);
+		tcsetattr(STDOUT_FILENO, TCSANOW, &p_data->new_term_attr);
 	}
 	else
 	{
