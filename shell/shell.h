@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 13:38:25 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 15:34:09 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_shell_data
 	char			***p_env;
 
 	//env list
-	t_env_list	*env_list;
+	t_env_list	env_list;
 }	t_shell_data;
 
 #endif

@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/22 12:48:29 by alee             ###   ########.fr        #
+#    Updated: 2022/05/22 16:01:34 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ INIT_FILE = shell_init
 READ_LINE_FILE = shell_readline
 UTILS_FILE = utils_01 utils_02
 BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit
-ENV_FILE = env_list
+ENV_FILE = env_list env_utils_01
 
 
 READLINE_ROOT = $(shell brew --prefix readline)

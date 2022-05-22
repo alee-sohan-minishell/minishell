@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 12:44:27 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 14:09:46 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 17:45:19 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,12 @@ typedef struct s_env_list
 	t_env_node	dummy_tail;
 }	t_env_list;
 
-/*	Func Init	*/
-int			env_list_init(t_env_list	*list);
+int			env_list_init(t_env_list *p_list);
+t_env_node	*env_create_node(void);
+int			env_node_add_back(t_env_list *p_list);
+int			env_node_add_front(t_env_list *p_list);
 
-/*	Func Create	*/
-t_env_node	*env_create_node(const char *key, const	char *value);
-
-/*	Func Insert	*/
-// int			env_insert_node(t_env_list	*p_list, const char *key, const char *value);
-int			env_insert_line(const char *line, t_env_list *p_list);
-
-
-
-/*	Func Delete	*/
-// int			env_delete_node(void);
-
-/*	Func Clear	*/
-/*	Func Search	*/
 int			env_search_node(t_env_list *p_list, const char *key, \
 												t_env_node **o_node);
-
-/*	Func Write	*/
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 02:05:30 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 16:19:33 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 #include "../utils/utils_02.h"
 #include <unistd.h>
 #include "shell_init.h"
+#include "../env/env_list.h"
+#include "../env/env_utils_01.h"
+
+//debug
+#include <stdio.h>
 
 void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 {
@@ -27,6 +32,8 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 	if (set_tc_attr(p_data) == 0)
 		return ;
 	if (dup_init(p_data) == 0)
+		return ;
+	if (env_init(p_data, env) == 0)
 		return ;
 	p_data->p_argv = argv;
 	p_data->p_env = env;//TODO : env -> data insert in tree
@@ -95,6 +102,20 @@ int		dup_init(t_shell_data *p_data)
 		close(p_data->cp_stdout);
 		close(p_data->cp_stdin);
 		ft_set_status(p_data, S_ERROR);
+		return (0);
+	}
+	return (1);
+}
+
+int		env_init(t_shell_data *p_data, char **env[])
+{
+	if (is_env_form(env) == 0)
+	{
+		ft_set_status(p_data, S_ERROR);
+		return (0);
+	}
+	if (env_parse(p_data, env) == 0)
+	{
 		return (0);
 	}
 	return (1);
