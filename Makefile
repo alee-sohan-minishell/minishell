@@ -17,7 +17,8 @@ RM = rm -f
 NAME = minishell
 
 FILE = main
-LIBFT_FILE = ft_isalnum ft_isprint ft_memcmp ft_putchar_fd ft_split \
+LIBFT = $(addprefix libft/, libft.a)
+#LIBFT_FILE = ft_isalnum ft_isprint ft_memcmp ft_putchar_fd ft_split \
 			ft_strlcat ft_strncmp ft_substr ft_atoi ft_isalpha \
 			ft_itoa ft_memcpy ft_putendl_fd ft_strchr ft_strlcpy \
 			ft_strnstr ft_tolower ft_bzero ft_isascii ft_memccpy \
@@ -42,7 +43,6 @@ READLINE_LIB = $(READLINE_ROOT)/lib
 
 
 SRC = $(addsuffix .c,$(FILE)) \
-	$(addprefix libft/,$(addsuffix .c,$(LIBFT_FILE))) \
 	$(addprefix logo/,$(addsuffix .c,$(LOGO_FILE))) \
 	$(addprefix shell/,$(addsuffix .c,$(SHELL_FILE))) \
 	$(addprefix init/,$(addsuffix .c,$(INIT_FILE)))	\
@@ -56,19 +56,25 @@ OBJ = $(SRC:.c=.o)
 .PHONY: all
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -L$(READLINE_LIB) -lreadline -lhistory $^ -o $@
 
 %.o : %.c
 	$(CC) $(CFLAGS) -I$(READLINE_INCLUDE) -c $(CFLAGS) -o $@ $<
 
+$(LIBFT):
+	@echo "make libft"
+	@make -C libft/
+
 .PHONY: clean
 clean:
 	$(RM) $(OBJ)
+	@make -C libft/ clean
 
 .PHONY: fclean
 fclean: clean
 	$(RM) $(NAME)
+	@make -C libft/ fclean
 
 .PHONY: re
 re:
