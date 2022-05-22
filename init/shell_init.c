@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 16:19:33 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 18:47:59 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ int		env_init(t_shell_data *p_data, char **env[])
 	{
 		ft_set_status(p_data, S_ERROR);
 		return (0);
+	}
+	if (env_create(p_data, env) == 0)
+	{
+
 	}
 	if (env_parse(p_data, env) == 0)
 	{

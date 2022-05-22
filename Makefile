@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/22 16:01:34 by alee             ###   ########.fr        #
+#    Updated: 2022/05/22 18:57:18 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,19 +53,14 @@ SRC = $(addsuffix .c,$(FILE)) \
 
 OBJ = $(SRC:.c=.o)
 
-s:
-	@echo $(SRC)
-o:
-	@echo $(OBJ)
+.PHONY: all
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -L$(READLINE_LIB) -lreadline -lhistory $^ -o $@
 
 %.o : %.c
 	$(CC) $(CFLAGS) -I$(READLINE_INCLUDE) -c $(CFLAGS) -o $@ $<
-
-.PHONY: all
-all: $(NAME)
 
 .PHONY: clean
 clean:
