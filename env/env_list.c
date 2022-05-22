@@ -20,9 +20,9 @@ int		env_list_init(t_env_list *p_list)
 	ft_bzero(p_list, sizeof(t_env_list));
 	p_list->node_count = 0;
 	p_list->dummy_head.prev = (t_env_node *)0;
-	p_list->dummy_head.next = &p_list->dummy_tail;
-	p_list->dummy_tail.prev = &p_list->dummy_head;
 	p_list->dummy_tail.next = (t_env_node *)0;
+	p_list->dummy_tail.prev = &p_list->dummy_head;
+	p_list->dummy_head.next = &p_list->dummy_tail;
 	return (1);
 }
 
@@ -38,6 +38,34 @@ t_env_node	*env_create_node(void)
 	node->next = (t_env_node *)0;
 	node->prev = (t_env_node *)0;
 	return (node);
+}
+
+int	env_node_add_front(t_env_list *p_list, t_env_node *p_new_node)
+{
+	if (!p_new_node || !p_list)
+		return (0);
+	p_new_node->next = p_list->dummy_head.next;
+	if (p_list->dummy_head.next == NULL)
+		p_list->dummy_tail.prev = p_new_node;
+	else
+		p_list->dummy_head.next->prev = p_new_node;
+	p_list->dummy_head.next = p_new_node;
+	++p_list->node_count;
+	return (1);
+}
+
+int	env_node_add_back(t_env_list *p_list, t_env_node *p_new_node)
+{
+	if (!p_new_node || !p_list)
+		return (0);
+	p_new_node->prev = p_list->dummy_tail.prev;
+	if (p_list->dummy_tail.prev == NULL)
+		p_list->dummy_head.next = p_new_node;
+	else
+		p_list->dummy_tail.prev->next = p_new_node;
+	p_list->dummy_tail.prev = p_new_node;
+	++p_list->node_count;
+	return (1);
 }
 
 int	env_search_node(t_env_list *p_list, const char *key, t_env_node **o_node)

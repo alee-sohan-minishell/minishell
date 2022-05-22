@@ -32,8 +32,8 @@ typedef struct s_env_list
 
 int			env_list_init(t_env_list *p_list);
 t_env_node	*env_create_node(void);
-int			env_node_add_back(t_env_list *p_list);
-int			env_node_add_front(t_env_list *p_list);
+int			env_node_add_back(t_env_list *p_list, t_env_node *p_new_node);
+int			env_node_add_front(t_env_list *p_list, t_env_node *p_new_node);
 
 int			env_search_node(t_env_list *p_list, const char *key, \
 												t_env_node **o_node);
