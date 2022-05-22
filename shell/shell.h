@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/05/19 21:52:41 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 02:06:33 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@
 //---------------------------------------
 #include <termios.h>
 
+#define STR_SHELL "shell"
+
 typedef enum e_shell_status
 {
 	S_START = 0,
 	S_INIT,
 	S_ERROR,
 	S_LINE_READ,
+	S_PARSE,
 	S_NO_CMD,
 	S_CMD,
 	S_CLOSE,

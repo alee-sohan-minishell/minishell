@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:06:41 by alee              #+#    #+#             */
-/*   Updated: 2022/05/21 14:16:30 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/21 16:53:01 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	is_continuous_opt_value(const char *line, char opt_flag, char opt_value)
 
 int	is_hashtag_flag(const char *line)
 {
-	if (ft_strcmp(line, "#") == 0)
+	if (ft_strncmp(line, "#", 1) == 0)
 		return (1);
 	if (is_continuous_opt_value(line, '#', '#'))
 		return (1);

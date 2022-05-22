@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/05/21 15:08:58 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 01:13:11 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,3 +64,15 @@ void	insert_cmd_history(const char *cmd)
 	add_history(cmd);
 	return ;
 }
+
+
+
+//파싱, 트리구조(추상구문트리),
+
+
+//alee : 빌트인, env, export, unset
+
+//min-jo : tree, redirection, pipe
+
+//sohan : Unit test, parsing
+
