@@ -36,7 +36,8 @@ INIT_FILE = shell_init
 READ_LINE_FILE = shell_readline
 UTILS_FILE = utils_01 utils_02
 BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env
-ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02 \
+ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
+SIGNAL_FILE = signal
 
 
 
@@ -53,13 +54,14 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix built_in/,$(addsuffix .c,$(BUILT_IN_FILE)))	\
 	$(addprefix env/,$(addsuffix .c,$(ENV_FILE))) \
 	$(addprefix utils/,$(addsuffix .c,$(UTILS_FILE))) \
+	$(addprefix signal/,$(addsuffix .c,$(SIGNAL_FILE))) \
 
 OBJ = $(SRC:.c=.o)
 
 .PHONY: all
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
+$(NAME): $(LIBFT) $(OBJ) 	
 	$(CC) $(CFLAGS) -L$(READLINE_LIB) -lreadline -lhistory $^ -o $@
 
 %.o : %.c
