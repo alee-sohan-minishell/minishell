@@ -73,7 +73,7 @@ int	env_node_search(t_env_list *p_list, const char *key, t_env_node **o_node)
 	return (0);
 }
 
-int			env_node_clear(t_env_list *p_list)
+int	env_node_clear(t_env_list *p_list)
 {
 	t_env_node	*del_node;
 	t_env_node	*cur_node;
@@ -93,5 +93,6 @@ int			env_node_clear(t_env_list *p_list)
 		cur_node = cur_node->next;
 		free(del_node);
 	}
+	env_list_init(p_list);
 	return (0);
 }
