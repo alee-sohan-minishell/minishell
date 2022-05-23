@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:01:02 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 21:00:05 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 18:39:08 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 int	is_env_form(char **env[], int *env_count);
 int	env_set(t_shell_data *p_data, int env_count, char **env[]);
-
+int	is_default_home(t_env_list *p_list, char **o_default_home);
+char	*get_current_home(t_shell_data *p_data);
 
 #endif

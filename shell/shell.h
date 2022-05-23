@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 15:34:09 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 18:14:24 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,12 @@ typedef struct s_shell_data
 	struct termios	default_term_attr;
 	struct termios	new_term_attr;
 
-
-	//argv, env
-	char			***p_argv;
-	char			***p_env;
+	//argv
+	char		***p_argv;
 
 	//env list
 	t_env_list	env_list;
+	char		*env_default_home;
 }	t_shell_data;
 
 #endif

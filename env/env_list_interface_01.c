@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:53:55 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 15:35:09 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 18:10:53 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	env_node_search(t_env_list *p_list, const char *key, t_env_node **o_node)
 	t_env_node	*cur_node;
 
 	if (!p_list || !o_node)
-		return (0);
+		return (-1);
 	if (p_list->node_count == 0)
 		return (0);
 	cur_node = p_list->dummy_head.next;
@@ -79,9 +79,9 @@ int			env_node_clear(t_env_list *p_list)
 	t_env_node	*cur_node;
 
 	if (!p_list)
-		return (0);
+		return (-1);
 	if (p_list->node_count == 0)
-		return (0);
+		return (-1);
 	cur_node = p_list->dummy_head.next;
 	while (cur_node != &p_list->dummy_tail)
 	{
@@ -93,5 +93,5 @@ int			env_node_clear(t_env_list *p_list)
 		cur_node = cur_node->next;
 		free(del_node);
 	}
-	return (0);
+	return (1);
 }

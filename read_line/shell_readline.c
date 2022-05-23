@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 22:11:59 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 18:12:59 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "../built_in/ft_cd.h"
 #include "../built_in/ft_echo.h"
 #include "../built_in/ft_exit.h"
+#include "../built_in/ft_env.h"
 #include "../libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -29,7 +30,6 @@
 void	shell_readline(t_shell_data *p_data)
 {
 	p_data->line = readline(p_data->prompt_msg);
-	printf("[%s] \n", p_data->line);
 	if (!p_data->line)
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
@@ -57,6 +57,8 @@ void	shell_readline(t_shell_data *p_data)
 		ft_echo(p_data->cmd);
 	else if (strcmp(p_data->cmd[0], "exit") == 0)
 		ft_exit(p_data->cmd, 1);
+	else if (strcmp(p_data->cmd[0], "env") == 0)
+		ft_env(p_data->cmd, p_data);
 	if (p_data->line)//free line string
 		free(p_data->line);
 	return ;

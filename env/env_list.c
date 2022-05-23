@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 12:50:26 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 19:55:07 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 18:07:56 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int		env_list_init(t_env_list *p_list)
 {
 	if (p_list == (t_env_list *)0)
-		return (0);
+		return (-1);
 	ft_bzero(p_list, sizeof(t_env_list));
 	p_list->node_count = 0;
 	p_list->dummy_head.prev = (t_env_node *)0;

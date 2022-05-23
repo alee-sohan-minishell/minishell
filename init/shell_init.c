@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 04:24:29 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 18:13:34 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,17 @@
 void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 {
 	p_data->prompt_msg = "shell$ ";
-	if (arg_init(p_data, argc, env) == 0)
+	if (arg_init(p_data, argc, env) == -1)
 		return ;
-	if (isatty_init(p_data) == 0)
+	if (isatty_init(p_data) == -1)
 		return ;
-	if (set_tc_attr(p_data) == 0)
+	if (set_tc_attr(p_data) == -1)
 		return ;
-	if (dup_init(p_data) == 0)
+	if (dup_init(p_data) == -1)
 		return ;
-	if (env_init(p_data, env) == 0)
+	if (env_init(p_data, env) == -1)
 		return ;
 	p_data->p_argv = argv;
-	p_data->p_env = env;//TODO : env -> data insert in tree
 	ft_set_status(p_data, S_LINE_READ);
 	return ;
 }
@@ -47,19 +46,19 @@ int	arg_init(t_shell_data *p_data, int argc, char **env[])
 	{
 		ft_putendl_fd("Invaild argc", STDOUT_FILENO);
 		ft_set_status(p_data, S_CLOSE);
-		return (0);
+		return (-1);
 	}
 	if (!p_data)
 	{
 		ft_putendl_fd("Invaild shell data", STDOUT_FILENO);
 		ft_set_status(p_data, S_CLOSE);
-		return (0);
+		return (-1);
 	}
 	if (!env || !(*env))
 	{
 		ft_putendl_fd("Invaild env", STDOUT_FILENO);
 		ft_set_status(p_data, S_CLOSE);
-		return (0);
+		return (-1);
 	}
 	return (1);
 }
@@ -73,7 +72,7 @@ int	isatty_init(t_shell_data *p_data)
 	{
 		ft_putendl_fd("Invalid terminal status", STDOUT_FILENO);
 		ft_set_status(p_data, S_ERROR);
-		return (0);
+		return (-1);
 	}
 	return (1);
 }
@@ -88,7 +87,7 @@ int	set_tc_attr(t_shell_data *p_data)
 	else
 	{
 		ft_set_status(p_data, S_ERROR);
-		return (0);
+		return (-1);
 	}
 	return (1);
 }
@@ -99,14 +98,14 @@ int		dup_init(t_shell_data *p_data)
 	if (p_data->cp_stdin == -1)
 	{
 		ft_set_status(p_data, S_ERROR);
-		return (0);
+		return (-1);
 	}
 	p_data->cp_stdout = ft_dup(STDOUT_FILENO);
 	if (p_data->cp_stdout == -1)
 	{
 		close(p_data->cp_stdin);
 		ft_set_status(p_data, S_ERROR);
-		return (0);
+		return (-1);
 	}
 	p_data->cp_stderr = ft_dup(STDERR_FILENO);
 	if (p_data->cp_stderr == -1)
@@ -114,7 +113,7 @@ int		dup_init(t_shell_data *p_data)
 		close(p_data->cp_stdout);
 		close(p_data->cp_stdin);
 		ft_set_status(p_data, S_ERROR);
-		return (0);
+		return (-1);
 	}
 	return (1);
 }
@@ -126,12 +125,15 @@ int		env_init(t_shell_data *p_data, char **env[])
 	if (is_env_form(env, &env_count) == 0)
 	{
 		ft_set_status(p_data, S_ERROR);
-		return (0);
+		return (-1);
 	}
 	if (env_set(p_data, env_count, env) == 0)
 	{
 		ft_set_status(p_data, S_ERROR);
-		return (0);
+		return (-1);
 	}
+	if (is_default_home(&p_data->env_list, &p_data->env_default_home) == 0)
+		ft_msg_exit("HOME not set", 1, STDOUT_FILENO);
+
 	return (1);
 }
