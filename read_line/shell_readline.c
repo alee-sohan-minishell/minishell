@@ -26,9 +26,12 @@
 #include "../libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
+#include "../signal/signal.h"
+#include "../init/shell_init.h"
 
 void	shell_readline(t_shell_data *p_data)
 {
+	set_signal_handler();
 	p_data->line = readline(p_data->prompt_msg);
 	if (!p_data->line)
 	{
@@ -59,8 +62,28 @@ void	shell_readline(t_shell_data *p_data)
 		ft_exit(p_data->cmd, 1);
 	else if (strcmp(p_data->cmd[0], "env") == 0)
 		ft_env(p_data->cmd, p_data);
+	else
+	{
+		pid_t	pid;
+		char	*cmd[2];
+		char	*path;
+
+		pid = fork();
+		signal(SIGINT, SIG_IGN);
+		if (pid == 0)
+		{
+			path = "/bin/";
+			cmd[0] = p_data->cmd[0];
+			cmd[1] = NULL;
+			path = ft_strjoin(path, cmd[0]);
+			set_signal_default();
+			execve(path, cmd, NULL);
+		}
+		wait(&pid);
+	}
 	if (p_data->line)//free line string
 		free(p_data->line);
+	//set_tc_attr_to_default(p_data);
 	return ;
 }
 

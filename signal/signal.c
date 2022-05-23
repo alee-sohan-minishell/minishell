@@ -1,14 +1,18 @@
 #include "../shell/shell.h"
 #include <readline/readline.h>
 #include <signal.h>
+#include <unistd.h>
 
 static void	sigint_handler(int signo)
 {
+	if (signo == SIGINT)
+	{	
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		printf("\n");
 		rl_redisplay();
 		(void)signo;
+	}
 }
 
 void	set_signal_handler()
