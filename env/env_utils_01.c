@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:01:17 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 06:23:35 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 09:37:51 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,6 @@ int	env_set(t_shell_data *p_data, int env_count, char **env[])
 		ft_strndup(ft_strchr((*env)[idx], '=') + 1, vk[1]))) == 0)
 			return (env_node_clear(&p_data->env_list));
 		idx++;
-	}
-
-	/*	debug	*/
-	printf("node count : %d \n", p_data->env_list.node_count);
-	t_env_node	*tmp;
-
-	tmp = p_data->env_list.dummy_head.next;
-	while (tmp != &p_data->env_list.dummy_tail)
-	{
-		printf("key : [%s], value : [%s] \n", tmp->key, tmp->value);
-		tmp = tmp->next;
 	}
 	return (1);
 }

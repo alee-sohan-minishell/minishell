@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list_interface.c                               :+:      :+:    :+:   */
+/*   env_list_interface_01.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:53:55 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 08:54:12 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 15:35:09 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ int	env_node_add_front(t_env_list *p_list, t_env_node *p_new_node)
 	p_new_node->next = p_list->dummy_head.next;
 	p_list->dummy_head.next->prev = p_new_node;
 	p_list->dummy_head.next = p_new_node;
-	// p_new_node->next = p_list->dummy_head.next;
-	// if (p_list->dummy_head.next == NULL)
-	// 	p_list->dummy_tail.prev = p_new_node;
-	// else
-	// 	p_list->dummy_head.next->prev = p_new_node;
-	// p_list->dummy_head.next = p_new_node;
 	++p_list->node_count;
 	return (1);
 }
@@ -54,12 +48,6 @@ int	env_node_add_back(t_env_list *p_list, t_env_node *p_new_node)
 	p_new_node->prev = p_list->dummy_tail.prev;
 	p_list->dummy_tail.prev->next = p_new_node;
 	p_list->dummy_tail.prev = p_new_node;
-	// p_new_node->prev = p_list->dummy_tail.prev;
-	// if (p_list->dummy_tail.prev == NULL)
-	// 	p_list->dummy_head.next = p_new_node;
-	// else
-	// 	p_list->dummy_tail.prev->next = p_new_node;
-	// p_list->dummy_tail.prev = p_new_node;
 	++p_list->node_count;
 	return (1);
 }

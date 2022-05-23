@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list_interface.h                               :+:      :+:    :+:   */
+/*   ft_env.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/22 19:53:33 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 06:27:21 by alee             ###   ########.fr       */
+/*   Created: 2022/05/23 12:14:35 by alee              #+#    #+#             */
+/*   Updated: 2022/05/23 12:37:36 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_LIST_INTERFACE_H
-# define ENV_LIST_INTERFACE_H
-# include "env_list.h"
+#ifndef FT_ENV_H
+# define FT_ENV_H
 
-t_env_node	*env_node_create(char *p_key, char *p_value);
-int			env_node_add_back(t_env_list *p_list, t_env_node *p_new_node);
-int			env_node_add_front(t_env_list *p_list, t_env_node *p_new_node);
-int			env_node_search(t_env_list *p_list, const char *key, \
-												t_env_node **o_node);
-int			env_node_clear(t_env_list *p_list);
+int	ft_env(char **cmd);
 
 #endif
