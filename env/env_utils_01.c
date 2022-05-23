@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:01:17 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 21:44:35 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 06:23:35 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_env_form(char **env[], int *env_count)
 			return (0);
 		idx++;
 	}
-	if (!env_count)
+	if (env_count)
 		*env_count = idx;
 	else
 		return (0);
@@ -35,15 +35,30 @@ int	is_env_form(char **env[], int *env_count)
 int	env_set(t_shell_data *p_data, int env_count, char **env[])
 {
 	int			idx;
-	if (p_data || !env)
-		return (1);
+	int			vk[2];
+
 	idx = 0;
+	env_list_init(&p_data->env_list);
 	while (idx < env_count)
 	{
-		if (env_node_add_back(&p_data->env_list, env_node_create()) == 0)
+		vk[0] = ft_strlen((*env)[idx]) - ft_strlen(ft_strchr((*env)[idx], '='));
+		vk[1] = ft_strlen((*env)[idx]) - (vk[0] + 1);
+		if (env_node_add_back(&p_data->env_list, \
+		env_node_create(ft_strndup((*env)[idx], vk[0]), \
+		ft_strndup(ft_strchr((*env)[idx], '=') + 1, vk[1]))) == 0)
 			return (env_node_clear(&p_data->env_list));
-
 		idx++;
+	}
+
+	/*	debug	*/
+	printf("node count : %d \n", p_data->env_list.node_count);
+	t_env_node	*tmp;
+
+	tmp = p_data->env_list.dummy_head.next;
+	while (tmp != &p_data->env_list.dummy_tail)
+	{
+		printf("key : [%s], value : [%s] \n", tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
 	return (1);
 }

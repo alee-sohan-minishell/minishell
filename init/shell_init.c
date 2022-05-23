@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 21:46:02 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 04:24:29 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 		return ;
 	if (dup_init(p_data) == 0)
 		return ;
-	//if (env_init(p_data, env) == 0)
-	//	return ;
+	if (env_init(p_data, env) == 0)
+		return ;
 	p_data->p_argv = argv;
 	p_data->p_env = env;//TODO : env -> data insert in tree
 	ft_set_status(p_data, S_LINE_READ);

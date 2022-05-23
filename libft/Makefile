@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/13 21:20:01 by alee              #+#    #+#              #
-#    Updated: 2022/05/22 19:24:40 by alee             ###   ########.fr        #
+#    Updated: 2022/05/23 03:00:48 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SOURCES = ft_isalnum.c ft_isprint.c ft_memcmp.c ft_putchar_fd.c ft_split.c \
 			ft_memmove.c ft_putnbr_fd.c ft_strdup.c ft_strlen.c ft_strrchr.c \
 			ft_toupper.c ft_calloc.c ft_isdigit.c ft_memchr.c ft_memset.c \
 			ft_putstr_fd.c ft_strjoin.c ft_strmapi.c ft_strtrim.c ft_strcmp.c
-
+			
 OBJECTS = $(SOURCES:.c=.o)
 
 SOURCES_B = ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \

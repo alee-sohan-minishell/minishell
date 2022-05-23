@@ -6,10 +6,11 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/22 19:54:10 by alee             ###   ########.fr        #
+#    Updated: 2022/05/23 05:43:43 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# -fsanitize=address -g
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
