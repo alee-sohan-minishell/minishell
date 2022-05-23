@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 12:44:27 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 17:54:24 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/22 19:54:32 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,5 @@ typedef struct s_env_list
 }	t_env_list;
 
 int			env_list_init(t_env_list *p_list);
-t_env_node	*env_create_node(void);
-int			env_node_add_back(t_env_list *p_list, t_env_node *p_new_node);
-int			env_node_add_front(t_env_list *p_list, t_env_node *p_new_node);
-
-int			env_search_node(t_env_list *p_list, const char *key, \
-												t_env_node **o_node);
 
 #endif

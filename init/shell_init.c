@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 18:47:59 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 04:24:29 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 {
 	p_data->prompt_msg = "shell$ ";
-	if (arg_init(p_data, argc) == 0)
+	if (arg_init(p_data, argc, env) == 0)
 		return ;
 	if (isatty_init(p_data) == 0)
 		return ;
@@ -41,11 +41,23 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 	return ;
 }
 
-int	arg_init(t_shell_data *p_data, int argc)
+int	arg_init(t_shell_data *p_data, int argc, char **env[])
 {
 	if (argc != 1)
 	{
 		ft_putendl_fd("Invaild argc", STDOUT_FILENO);
+		ft_set_status(p_data, S_CLOSE);
+		return (0);
+	}
+	if (!p_data)
+	{
+		ft_putendl_fd("Invaild shell data", STDOUT_FILENO);
+		ft_set_status(p_data, S_CLOSE);
+		return (0);
+	}
+	if (!env || !(*env))
+	{
+		ft_putendl_fd("Invaild env", STDOUT_FILENO);
 		ft_set_status(p_data, S_CLOSE);
 		return (0);
 	}
@@ -110,17 +122,16 @@ int		dup_init(t_shell_data *p_data)
 
 int		env_init(t_shell_data *p_data, char **env[])
 {
-	if (is_env_form(env) == 0)
+	int	env_count;
+
+	if (is_env_form(env, &env_count) == 0)
 	{
 		ft_set_status(p_data, S_ERROR);
 		return (0);
 	}
-	if (env_create(p_data, env) == 0)
+	if (env_set(p_data, env_count, env) == 0)
 	{
-
-	}
-	if (env_parse(p_data, env) == 0)
-	{
+		ft_set_status(p_data, S_ERROR);
 		return (0);
 	}
 	return (1);

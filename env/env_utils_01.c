@@ -6,14 +6,15 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:01:17 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 18:55:41 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 06:23:35 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "../shell/shell.h"
+#include "../env/env_list_interface.h"
 
-int	is_env_form(char **env[])
+int	is_env_form(char **env[], int *env_count)
 {
 	int	idx;
 
@@ -24,35 +25,40 @@ int	is_env_form(char **env[])
 			return (0);
 		idx++;
 	}
+	if (env_count)
+		*env_count = idx;
+	else
+		return (0);
 	return (1);
 }
 
-int	env_create(t_shell_data *p_data, char **env[])
+int	env_set(t_shell_data *p_data, int env_count, char **env[])
 {
-	int	idx;
-	if(p_data)
-		return (0);
+	int			idx;
+	int			vk[2];
+
 	idx = 0;
-	while ((*env)[idx])
+	env_list_init(&p_data->env_list);
+	while (idx < env_count)
 	{
-		// if (env_node_add_back(&p_data->env_list, env_create_node
+		vk[0] = ft_strlen((*env)[idx]) - ft_strlen(ft_strchr((*env)[idx], '='));
+		vk[1] = ft_strlen((*env)[idx]) - (vk[0] + 1);
+		if (env_node_add_back(&p_data->env_list, \
+		env_node_create(ft_strndup((*env)[idx], vk[0]), \
+		ft_strndup(ft_strchr((*env)[idx], '=') + 1, vk[1]))) == 0)
+			return (env_node_clear(&p_data->env_list));
 		idx++;
 	}
-	return (1);
-}
 
-int	env_parse(t_shell_data *p_data, char **env[])
-{
-	int			idx[3];
+	/*	debug	*/
+	printf("node count : %d \n", p_data->env_list.node_count);
+	t_env_node	*tmp;
 
-	idx[0] = 0;
-	while ((*env)[idx[0]])
+	tmp = p_data->env_list.dummy_head.next;
+	while (tmp != &p_data->env_list.dummy_tail)
 	{
-		idx[2] = ft_strlen(ft_strchr((*env)[idx[0]], '=') + 1);
-		idx[1] = ft_strlen((*env)[idx[0]]) - (1 + idx[2]);
-		idx[0]++;
+		printf("key : [%s], value : [%s] \n", tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
-	if (!p_data)
-		return (0);
 	return (1);
 }

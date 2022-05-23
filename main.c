@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 17:37:01 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 04:56:37 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 //debug
 #include "env/env_list.h"
 #include <stdio.h>
+#include <string.h>
 
 int	main(int argc, char *argv[], char *env[])
 {
