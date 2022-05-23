@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:53:55 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 18:10:53 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/23 18:54:44 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	env_node_search(t_env_list *p_list, const char *key, t_env_node **o_node)
 	return (0);
 }
 
-int			env_node_clear(t_env_list *p_list)
+int	env_node_clear(t_env_list *p_list)
 {
 	t_env_node	*del_node;
 	t_env_node	*cur_node;
