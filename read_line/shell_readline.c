@@ -70,6 +70,7 @@ void	shell_readline(t_shell_data *p_data)
 
 		pid = fork();
 		signal(SIGINT, SIG_IGN);
+		set_tc_attr_to_default(p_data);
 		if (pid == 0)
 		{
 			path = "/bin/";
@@ -80,10 +81,10 @@ void	shell_readline(t_shell_data *p_data)
 			execve(path, cmd, NULL);
 		}
 		wait(&pid);
+		set_tc_attr(p_data);
 	}
 	if (p_data->line)//free line string
 		free(p_data->line);
-	//set_tc_attr_to_default(p_data);
 	return ;
 }
 

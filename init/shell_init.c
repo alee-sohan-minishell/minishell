@@ -93,6 +93,12 @@ int	set_tc_attr(t_shell_data *p_data)
 	return (1);
 }
 
+int	set_tc_attr_to_default(t_shell_data *p_data)
+{
+	tcsetattr(STDOUT_FILENO, TCSANOW, &p_data->default_term_attr);
+	return (0);
+}
+
 int		dup_init(t_shell_data *p_data)
 {
 	p_data->cp_stdin = ft_dup(STDIN_FILENO);
