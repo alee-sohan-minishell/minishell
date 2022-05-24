@@ -38,6 +38,7 @@ UTILS_FILE = utils_01 utils_02
 BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
+NON_BUILT_IN_FILE = non_built_in
 
 
 
@@ -58,6 +59,7 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix env/,$(addsuffix .c,$(ENV_FILE))) \
 	$(addprefix utils/,$(addsuffix .c,$(UTILS_FILE))) \
 	$(addprefix signal/,$(addsuffix .c,$(SIGNAL_FILE))) \
+	$(addprefix non_built_in/,$(addsuffix .c,$(NON_BUILT_IN_FILE))) \
 
 OBJ = $(SRC:.c=.o)
 
