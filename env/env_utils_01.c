@@ -66,8 +66,8 @@ int	is_default_home(t_env_list *p_list, char **o_default_home)
 	return (1);
 }
 
-char	*get_current_home(t_shell_data *p_data)
+/*char	*get_current_home(t_shell_data *p_data)
 {
 	
 	return (NULL);
-}
+}*/
