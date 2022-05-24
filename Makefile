@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
+#    By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/23 17:14:04 by alee             ###   ########.fr        #
+#    Updated: 2022/05/24 23:17:04 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -MD
 RM = rm -f
 
 NAME = minishell
@@ -45,6 +45,9 @@ READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include
 READLINE_LIB = $(READLINE_ROOT)/lib
 
+CPPFLAGS += -I$(READLINE_INCLUDE)
+LIBADD += -L$(READLINE_LIB) -lreadline -lhistory
+
 
 SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix logo/,$(addsuffix .c,$(LOGO_FILE))) \
@@ -61,11 +64,11 @@ OBJ = $(SRC:.c=.o)
 .PHONY: all
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ) 	
-	$(CC) $(CFLAGS) -L$(READLINE_LIB) -lreadline -lhistory $^ -o $@
+$(NAME): $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(LIBADD) $^ -o $@
 
 %.o : %.c
-	$(CC) $(CFLAGS) -I$(READLINE_INCLUDE) -c $(CFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(LIBFT):
 	@echo "make libft"
@@ -74,6 +77,7 @@ $(LIBFT):
 .PHONY: clean
 clean:
 	$(RM) $(OBJ)
+	$(RM) $(OBJ:.o=.d)
 	@make -C libft/ clean
 
 .PHONY: fclean
@@ -85,3 +89,5 @@ fclean: clean
 re:
 	make fclean
 	make all
+
+-include $(OBJ:.o=.d)
