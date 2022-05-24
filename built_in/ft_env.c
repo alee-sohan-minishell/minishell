@@ -16,11 +16,11 @@
 
 int	ft_env(char **cmd, t_shell_data *p_data)
 {
-	int	idx;
+	//int	idx;
 
 	if (!cmd || !(*cmd))
 		return (1);
-	idx = 0;
+	//idx = 0;
 	print_env(cmd, &p_data->env_list);
 	return (0);
 }
