@@ -72,12 +72,12 @@ int	ft_atol(char *str, long long *o_var)
 	long long	ret;
 	int			idx;
 	int			sign;
-	int			flow_flag;
+	//int			flow_flag;
 
 	ret = 0;
 	idx = 0;
 	sign = 1;
-	flow_flag = 0;
+	//flow_flag = 0;
 	if (str[idx] == '-' || str[idx] == '+')
 	{
 		if (str[idx] == '-')
