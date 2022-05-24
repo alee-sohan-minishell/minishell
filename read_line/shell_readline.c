@@ -28,6 +28,7 @@
 #include <unistd.h>
 #include "../signal/signal.h"
 #include "../init/shell_init.h"
+#include "../non_built_in/non_built_in.h"
 
 void	shell_readline(t_shell_data *p_data)
 {
@@ -64,25 +65,7 @@ void	shell_readline(t_shell_data *p_data)
 	else if (strcmp(p_data->cmd[0], "env") == 0)
 		ft_env(p_data->cmd, p_data);
 	else
-	{
-		pid_t	pid;
-		char	*cmd[2];
-		char	*path;
-
-		pid = fork();
-		set_signal_foreground();
-		if (pid == 0)
-		{
-			//set_signal_foreground(); 왜 얘는 안먹고
-			set_tc_attr_to_default(p_data); // 얘는 먹지?
-			path = "/bin/";
-			cmd[0] = p_data->cmd[0];
-			cmd[1] = NULL;
-			path = ft_strjoin(path, cmd[0]);
-			execve(path, cmd, NULL);
-		}
-		wait(&pid);
-	}
+		ft_exec_command(p_data);
 	if (p_data->line)//free line string
 		free(p_data->line);
 	set_tc_attr(p_data);
