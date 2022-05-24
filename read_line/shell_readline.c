@@ -31,12 +31,13 @@
 
 void	shell_readline(t_shell_data *p_data)
 {
-	set_signal_handler();
+	set_signal_background();
 	p_data->line = readline(p_data->prompt_msg);
 	if (!p_data->line)
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
 		p_data->status = S_ERROR;
+		set_tc_attr_to_default(p_data);
 		return ;
 	}
 	/*	ADD HISTORY	*/
@@ -69,22 +70,22 @@ void	shell_readline(t_shell_data *p_data)
 		char	*path;
 
 		pid = fork();
-		signal(SIGINT, SIG_IGN);
-		set_tc_attr_to_default(p_data);
+		set_signal_foreground();
 		if (pid == 0)
 		{
+			//set_signal_foreground(); 왜 얘는 안먹고
+			set_tc_attr_to_default(p_data); // 얘는 먹지?
 			path = "/bin/";
 			cmd[0] = p_data->cmd[0];
 			cmd[1] = NULL;
 			path = ft_strjoin(path, cmd[0]);
-			set_signal_default();
 			execve(path, cmd, NULL);
 		}
 		wait(&pid);
-		set_tc_attr(p_data);
 	}
 	if (p_data->line)//free line string
 		free(p_data->line);
+	set_tc_attr(p_data);
 	return ;
 }
 

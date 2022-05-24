@@ -2,27 +2,38 @@
 #include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <fcntl.h>
 
-static void	sigint_handler(int signo)
+static void	while_background_handler(int signo)
 {
 	if (signo == SIGINT)
-	{	
+	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		printf("\n");
+		write(1, "\n", 1);
 		rl_redisplay();
 		(void)signo;
 	}
 }
 
-void	set_signal_handler()
+void	set_signal_background()
 {
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, while_background_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	set_signal_default()
+static void	while_foreground_handler(int signo)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (signo == SIGINT)
+		write(1, "\n", 1);
+	if (signo == SIGQUIT)
+		write(1, "Quit: 3\n", 8);	
+}
+
+void	set_signal_foreground()
+{
+
+	signal(SIGINT, while_foreground_handler);
+	signal(SIGQUIT, while_foreground_handler);
 }

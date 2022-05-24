@@ -1,7 +1,7 @@
 #ifndef SIGNAL_H
 # define SIGNAL_H
 
-void	set_signal_handler(void);
-void	set_signal_default(void);
+void	set_signal_background(void);
+void	set_signal_foreground(void);
 
 #endif
