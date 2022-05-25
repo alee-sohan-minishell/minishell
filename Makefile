@@ -39,6 +39,7 @@ UTILS_FILE = fd_utils_01 error_msg_utils_01 state_machine_utils_01 command_utils
 BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
+NON_BUILT_IN_FILE = non_built_in
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include
@@ -57,6 +58,7 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix env/,$(addsuffix .c,$(ENV_FILE))) \
 	$(addprefix utils/,$(addsuffix .c,$(UTILS_FILE))) \
 	$(addprefix signal/,$(addsuffix .c,$(SIGNAL_FILE))) \
+	$(addprefix non_built_in/,$(addsuffix .c,$(NON_BUILT_IN_FILE))) \
 
 OBJ = $(SRC:.c=.o)
 
