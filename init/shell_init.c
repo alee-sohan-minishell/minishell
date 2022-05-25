@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 04:25:41 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 18:30:31 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@
 #include "../utils/fd_utils_01.h"
 #include "../utils/error_msg_utils_01.h"
 #include "../env/env_utils_01.h"
-
-//debug
-#include <stdio.h>
+#include "shell_utils_01.h"
 
 void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 {
@@ -66,9 +64,8 @@ int	arg_init(t_shell_data *p_data, int argc, char **env[])
 
 int	isatty_init(t_shell_data *p_data)
 {
-	p_data->term_status = isatty(STDOUT_FILENO) \
-					&& isatty(STDIN_FILENO) \
-					&& isatty(STDERR_FILENO);
+	p_data->term_status = isatty(STDOUT_FILENO) && \
+	isatty(STDIN_FILENO) && isatty(STDERR_FILENO);
 	if (p_data->term_status == 0)
 	{
 		ft_putendl_fd("Invalid terminal status", STDOUT_FILENO);
@@ -78,29 +75,7 @@ int	isatty_init(t_shell_data *p_data)
 	return (1);
 }
 
-int	set_tc_attr(t_shell_data *p_data)
-{
-	if (tcgetattr(STDOUT_FILENO, &p_data->default_term_attr) == 0)
-	{
-		p_data->new_term_attr = p_data->default_term_attr;
-		p_data->new_term_attr.c_lflag &= (~ECHOCTL);
-		tcsetattr(STDOUT_FILENO, TCSANOW, &p_data->new_term_attr);
-	}
-	else
-	{
-		ft_set_status(p_data, S_ERROR);
-		return (-1);
-	}
-	return (1);
-}
-
-int	set_tc_attr_to_default(t_shell_data *p_data)
-{
-	tcsetattr(STDOUT_FILENO, TCSANOW, &p_data->default_term_attr);
-	return (0);
-}
-
-int		dup_init(t_shell_data *p_data)
+int	dup_init(t_shell_data *p_data)
 {
 	p_data->cp_stdin = ft_dup(STDIN_FILENO);
 	if (p_data->cp_stdin == -1)
@@ -126,7 +101,7 @@ int		dup_init(t_shell_data *p_data)
 	return (1);
 }
 
-int		env_init(t_shell_data *p_data, char **env[])
+int	env_init(t_shell_data *p_data, char **env[])
 {
 	int	env_count;
 

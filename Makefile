@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/25 15:40:02 by alee             ###   ########.fr        #
+#    Updated: 2022/05/25 18:39:18 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ LIBFT = $(addprefix libft/, libft.a)
 			ft_lstmap ft_lstnew ft_lstsize
 
 LOGO_FILE = logo
-SHELL_FILE = shell
-INIT_FILE = shell_init
+SHELL_FILE = 
+INIT_FILE = shell_init shell_utils_01
 READ_LINE_FILE = shell_readline
 UTILS_FILE = fd_utils_01 error_msg_utils_01 state_machine_utils_01 command_utils_01 \
 			string_utils_01 integer_utils_01
