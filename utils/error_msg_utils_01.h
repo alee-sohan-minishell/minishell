@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 03:03:32 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 10:14:38 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 15:54:57 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_perror(const char *msg);
 void	ft_perror_param(const char *pre_cmd, const char *param, int errno_flag);
-void	ft_custom_perror_param(const char *pre_cmd, const char *param, const char *err_msg);
+void	ft_self_perror_param(const char *pre_cmd, const char *param, const char *err_msg);
 void	ft_perror_exit(const char *msg, int exit_status);
 int		ft_msg_return(const char *msg, int return_value, int std_type);
 void	ft_msg_exit(const char *msg, int exit_status, int std_type);

@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 11:59:31 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 14:46:40 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,8 @@ void	shell_readline(t_shell_data *p_data)
 	if (p_data->line)
 		free(p_data->line);
 	/*	-------------------------	*/
-
 	/*	default home path free -> 프로그램 종료	*/
 	/*	env list free -> 프로그램 종료	*/
-
-
 	set_tc_attr(p_data);
 	return ;
 }
@@ -109,6 +106,6 @@ void	insert_cmd_history(const char *cmd)
 
 //alee : 빌트인, env, export, unset
 
-//min-jo : tree, redirection, pipe
+//min-jo : tree, redirection, pipe, heredoc
 
 //sohan : Unit test, parsing

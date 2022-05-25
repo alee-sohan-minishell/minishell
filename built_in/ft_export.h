@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 02:50:54 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 11:17:14 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 15:40:34 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 int		ft_export(char **cmd, t_env_list *p_list);
 void	print_export(t_env_list *p_list);
-int		malloc_export_buffer(char ***buf, t_env_list *p_list, int *buf_len);
-int		free_export_buffer(char ***buf, int idx);
-void	sort_export_buffer(char ***buf, int buf_max);
 void	print_export_buffer(char ***buf, int buf_max);
 int		add_export(char **buf, t_env_list *p_list);
+int		extract_key_value(char *line, char **o_key, char **o_value);
 
 #endif

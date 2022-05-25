@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 02:47:08 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 04:09:18 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 13:50:33 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_exit(char **cmd, long long status)
 	if (!cmd || !(*cmd))
 		return (1);
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	if (get_cmd_count(cmd) == 1 || is_hashtag_flag(cmd[1]))
+	if (get_cmd_count(cmd) == 1)
 		exit(0);
 	if (is_valid_num(cmd[1]) == 0)
 		ft_msg_exit("exit: numeric argument required", 255, STDERR_FILENO);

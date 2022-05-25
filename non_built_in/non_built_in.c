@@ -38,7 +38,6 @@ int	ft_exec_command(t_shell_data *p_data)
 			ft_strlcpy(path, cmd_list[idx], 500);
 			ft_strlcat(path, "/", 500);
 			exec_path = ft_strjoin(path, p_data->cmd[0]);
-			printf("command : [%s] \n", exec_path);
 			if (execve(exec_path, p_data->cmd, NULL) == -1)
 			{
 				printf("bash: %s: %s\n", p_data->cmd[0], strerror(errno));

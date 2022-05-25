@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 01:02:20 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 10:49:08 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 15:54:57 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@
 #include "../utils/error_msg_utils_01.h"
 #include "../utils/string_utils_01.h"
 
-//debug
-#include <stdio.h>
-
-int	ft_unset(char **cmd, t_env_list* p_list)
+int	ft_unset(char **cmd, t_env_list *p_list)
 {
 	int	idx;
 	int	ret;
@@ -34,7 +31,7 @@ int	ft_unset(char **cmd, t_env_list* p_list)
 	while (idx < get_cmd_count(cmd))
 	{
 		if (is_variable_rule(cmd[idx][0]) == 0)
-			ft_custom_perror_param("unset", cmd[idx], "not a valid identifier");
+			ft_self_perror_param("unset", cmd[idx], "not a valid identifier");
 		if (env_node_delete(p_list, cmd[idx]) == 0)
 			ret = 1;
 		idx++;

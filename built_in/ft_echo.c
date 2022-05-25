@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:06:41 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 08:57:00 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 15:24:38 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../libft/libft.h"
 #include "ft_echo.h"
 #include "../shell/shell.h"
-// #include "../env/env_list.h"
 #include "../env/env_list_interface_01.h"
 
 int	ft_echo(char **cmd, t_shell_data *p_data)
@@ -33,7 +32,6 @@ int	ft_echo(char **cmd, t_shell_data *p_data)
 		if (space_idx)
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		print_echo(cmd[idx], p_data);
-		//ft_putstr_fd(cmd[idx], STDOUT_FILENO);
 		idx++;
 		space_idx++;
 	}
