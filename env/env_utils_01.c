@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:01:17 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 18:41:06 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 04:23:57 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ int	is_default_home(t_env_list *p_list, char **o_default_home)
 
 /*char	*get_current_home(t_shell_data *p_data)
 {
-	
+
 	return (NULL);
 }*/

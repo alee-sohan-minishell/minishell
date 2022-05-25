@@ -1,5 +1,8 @@
 {
 	"files.associations": {
-		"shell.h": "c"
+		"shell.h": "c",
+		"stdio.h": "c",
+		"string.h": "c",
+		"ft_echo.h": "c"
 	}
 }

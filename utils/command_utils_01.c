@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_01.h                                         :+:      :+:    :+:   */
+/*   command_utils_01.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/10 07:49:27 by alee              #+#    #+#             */
-/*   Updated: 2022/05/21 23:49:33 by alee             ###   ########.fr       */
+/*   Created: 2022/05/25 03:39:32 by alee              #+#    #+#             */
+/*   Updated: 2022/05/25 03:40:51 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_01_H
-# define UTILS_01_H
+int	get_cmd_count(char **cmd)
+{
+	int	idx;
 
-int		ft_dup(int fd);
-int		ft_close(int fd);
-void	ft_perror(const char *msg);
-void	ft_perror_exit(const char *msg, int exit_status);
-void	ft_msg_exit(const char *msg, int exit_status, int std_type);
-
-#endif
+	if (!cmd)
+		return (0);
+	idx = 0;
+	while (cmd[idx])
+		idx++;
+	return (idx);
+}

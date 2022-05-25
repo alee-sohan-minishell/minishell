@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_01.c                                         :+:      :+:    :+:   */
+/*   fd_utils_01.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/10 07:50:44 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 09:18:02 by alee             ###   ########.fr       */
+/*   Created: 2022/05/25 03:01:59 by alee              #+#    #+#             */
+/*   Updated: 2022/05/25 03:35:06 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include "../libft/libft.h"
-#include "utils_01.h"
+#include "fd_utils_01.h"
+#include "error_msg_utils_01.h"
 
 int	ft_dup(int fd)
 {
@@ -34,35 +32,4 @@ int	ft_close(int fd)
 	if (close_fd == -1)
 		ft_perror((const char *)0);
 	return (close_fd);
-}
-
-void	ft_perror(const char *msg)
-{
-	char	buf[512];
-	char	*e_msg;
-
-	buf[0] = '\0';
-	e_msg = strerror(errno);
-	if (msg)
-	{
-		ft_strlcat(buf, msg, sizeof(buf));
-		ft_strlcat(buf, ": ", sizeof(buf));
-	}
-	if (e_msg)
-		ft_strlcat(buf, e_msg, sizeof(buf));
-	ft_putendl_fd(buf, STDERR_FILENO);
-	return ;
-}
-
-void	ft_perror_exit(const char *msg, int exit_status)
-{
-	ft_perror(msg);
-	exit(exit_status);
-}
-
-void	ft_msg_exit(const char *msg, int exit_status, int std_type)
-{
-	ft_putendl_fd(msg, std_type);
-	exit(exit_status);
-	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 04:56:37 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 04:17:17 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 #include "logo/logo.h"
 #include "init/shell_init.h"
 #include "read_line/shell_readline.h"
+#include "utils/state_machine_utils_01.h"
 
 //debug
 #include "env/env_list.h"
 #include <stdio.h>
 #include <string.h>
+#include "utils/fd_utils_01.h"
 
 int	main(int argc, char *argv[], char *env[])
 {
@@ -41,5 +43,6 @@ int	main(int argc, char *argv[], char *env[])
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)
 			break ;
 	}
+	status_close(&shell);
 	return (shell.last_status);
 }

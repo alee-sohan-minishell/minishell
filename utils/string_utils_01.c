@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_02.c                                         :+:      :+:    :+:   */
+/*   string_utils_01.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/16 04:38:03 by alee              #+#    #+#             */
-/*   Updated: 2022/05/16 04:44:16 by alee             ###   ########.fr       */
+/*   Created: 2022/05/25 03:50:29 by alee              #+#    #+#             */
+/*   Updated: 2022/05/25 04:30:10 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../shell/shell.h"
+#include "../libft/libft.h"
 
-void	ft_set_status(t_shell_data *p_data, t_shell_status status)
+int	is_variable_rule(char ch)
 {
-	p_data->status = status;
-	return ;
+	if (ch == '_')
+		return (1);
+	if (ft_isalpha(ch))
+		return (1);
+	return (0);
 }

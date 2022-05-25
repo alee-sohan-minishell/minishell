@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils_01.h                                     :+:      :+:    :+:   */
+/*   ft_unset.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/22 16:01:02 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 03:36:00 by alee             ###   ########.fr       */
+/*   Created: 2022/05/25 01:01:32 by alee              #+#    #+#             */
+/*   Updated: 2022/05/25 01:07:19 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_UTILS_01_H
-# define ENV_UTILS_01_H
-# include "../shell/shell.h"
+#ifndef FT_UNSET_H
+# define FT_UNSET_H
+# include "../env/env_list.h"
 
-int		is_env_form(char **env[], int *env_count);
-int		env_set(t_shell_data *p_data, int env_count, char **env[]);
-int		is_default_home(t_env_list *p_list, char **o_default_home);
-char	*get_current_home(t_shell_data *p_data);
+int	ft_unset(char **cmd, t_env_list* p_list);
 
 #endif

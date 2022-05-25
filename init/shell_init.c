@@ -6,17 +6,18 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 18:13:34 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 04:25:41 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell/shell.h"
 #include "../libft/libft.h"
-#include "../utils/utils_01.h"
-#include "../utils/utils_02.h"
+#include "../utils/state_machine_utils_01.h"
 #include <unistd.h>
 #include "shell_init.h"
 #include "../env/env_list.h"
+#include "../utils/fd_utils_01.h"
+#include "../utils/error_msg_utils_01.h"
 #include "../env/env_utils_01.h"
 
 //debug
@@ -139,8 +140,7 @@ int		env_init(t_shell_data *p_data, char **env[])
 		ft_set_status(p_data, S_ERROR);
 		return (-1);
 	}
-	if (is_default_home(&p_data->env_list, &p_data->env_default_home) == 0)
-		ft_msg_exit("HOME not set", 1, STDOUT_FILENO);
-
+	if (is_default_home(&p_data->env_list, &p_data->env_default_home) == -1)
+		ft_msg_exit("PATH Error : HOME not set", 1, STDOUT_FILENO);
 	return (1);
 }

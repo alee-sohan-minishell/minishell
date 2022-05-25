@@ -6,31 +6,33 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 12:14:32 by alee              #+#    #+#             */
-/*   Updated: 2022/05/23 18:25:03 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 04:38:16 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell/shell.h"
 #include "../libft/libft.h"
+#include "../built_in/ft_exit.h"
 #include "ft_env.h"
+#include "../utils/command_utils_01.h"
 
 int	ft_env(char **cmd, t_shell_data *p_data)
 {
-	//int	idx;
-
 	if (!cmd || !(*cmd))
 		return (1);
-	//idx = 0;
-	print_env(cmd, &p_data->env_list);
+	if (get_cmd_count(cmd) > 1)
+	{
+		ft_putendl_fd("env : No Such file or directory", STDOUT_FILENO);
+		return (127);
+	}
+	print_env(&p_data->env_list);
 	return (0);
 }
 
-void	print_env(char **cmd, t_env_list *p_list)
+void	print_env(t_env_list *p_list)
 {
 	t_env_node	*cur_node;
-	//debug
-	if (!cmd)
-		return ;
+
 	cur_node = p_list->dummy_head.next;
 	while (cur_node != &p_list->dummy_tail)
 	{

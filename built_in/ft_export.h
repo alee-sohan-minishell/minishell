@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils_01.h                                     :+:      :+:    :+:   */
+/*   ft_export.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/22 16:01:02 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 03:36:00 by alee             ###   ########.fr       */
+/*   Created: 2022/05/25 02:50:54 by alee              #+#    #+#             */
+/*   Updated: 2022/05/25 05:33:44 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_UTILS_01_H
-# define ENV_UTILS_01_H
-# include "../shell/shell.h"
+#ifndef FT_EXPORT_H
+# define FT_EXPORT_H
 
-int		is_env_form(char **env[], int *env_count);
-int		env_set(t_shell_data *p_data, int env_count, char **env[]);
-int		is_default_home(t_env_list *p_list, char **o_default_home);
-char	*get_current_home(t_shell_data *p_data);
+int		ft_export(char **cmd, t_env_list *p_list);
+void	print_export(t_env_list *p_list);
+int		malloc_export_buffer(char ***buf, t_env_list *p_list, int *buf_len);
+int		free_export_buffer(char ***buf, int idx);
+void	copy_export_buffer(char ***buf, t_env_list *p_list);
 
 #endif

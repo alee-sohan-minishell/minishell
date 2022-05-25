@@ -6,15 +6,16 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 02:47:08 by alee              #+#    #+#             */
-/*   Updated: 2022/05/21 15:02:47 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 04:09:18 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "ft_exit.h"
-#include "../utils/utils_01.h"
+#include "../utils/command_utils_01.h"
+#include "../utils/error_msg_utils_01.h"
 #include "../built_in/ft_echo.h"
-#include "../libft/libft.h"
+#include "../utils/integer_utils_01.h"
 
 int	ft_exit(char **cmd, long long status)
 {
@@ -34,63 +35,4 @@ int	ft_exit(char **cmd, long long status)
 		ft_msg_exit("exit: numeric argument required", 255, STDERR_FILENO);
 	exit((unsigned char)status);
 	return (0);
-}
-
-int	get_cmd_count(char **cmd)
-{
-	int	idx;
-
-	if (!cmd)
-		return (0);
-	idx = 0;
-	while (cmd[idx])
-		idx++;
-	return (idx);
-}
-
-int	is_valid_num(char *str)
-{
-	int	idx;
-
-	if (!str)
-		return (0);
-	idx = 0;
-	if (str[idx] == '+' || str[idx] == '-')
-		idx++;
-	while (str[idx])
-	{
-		if (ft_isdigit(str[idx]) == 0)
-			return (0);
-		idx++;
-	}
-	return (1);
-}
-
-
-int	ft_atol(char *str, long long *o_var)
-{
-	long long	ret;
-	int			idx;
-	int			sign;
-	//int			flow_flag;
-
-	ret = 0;
-	idx = 0;
-	sign = 1;
-	//flow_flag = 0;
-	if (str[idx] == '-' || str[idx] == '+')
-	{
-		if (str[idx] == '-')
-			sign = -1;
-		idx++;
-	}
-	while (ft_isdigit(str[idx]))
-	{
-		ret *= 10;
-		ret += str[idx++] - '0';
-	}
-	*o_var = ret * sign;
-	if ((sign == 1 && ret < 0) || (sign == -1 && ret * sign > 0))
-		return (0);
-	return (1);
 }

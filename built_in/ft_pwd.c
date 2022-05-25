@@ -6,13 +6,13 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:25:22 by alee              #+#    #+#             */
-/*   Updated: 2022/05/18 12:56:56 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 05:51:03 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "../libft/libft.h"
-#include "../utils/utils_01.h"
+#include "../utils/error_msg_utils_01.h"
 
 int	ft_pwd(char **cmd)
 {

@@ -6,15 +6,18 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:06:41 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 18:33:00 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 08:57:00 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "../libft/libft.h"
 #include "ft_echo.h"
+#include "../shell/shell.h"
+// #include "../env/env_list.h"
+#include "../env/env_list_interface_01.h"
 
-int	ft_echo(char **cmd)
+int	ft_echo(char **cmd, t_shell_data *p_data)
 {
 	int	newline_flag;
 	int	space_idx;
@@ -29,7 +32,8 @@ int	ft_echo(char **cmd)
 	{
 		if (space_idx)
 			ft_putstr_fd(" ", STDOUT_FILENO);
-		ft_putstr_fd(cmd[idx], STDOUT_FILENO);
+		print_echo(cmd[idx], p_data);
+		//ft_putstr_fd(cmd[idx], STDOUT_FILENO);
 		idx++;
 		space_idx++;
 	}
@@ -90,4 +94,20 @@ int	is_hashtag_flag(const char *line)
 	if (is_continuous_opt_value(line, '#', '#'))
 		return (1);
 	return (0);
+}
+
+void	print_echo(char *line, t_shell_data *p_data)
+{
+	t_env_node	*cur_node;
+
+	if (ft_strcmp(line, "~") == 0)
+	{
+		if (env_node_search(&p_data->env_list, "HOME", &cur_node) == 0)
+			ft_putstr_fd(p_data->env_default_home, STDOUT_FILENO);
+		else
+			ft_putstr_fd(cur_node->value, STDOUT_FILENO);
+	}
+	else
+		ft_putstr_fd(line, STDOUT_FILENO);
+	return ;
 }

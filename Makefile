@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+         #
+#    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/24 23:17:04 by min-jo           ###   ########.fr        #
+#    Updated: 2022/05/25 04:07:13 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -MD
+CFLAGS = -Wall -Wextra -Werror #-MD
 RM = rm -f
 
 NAME = minishell
@@ -34,12 +34,11 @@ LOGO_FILE = logo
 SHELL_FILE = shell
 INIT_FILE = shell_init
 READ_LINE_FILE = shell_readline
-UTILS_FILE = utils_01 utils_02
-BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env
+UTILS_FILE = fd_utils_01 error_msg_utils_01 state_machine_utils_01 command_utils_01 \
+			string_utils_01 integer_utils_01
+BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
-
-
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include
