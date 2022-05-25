@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.h                                            :+:      :+:    :+:   */
+/*   ft_export_utils.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/18 14:56:59 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 15:34:32 by alee             ###   ########.fr       */
+/*   Created: 2022/05/25 15:39:34 by alee              #+#    #+#             */
+/*   Updated: 2022/05/25 16:21:31 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_CD_H
-# define FT_CD_H
-# include "../shell/shell.h"
+#ifndef FT_EXPORT_UTILS_H
+# define FT_EXPORT_UTILS_H
+# include "../env/env_list.h"
 
-int		ft_cd(char **cmd, t_shell_data *p_data);
-int		is_chdir_home(char **cmd, char **o_home_path, t_shell_data *p_data);
-int		cd_err_msg(char **cmd, char *home_path);
+int		malloc_export_buffer(char ***buf, t_env_list *p_list, int *buf_len);
+int		free_export_buffer(char ***buf, int idx);
+void	sort_export_buffer(char ***buf, int buf_max);
+void	export_string_cat(char *p_value, char **buf, int buf_idx, int buf_len);
+int		export_str_len(char *p_value);
 
 #endif

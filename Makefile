@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/25 09:19:48 by alee             ###   ########.fr        #
+#    Updated: 2022/05/25 15:40:02 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ INIT_FILE = shell_init
 READ_LINE_FILE = shell_readline
 UTILS_FILE = fd_utils_01 error_msg_utils_01 state_machine_utils_01 command_utils_01 \
 			string_utils_01 integer_utils_01
-BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export
+BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export ft_export_utils
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in

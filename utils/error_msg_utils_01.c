@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 03:04:07 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 10:15:50 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 15:54:57 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_perror_param(const char *pre_cmd, const char *param, int errno_flag)
 	free(buf);
 }
 
-void	ft_custom_perror_param(const char *pre_cmd, const char *param, const char *err_msg)
+void	ft_self_perror_param(const char *pre_cmd, const char *param, const char *err_msg)
 {
 	int		len;
 	char	*buf;
