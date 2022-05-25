@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 09:01:40 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 11:59:31 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,35 @@ void	shell_readline(t_shell_data *p_data)
 		ft_exit(p_data->cmd, 1);
 	else if (strcmp(p_data->cmd[0], "env") == 0)
 		ft_env(p_data->cmd, p_data);
+	else if (strcmp(p_data->cmd[0], "unset") == 0)
+		ft_unset(p_data->cmd, &p_data->env_list);
+	else if (strcmp(p_data->cmd[0], "export") == 0)
+		ft_export(p_data->cmd, &p_data->env_list);
 	else
 		ft_exec_command(p_data);
-	if (p_data->line)//free line string
+
+	/*	split free	*/
+	int	idx;
+
+	idx = 0;
+	while (p_data->cmd[idx])
+	{
+		free(p_data->cmd[idx]);
+		idx++;
+	}
+	free(p_data->cmd[idx]);
+	free(p_data->cmd);
+	/*	-------------------------	*/
+
+	/*	line string free	*/
+	if (p_data->line)
 		free(p_data->line);
+	/*	-------------------------	*/
+
+	/*	default home path free -> 프로그램 종료	*/
+	/*	env list free -> 프로그램 종료	*/
+
+
 	set_tc_attr(p_data);
 	return ;
 }

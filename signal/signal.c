@@ -28,12 +28,11 @@ static void	while_foreground_handler(int signo)
 	if (signo == SIGINT)
 		write(1, "\n", 1);
 	if (signo == SIGQUIT)
-		write(1, "Quit: 3\n", 8);	
+		write(1, "Quit: 3\n", 8);
 }
 
 void	set_signal_foreground()
 {
-
 	signal(SIGINT, while_foreground_handler);
 	signal(SIGQUIT, while_foreground_handler);
 }

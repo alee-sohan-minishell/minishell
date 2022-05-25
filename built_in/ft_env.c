@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 12:14:32 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 04:38:16 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 10:15:14 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../built_in/ft_exit.h"
 #include "ft_env.h"
 #include "../utils/command_utils_01.h"
+#include "../utils/error_msg_utils_01.h"
 
 int	ft_env(char **cmd, t_shell_data *p_data)
 {
@@ -22,7 +23,7 @@ int	ft_env(char **cmd, t_shell_data *p_data)
 		return (1);
 	if (get_cmd_count(cmd) > 1)
 	{
-		ft_putendl_fd("env : No Such file or directory", STDOUT_FILENO);
+		ft_custom_perror_param("env", cmd[1], "No such file or directory");
 		return (127);
 	}
 	print_env(&p_data->env_list);
