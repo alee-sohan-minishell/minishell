@@ -6,14 +6,14 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 12:44:27 by alee              #+#    #+#             */
-/*   Updated: 2022/05/22 19:54:32 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 18:18:59 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_LIST_H
 # define ENV_LIST_H
 
-typedef struct s_env_node t_env_node;
+typedef struct s_env_node	t_env_node;
 
 typedef struct s_env_node
 {

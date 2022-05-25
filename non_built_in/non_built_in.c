@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   non_built_in.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 18:38:42 by alee              #+#    #+#             */
+/*   Updated: 2022/05/25 18:38:43 by alee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../init/shell_init.h"
 #include "../signal/signal.h"
 #include "../libft/libft.h"
@@ -5,11 +17,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <fcntl.h>
-
-//debug
+#include "../init/shell_utils_01.h"
 #include "../env/env_list_interface_01.h"
-#include "../libft/libft.h"
 
 static char	**get_path_list(t_env_list *p_list)
 {

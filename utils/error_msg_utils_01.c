@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 03:04:07 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 15:54:57 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 18:35:52 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	ft_perror_param(const char *pre_cmd, const char *param, int errno_flag)
 	}
 	buf = (char *)malloc(++len);
 	if (!buf)
-		return (ft_msg_exit("ft_perror_param malloc failed", 255, STDERR_FILENO));
+		return (ft_msg_exit("ft_perror_param malloc failed", \
+		255, STDERR_FILENO));
 	buf[0] = '\0';
 	ft_strlcat(buf, STR_SHELL, len);
 	ft_strlcat(buf, ": ", len);
@@ -78,7 +79,8 @@ void	ft_perror_param(const char *pre_cmd, const char *param, int errno_flag)
 	free(buf);
 }
 
-void	ft_self_perror_param(const char *pre_cmd, const char *param, const char *err_msg)
+void	ft_self_perror_param(const char *pre_cmd, \
+					const char *param, const char *err_msg)
 {
 	int		len;
 	char	*buf;
@@ -88,7 +90,8 @@ void	ft_self_perror_param(const char *pre_cmd, const char *param, const char *er
 		len += ft_strlen(err_msg);
 	buf = (char *)malloc(++len);
 	if (!buf)
-		return (ft_msg_exit("ft_custom_error_param malloc failed", 255, STDERR_FILENO));
+		return (ft_msg_exit("ft_custom_error_param malloc failed", \
+		255, STDERR_FILENO));
 	buf[0] = '\0';
 	ft_strlcat(buf, STR_SHELL, len);
 	ft_strlcat(buf, ": ", len);
@@ -107,7 +110,6 @@ void	ft_self_perror_param(const char *pre_cmd, const char *param, const char *er
 	ft_putendl_fd(buf, STDERR_FILENO);
 	free(buf);
 }
-
 
 void	ft_perror_exit(const char *msg, int exit_status)
 {
@@ -128,17 +130,17 @@ void	ft_msg_exit(const char *msg, int exit_status, int std_type)
 	return ;
 }
 
-int		ft_perror_param_len(const char *pre_cmd, const char *param)
-	{
-		int		ret;
-		char	*err_msg;
+int	ft_perror_param_len(const char *pre_cmd, const char *param)
+{
+	int		ret;
+	char	*err_msg;
 
-		ret = 0;
-		err_msg = (char *)0;
-		ret += ft_strlen(STR_SHELL) + ft_strlen(": ");
-		if (pre_cmd)
-			ret += ft_strlen(pre_cmd) + ft_strlen(": ");
-		if (param)
-			ret += ft_strlen(param) + ft_strlen(": ");
-		return (ret);
-	}
+	ret = 0;
+	err_msg = (char *)0;
+	ret += ft_strlen(STR_SHELL) + ft_strlen(": ");
+	if (pre_cmd)
+		ret += ft_strlen(pre_cmd) + ft_strlen(": ");
+	if (param)
+		ret += ft_strlen(param) + ft_strlen(": ");
+	return (ret);
+}

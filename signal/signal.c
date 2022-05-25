@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 18:36:39 by alee              #+#    #+#             */
+/*   Updated: 2022/05/25 18:37:10 by alee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../shell/shell.h"
 #include <readline/readline.h>
 #include <signal.h>
@@ -17,7 +29,7 @@ static void	while_background_handler(int signo)
 	}
 }
 
-void	set_signal_background()
+void	set_signal_background(void)
 {
 	signal(SIGINT, while_background_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -31,7 +43,7 @@ static void	while_foreground_handler(int signo)
 		write(1, "Quit: 3\n", 8);
 }
 
-void	set_signal_foreground()
+void	set_signal_foreground(void)
 {
 	signal(SIGINT, while_foreground_handler);
 	signal(SIGQUIT, while_foreground_handler);

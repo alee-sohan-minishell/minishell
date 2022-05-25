@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 14:46:40 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/25 21:07:48 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 #include "../signal/signal.h"
 #include "../init/shell_init.h"
 #include "../non_built_in/non_built_in.h"
+#include "../init/shell_utils_01.h"
 
 void	shell_readline(t_shell_data *p_data)
 {
@@ -98,7 +99,8 @@ void	shell_readline(t_shell_data *p_data)
 
 void	insert_cmd_history(const char *cmd)
 {
-	add_history(cmd);
+	if (cmd[0] != '\0')
+		add_history(cmd);
 	return ;
 }
 
