@@ -88,7 +88,7 @@ int	ft_exec_command(t_shell_data *p_data)
 	path_list = get_path_list(&p_data->env_list);
 	if (!path_list)
 	{
-		ft_custom_perror_param(NULL, p_data->cmd[0], strerror(2));
+		ft_self_perror_param(NULL, p_data->cmd[0], strerror(2));
 		return (127);
 	}
 	path_list = get_exec_path(p_data, path_list);
@@ -108,7 +108,7 @@ int	ft_exec_command(t_shell_data *p_data)
 	}
 	if (!path_list[index])
 	{
-		ft_custom_perror_param(NULL, p_data->cmd[0], "command not found");
+		ft_self_perror_param(NULL, p_data->cmd[0], "command not found");
 		free_array(path_list);
 		return (127);
 	}
