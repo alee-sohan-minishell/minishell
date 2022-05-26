@@ -19,6 +19,8 @@
 #include <string.h>
 #include "../init/shell_utils_01.h"
 #include "../env/env_list_interface_01.h"
+#include <signal.h>
+#include <sys/stat.h>
 
 //debug
 #include <stdio.h>
@@ -86,14 +88,53 @@ int	ft_exec_command(t_shell_data *p_data)
 	char	**path_list;
 	int		index;
 	int		status;
+	struct stat	s;
 
 	index = 0;
 	set_signal_foreground();
 	path_list = get_path_list(&p_data->env_list);
-	if (!path_list)
+	if (ft_strchr(p_data->cmd[0], '/') != NULL || !path_list)
 	{
-		ft_self_perror_param(NULL, p_data->cmd[0], strerror(2));
-		return (127);
+		pid = fork();
+		if (pid == 0)
+		{
+			set_tc_attr_to_default(p_data);
+			if (execve(p_data->cmd[0], p_data->cmd, NULL) == -1)
+			{
+				if (errno == ENOEXEC)//이짓까지 해야될까?
+				{	
+					char	*cmd[3];
+
+					cmd[0] = "/bin/sh";
+					cmd[1] = p_data->cmd[0];
+					cmd[2] = NULL;
+					execve("/bin/sh", cmd, NULL);
+				}
+				if (errno != 2 && errno != 13)
+				{
+					ft_self_perror_param(NULL, p_data->cmd[0], strerror(errno));
+					exit(126);
+				}
+				else if (errno == 13)
+				{
+					if (stat(p_data->cmd[0], &s) == -1 || s.st_mode & S_IFREG)
+						ft_self_perror_param(NULL, p_data->cmd[0], strerror(errno));
+					else
+						ft_self_perror_param(NULL, p_data->cmd[0], "is a directory");
+					exit(126);
+				}
+				else
+				{
+					ft_self_perror_param(NULL, p_data->cmd[0], strerror(errno));
+					exit(127);
+				}
+			}
+		}
+		wait(&status);
+		p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
+		if (path_list)
+			free_array(path_list);
+		return (0);
 	}
 	path_list = get_exec_path(p_data, path_list);
 	while (path_list[index])
@@ -110,14 +151,13 @@ int	ft_exec_command(t_shell_data *p_data)
 			break ;
 		++index;
 	}
-	/*	try 	*/
-
 	if (!path_list[index])
 	{
 		ft_self_perror_param(NULL, p_data->cmd[0], "command not found");
-		free_array(path_list);
-		return (127);
+		p_data->term_status = 127;
 	}
+	else
+		p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
 	free_array(path_list);
-	return ((128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8));
+	return (0);
 }
