@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 13:44:39 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/26 13:12:10 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@
 #include "init/shell_init.h"
 #include "read_line/shell_readline.h"
 #include "utils/state_machine_utils_01.h"
+#include "parse/shell_parse.h"
+#include "excute/shell_excute.h"
 
-//debug
-#include "env/env_list.h"
-#include <stdio.h>
-#include <string.h>
-#include "utils/fd_utils_01.h"
 
 int	main(int argc, char *argv[], char *env[])
 {
@@ -36,10 +33,10 @@ int	main(int argc, char *argv[], char *env[])
 			shell_init(&shell, argc, &argv, &env);
 		else if (shell.status == S_LINE_READ)
 			shell_readline(&shell);
-		// else if (shell.status == S_PARSE)
-		// 	shell_parse(...);
-		// else if (shell.status == S_CMD)
-		// 	shell_excute(...);
+		else if (shell.status == S_PARSE)
+			shell_parse(&shell);
+		else if (shell.status == S_CMD)
+			shell_excute(&shell);
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)
 			break ;
 	}

@@ -22,6 +22,10 @@
 		"system_error": "c",
 		"tuple": "c",
 		"type_traits": "c",
-		"vector": "c"
+		"vector": "c",
+		"non_built_in.h": "c",
+		"__locale": "c",
+		"cstring": "c",
+		"ft_env.h": "c"
 	}
 }

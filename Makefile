@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/25 18:39:18 by alee             ###   ########.fr        #
+#    Updated: 2022/05/26 12:09:24 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LIBFT = $(addprefix libft/, libft.a)
 			ft_lstmap ft_lstnew ft_lstsize
 
 LOGO_FILE = logo
-SHELL_FILE = 
+SHELL_FILE =
 INIT_FILE = shell_init shell_utils_01
 READ_LINE_FILE = shell_readline
 UTILS_FILE = fd_utils_01 error_msg_utils_01 state_machine_utils_01 command_utils_01 \
@@ -40,6 +40,8 @@ BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export ft_export
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in
+SHELL_PARSE_FILE = shell_parse
+EXCUTE_FILE = shell_excute
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include
@@ -59,6 +61,10 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix utils/,$(addsuffix .c,$(UTILS_FILE))) \
 	$(addprefix signal/,$(addsuffix .c,$(SIGNAL_FILE))) \
 	$(addprefix non_built_in/,$(addsuffix .c,$(NON_BUILT_IN_FILE))) \
+	$(addprefix parse/,$(addsuffix .c,$(SHELL_PARSE_FILE))) \
+	$(addprefix excute/,$(addsuffix .c,$(EXCUTE_FILE))) \
+
+
 
 OBJ = $(SRC:.c=.o)
 
