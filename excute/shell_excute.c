@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:09:58 by alee              #+#    #+#             */
-/*   Updated: 2022/05/26 13:13:45 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/26 13:57:03 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	shell_excute(t_shell_data *p_data)
 		ft_unset(p_data->cmd, &p_data->env_list);
 	else if (ft_strcmp(p_data->cmd[0], "export") == 0)
 		ft_export(p_data->cmd, &p_data->env_list);
+	else if (ft_strcmp(p_data->cmd[0], "break") == 0)
+	{
+		ft_set_status(p_data, S_ERROR);
+		return ;
+	}
 	else
 		ft_exec_command(p_data);
 

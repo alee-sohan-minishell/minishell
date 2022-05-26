@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 18:38:42 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 18:38:43 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/26 14:18:53 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@
 #include "../init/shell_utils_01.h"
 #include "../env/env_list_interface_01.h"
 
+//debug
+#include <stdio.h>
+
+
 static char	**get_path_list(t_env_list *p_list)
 {
 	t_env_node	*cur_node;
 	char 		**path_list;
 	char		*temp;
 	int			index;
-	
+
 	index = 0;
 	if (env_node_search(p_list, "PATH", &cur_node) == 0)
 		return (NULL);
@@ -106,6 +110,8 @@ int	ft_exec_command(t_shell_data *p_data)
 			break ;
 		++index;
 	}
+	/*	try 	*/
+
 	if (!path_list[index])
 	{
 		ft_self_perror_param(NULL, p_data->cmd[0], "command not found");

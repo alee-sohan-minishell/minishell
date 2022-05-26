@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:53:55 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 12:21:51 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/26 14:28:48 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ int	env_node_clear(t_env_list *p_list)
 		cur_node = cur_node->next;
 		free(del_node);
 	}
+	env_list_init(p_list);
 	return (1);
 }
