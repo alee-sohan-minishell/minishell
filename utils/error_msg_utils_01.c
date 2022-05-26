@@ -133,10 +133,8 @@ void	ft_msg_exit(const char *msg, int exit_status, int std_type)
 int	ft_perror_param_len(const char *pre_cmd, const char *param)
 {
 	int		ret;
-	char	*err_msg;
 
 	ret = 0;
-	err_msg = (char *)0;
 	ret += ft_strlen(STR_SHELL) + ft_strlen(": ");
 	if (pre_cmd)
 		ret += ft_strlen(pre_cmd) + ft_strlen(": ");
