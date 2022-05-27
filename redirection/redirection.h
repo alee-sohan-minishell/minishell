@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd_utils_01.h                                      :+:      :+:    :+:   */
+/*   redirection.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 03:01:28 by alee              #+#    #+#             */
-/*   Updated: 2022/05/28 04:37:23 by alee             ###   ########.fr       */
+/*   Created: 2022/05/28 02:03:55 by alee              #+#    #+#             */
+/*   Updated: 2022/05/28 04:26:24 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FD_UTILS_01_H
-# define FD_UTILS_01_H
+#ifndef REDIRECTION_H
+# define REDIRECTION_H
 
-int	ft_dup(int fd);
-int	ft_dup2(int fd1, int fd2);
-int	ft_close(int fd);
+int	redirection_in(const char *file);
+int	redirection_out(const char *file);
+int	redirection_append(const char *file);
 
 #endif

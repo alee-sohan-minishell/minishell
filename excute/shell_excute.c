@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:09:58 by alee              #+#    #+#             */
-/*   Updated: 2022/05/26 13:57:03 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/28 04:03:43 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 #include "../non_built_in/non_built_in.h"
 #include "../init/shell_utils_01.h"
 
+//debug
+#include "../redirection/redirection.h"
+
 void	shell_excute(t_shell_data *p_data)
 {
 	if (!p_data)
@@ -33,6 +36,11 @@ void	shell_excute(t_shell_data *p_data)
 		ft_cd(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "pwd") == 0)
 		ft_pwd(p_data->cmd);
+	else if (ft_strcmp(p_data->cmd[0], "redi") == 0)
+	{
+		execv("/bin/echo", NULL);
+		printf("redirection test \n");
+	}
 	else if (ft_strcmp(p_data->cmd[0], "echo") == 0)
 		ft_echo(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
@@ -49,11 +57,11 @@ void	shell_excute(t_shell_data *p_data)
 		return ;
 	}
 	else
+	{
 		ft_exec_command(p_data);
-
-
-
-
+		set_tc_attr(p_data);
+		printf("%d\n", p_data->term_status);
+	}
 
 
 	/*	split free	*/
@@ -65,7 +73,6 @@ void	shell_excute(t_shell_data *p_data)
 		free(p_data->cmd[idx]);
 		idx++;
 	}
-	free(p_data->cmd[idx]);
 	free(p_data->cmd);
 	/*	-------------------------	*/
 
