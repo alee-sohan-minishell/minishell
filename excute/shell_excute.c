@@ -25,48 +25,43 @@
 
 void	shell_excute(t_shell_data *p_data)
 {
+	int	index;
+
+	index = 0;
 	if (!p_data)
 		return ;
-	if (!p_data->cmd)
-		ft_set_status(p_data, S_LINE_READ);
-	else if (ft_strcmp(p_data->cmd[0], "cd") == 0)
-		ft_cd(p_data->cmd, p_data);
-	else if (ft_strcmp(p_data->cmd[0], "pwd") == 0)
-		ft_pwd(p_data->cmd);
-	else if (ft_strcmp(p_data->cmd[0], "echo") == 0)
-		ft_echo(p_data->cmd, p_data);
-	else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
-		ft_exit(p_data->cmd, 1);
-	else if (ft_strcmp(p_data->cmd[0], "env") == 0)
-		ft_env(p_data->cmd, p_data);
-	else if (ft_strcmp(p_data->cmd[0], "unset") == 0)
-		ft_unset(p_data->cmd, &p_data->env_list);
-	else if (ft_strcmp(p_data->cmd[0], "export") == 0)
-		ft_export(p_data->cmd, &p_data->env_list);
-	else if (ft_strcmp(p_data->cmd[0], "break") == 0)
+	while (p_data->cmd_block && p_data->cmd_block[index])
 	{
-		ft_set_status(p_data, S_ERROR);
-		return ;
-	}
-	else
-	{
-		int	index;
-
-		index = 0;
-		while (p_data->cmd_block && p_data->cmd_block[index])
+		p_data->cmd = p_data->cmd_block[index];
+		if (!p_data->cmd)
+			ft_set_status(p_data, S_LINE_READ);
+		else if (ft_strcmp(p_data->cmd[0], "cd") == 0)
+			ft_cd(p_data->cmd, p_data);
+		else if (ft_strcmp(p_data->cmd[0], "pwd") == 0)
+			ft_pwd(p_data->cmd);
+		else if (ft_strcmp(p_data->cmd[0], "echo") == 0)
+			ft_echo(p_data->cmd, p_data);
+		else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
+			ft_exit(p_data->cmd, 1);
+		else if (ft_strcmp(p_data->cmd[0], "env") == 0)
+			ft_env(p_data->cmd, p_data);
+		else if (ft_strcmp(p_data->cmd[0], "unset") == 0)
+			ft_unset(p_data->cmd, &p_data->env_list);
+		else if (ft_strcmp(p_data->cmd[0], "export") == 0)
+			ft_export(p_data->cmd, &p_data->env_list);
+		else if (ft_strcmp(p_data->cmd[0], "break") == 0)
 		{
-			p_data->cmd = p_data->cmd_block[index];
+			ft_set_status(p_data, S_ERROR);
+			return ;
+		}
+		else
+		{
 			ft_exec_command(p_data);
 			set_tc_attr(p_data);
 			printf("%d\n", p_data->term_status);
-			++index;
 		}
+		++index;
 	}
-
-
-
-
-
 
 	/*	split free	*/
 	int		idx;
