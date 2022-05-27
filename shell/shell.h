@@ -55,6 +55,7 @@ typedef struct s_shell_data
 	char			*line;
 	//command array
 	char			**cmd;
+	char			***cmd_block;
 
 	//terminal attr
 	struct termios	default_term_attr;

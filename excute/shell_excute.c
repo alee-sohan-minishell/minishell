@@ -27,7 +27,7 @@ void	shell_excute(t_shell_data *p_data)
 {
 	if (!p_data)
 		return ;
-	if (!p_data->cmd[0])
+	if (!p_data->cmd)
 		ft_set_status(p_data, S_LINE_READ);
 	else if (ft_strcmp(p_data->cmd[0], "cd") == 0)
 		ft_cd(p_data->cmd, p_data);
@@ -49,7 +49,19 @@ void	shell_excute(t_shell_data *p_data)
 		return ;
 	}
 	else
-		ft_exec_command(p_data);
+	{
+		int	index;
+
+		index = 0;
+		while (p_data->cmd_block && p_data->cmd_block[index])
+		{
+			p_data->cmd = p_data->cmd_block[index];
+			ft_exec_command(p_data);
+			set_tc_attr(p_data);
+			printf("%d\n", p_data->term_status);
+			++index;
+		}
+	}
 
 
 
@@ -57,16 +69,32 @@ void	shell_excute(t_shell_data *p_data)
 
 
 	/*	split free	*/
-	int	idx;
+	int		idx;
+	int		j;
+	char	**temp;
 
 	idx = 0;
-	while (p_data->cmd[idx])
+	j = 0;
+	if (p_data->cmd_block)
 	{
-		free(p_data->cmd[idx]);
-		idx++;
+		while (p_data->cmd_block[idx])
+		{
+			temp = p_data->cmd_block[idx];
+			j = 0;
+			while (temp[j])
+			{	
+				free(temp[j]);
+				++j;
+				//free(p_data->cmd[idx]);
+				//idx++;
+			}
+			free(temp);
+			++idx;
+		}
+		free(p_data->cmd_block);
+		//free(p_data->cmd[idx]);
+		//free(p_data->cmd);
 	}
-	free(p_data->cmd[idx]);
-	free(p_data->cmd);
 	/*	-------------------------	*/
 
 	/*	line string free	*/
@@ -75,7 +103,7 @@ void	shell_excute(t_shell_data *p_data)
 	/*	-------------------------	*/
 	/*	default home path free -> 프로그램 종료	*/
 	/*	env list free -> 프로그램 종료	*/
-	set_tc_attr(p_data);
+	//set_tc_attr(p_data);
 	ft_set_status(p_data, S_LINE_READ);
 	return ;
 }
