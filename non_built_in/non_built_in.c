@@ -99,7 +99,7 @@ int	ft_exec_command(t_shell_data *p_data)
 		if (pid == 0)
 		{
 			set_tc_attr_to_default(p_data);
-			if (execve(p_data->cmd[0], p_data->cmd, NULL) == -1)
+			if (execve(p_data->cmd[0], p_data->cmd, *p_data->p_env) == -1)
 			{
 				if (errno == ENOEXEC)//이짓까지 해야될까?
 				{	

@@ -35,6 +35,7 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 	if (env_init(p_data, env) == -1)
 		return ;
 	p_data->p_argv = argv;
+	p_data->p_env = env;
 	ft_set_status(p_data, S_LINE_READ);
 	return ;
 }

@@ -82,7 +82,7 @@ void	shell_excute(t_shell_data *p_data)
 	/*	-------------------------	*/
 	/*	default home path free -> 프로그램 종료	*/
 	/*	env list free -> 프로그램 종료	*/
-	set_tc_attr(p_data);
+	//set_tc_attr(p_data);
 	ft_set_status(p_data, S_LINE_READ);
 	return ;
 }

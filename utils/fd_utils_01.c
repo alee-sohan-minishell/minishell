@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include "fd_utils_01.h"
 #include "error_msg_utils_01.h"
 #include "../shell/shell.h"

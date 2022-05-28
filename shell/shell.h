@@ -62,6 +62,7 @@ typedef struct s_shell_data
 
 	//argv
 	char		***p_argv;
+	char		***p_env;
 
 	//env list
 	t_env_list	env_list;
