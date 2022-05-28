@@ -15,5 +15,6 @@
 # include "../shell/shell.h"
 
 void	shell_excute(t_shell_data *p_data);
+void	shell_execute_blocks(t_shell_data *p_data);
 
 #endif

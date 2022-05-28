@@ -36,7 +36,7 @@ int	main(int argc, char *argv[], char *env[])
 		else if (shell.status == S_PARSE)
 			shell_parse(&shell);
 		else if (shell.status == S_CMD)
-			shell_excute(&shell);
+			shell_execute_blocks(&shell);
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)
 			break ;
 	}

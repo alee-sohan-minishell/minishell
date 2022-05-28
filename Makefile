@@ -41,7 +41,7 @@ ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in
 SHELL_PARSE_FILE = shell_parse
-EXCUTE_FILE = shell_excute
+EXCUTE_FILE = shell_excute shell_execute_blocks
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include

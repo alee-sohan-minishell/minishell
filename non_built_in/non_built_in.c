@@ -84,7 +84,7 @@ static void	free_array(char **array)
 
 int	ft_exec_command(t_shell_data *p_data)
 {
-	pid_t	pid;
+	//pid_t	pid;
 	char	**path_list;
 	int		index;
 	int		status;
@@ -95,8 +95,8 @@ int	ft_exec_command(t_shell_data *p_data)
 	path_list = get_path_list(&p_data->env_list);
 	if (ft_strchr(p_data->cmd[0], '/') != NULL || !path_list)
 	{
-		pid = fork();
-		if (pid == 0)
+		//pid = fork();
+		//if (pid == 0)
 		{
 			set_tc_attr_to_default(p_data);
 			if (execve(p_data->cmd[0], p_data->cmd, NULL) == -1)
@@ -130,7 +130,8 @@ int	ft_exec_command(t_shell_data *p_data)
 				}
 			}
 		}
-		wait(&status);
+		waitpid(-1, &status, 0);
+		//wait(&status);
 		p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
 		if (path_list)
 			free_array(path_list);
@@ -139,14 +140,15 @@ int	ft_exec_command(t_shell_data *p_data)
 	path_list = get_exec_path(p_data, path_list);
 	while (path_list[index])
 	{
-		pid = fork();
-		if (pid == 0)
+		//pid = fork();
+		//if (pid == 0)
 		{
 			set_tc_attr_to_default(p_data);
 			if (execve(path_list[index], p_data->cmd, NULL) == -1)
 				exit(42);
 		}
-		wait(&status);
+		waitpid(-1, &status, 0);
+		//wait(&status);
 		if (status >> 8 != 42)
 			break ;
 		++index;

@@ -15,5 +15,6 @@
 
 void	set_signal_background(void);
 void	set_signal_foreground(void);
+void	set_signal_default(void);
 
 #endif

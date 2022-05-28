@@ -48,3 +48,9 @@ void	set_signal_foreground(void)
 	signal(SIGINT, while_foreground_handler);
 	signal(SIGQUIT, while_foreground_handler);
 }
+
+void	set_signal_default(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}

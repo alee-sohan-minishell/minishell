@@ -22,17 +22,19 @@
 #include "../built_in/ft_export.h"
 #include "../non_built_in/non_built_in.h"
 #include "../init/shell_utils_01.h"
+#include "../signal/signal.h"
 
 void	shell_excute(t_shell_data *p_data)
 {
-	int	index;
+	//int	index;
 
-	index = 0;
+	//index = 0;
 	if (!p_data)
 		return ;
-	while (p_data->cmd_block && p_data->cmd_block[index])
+	//while (p_data->cmd_block && p_data->cmd_block[index])
+	set_signal_foreground();
 	{
-		p_data->cmd = p_data->cmd_block[index];
+		//p_data->cmd = p_data->cmd_block[index];
 		if (!p_data->cmd)
 			ft_set_status(p_data, S_LINE_READ);
 		else if (ft_strcmp(p_data->cmd[0], "cd") == 0)
@@ -58,9 +60,8 @@ void	shell_excute(t_shell_data *p_data)
 		{
 			ft_exec_command(p_data);
 			set_tc_attr(p_data);
-			printf("%d\n", p_data->term_status);
 		}
-		++index;
+		//++index;
 	}
 
 	/*	split free	*/
@@ -99,6 +100,6 @@ void	shell_excute(t_shell_data *p_data)
 	/*	default home path free -> 프로그램 종료	*/
 	/*	env list free -> 프로그램 종료	*/
 	//set_tc_attr(p_data);
-	ft_set_status(p_data, S_LINE_READ);
+	//ft_set_status(p_data, S_LINE_READ);
 	return ;
 }
