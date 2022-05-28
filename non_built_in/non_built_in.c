@@ -102,12 +102,13 @@ int	ft_exec_command(t_shell_data *p_data)
 			if (execve(p_data->cmd[0], p_data->cmd, *p_data->p_env) == -1)
 			{
 				if (errno == ENOEXEC)//이짓까지 해야될까?
-				{	
+				{
 					char	*cmd[3];
 
 					cmd[0] = "/bin/sh";
 					cmd[1] = p_data->cmd[0];
 					cmd[2] = NULL;
+					set_tc_attr_to_default(p_data);
 					execve("/bin/sh", cmd, NULL);
 				}
 				if (errno != 2 && errno != 13)
@@ -139,16 +140,18 @@ int	ft_exec_command(t_shell_data *p_data)
 	path_list = get_exec_path(p_data, path_list);
 	while (path_list[index])
 	{
-		pid = fork();
-		if (pid == 0)
+		if (stat(path_list[index], &s) == 0)
 		{
-			set_tc_attr_to_default(p_data);
-			if (execve(path_list[index], p_data->cmd, NULL) == -1)
-				exit(42);
-		}
-		wait(&status);
-		if (status >> 8 != 42)
+			pid = fork();
+			if (pid == 0)
+			{
+				set_tc_attr_to_default(p_data);
+				execve(path_list[index], p_data->cmd, *p_data->p_env);
+			}
+			wait(&status);
+			p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
 			break ;
+		}
 		++index;
 	}
 	if (!path_list[index])
@@ -156,8 +159,6 @@ int	ft_exec_command(t_shell_data *p_data)
 		ft_self_perror_param(NULL, p_data->cmd[0], "command not found");
 		p_data->term_status = 127;
 	}
-	else
-		p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
 	free_array(path_list);
 	return (0);
 }
