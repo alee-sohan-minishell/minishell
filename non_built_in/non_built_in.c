@@ -96,7 +96,9 @@ int	ft_exec_command(t_shell_data *p_data)
 	if (ft_strchr(p_data->cmd[0], '/') != NULL || !path_list)
 	{
 		pid = fork();
-		if (pid == 0)
+		if (pid > 0)
+			signal(SIGINT, SIG_IGN);
+		else if (pid == 0)
 		{
 			set_tc_attr_to_default(p_data);
 			if (execve(p_data->cmd[0], p_data->cmd, *p_data->p_env) == -1)
