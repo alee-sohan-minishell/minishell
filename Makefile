@@ -12,7 +12,7 @@
 
 # -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-MD
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address#-MD
 RM = rm -f
 
 NAME = minishell
@@ -40,8 +40,8 @@ BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export ft_export
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in
-SHELL_PARSE_FILE = shell_parse
-EXCUTE_FILE = shell_excute
+SHELL_PARSE_FILE = shell_parse graph
+EXCUTE_FILE = shell_excute shell_execute_traversal
 REDIRECTION_FILE = redirection
 
 READLINE_ROOT = $(shell brew --prefix readline)
