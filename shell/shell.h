@@ -16,6 +16,7 @@
 //---------------------------------------
 #define DEBUG
 #include <stdio.h>
+#include "../parse/graph.h"
 //---------------------------------------
 #include <termios.h>
 #include "../env/env_list.h"
@@ -55,6 +56,12 @@ typedef struct s_shell_data
 	char			*line;
 	//command array
 	char			**cmd;
+	t_graph			*cmd_graph;
+	int				cmd_count;
+	int				fd_in_old;
+	int				fd_in_new;
+	int				fd_out_old;
+	int				fd_out_new;
 
 	//terminal attr
 	struct termios	default_term_attr;
