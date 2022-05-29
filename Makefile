@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
+#    By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/28 02:08:17 by alee             ###   ########.fr        #
+#    Updated: 2022/05/30 00:57:01 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,8 @@ NON_BUILT_IN_FILE = non_built_in
 SHELL_PARSE_FILE = shell_parse
 EXCUTE_FILE = shell_excute
 REDIRECTION_FILE = redirection
+PARSE_FILE = shell_parse
+TREE_FILE = shell_tree
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include
@@ -65,6 +67,8 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix parse/,$(addsuffix .c,$(SHELL_PARSE_FILE))) \
 	$(addprefix excute/,$(addsuffix .c,$(EXCUTE_FILE))) \
 	$(addprefix redirection/,$(addsuffix .c,$(REDIRECTION_FILE))) \
+	$(addprefix parse/,$(addsuffix .c,$(PARSE_FILE))) \
+	$(addprefix tree/,$(addsuffix .c,$(TREE_FILE))) \
 
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 18:38:00 by alee             ###   ########.fr       */
+/*   Updated: 2022/05/30 01:14:55 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_shell_data
 	//command line
 	char			*line;
 	//command array
-	char			**cmd;
+	char			**cmd; //# 지우고 tree command로 실행해야 할 듯
 
 	//terminal attr
 	struct termios	default_term_attr;
