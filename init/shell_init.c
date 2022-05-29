@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 18:30:31 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/01 20:06:26 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 	p_data->p_argv = argv;
 	p_data->p_env = env;
 	ft_set_status(p_data, S_LINE_READ);
+	p_data->tree = NULL;
+	p_data->heredoc = NULL;
 	return ;
 }
 

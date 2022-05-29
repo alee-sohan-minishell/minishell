@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list_interface_01.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:53:55 by alee              #+#    #+#             */
-/*   Updated: 2022/05/26 14:28:48 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/01 16:17:56 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env_node	*env_node_create(char *p_key, char *p_value)
 	t_env_node	*node;
 
 	node = (t_env_node *)malloc(sizeof(t_env_node));
-	if (!node || !p_key)
+	if (!node || !p_key || !p_value)
 		return ((t_env_node *)0);
 	node->key = p_key;
 	node->value = p_value;
@@ -94,5 +94,5 @@ int	env_node_clear(t_env_list *p_list)
 		free(del_node);
 	}
 	env_list_init(p_list);
-	return (1);
+	return (0);
 }
