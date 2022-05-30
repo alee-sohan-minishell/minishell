@@ -59,12 +59,14 @@ void	shell_excute(t_shell_data *p_data)
 	}
 	else
 	{
-		dup2(p_data->fd_out_old, STDOUT_FILENO);
-		close(p_data->fd_out_old);
+		//dup2(p_data->fd_out_old, STDOUT_FILENO);
+		//close(p_data->fd_out_old);
 		ft_exec_command(p_data);
 		set_tc_attr(p_data);
-		dup2(p_data->fd_in_old, STDIN_FILENO);
-		close(p_data->fd_in_old);
+		//dup2(p_data->fd_out_old, STDOUT_FILENO);
+		//close(p_data->fd_out_old);
+		//dup2(p_data->fd_in_new, STDIN_FILENO);
+		//close(p_data->fd_in_new);
 		//printf("%d\n", p_data->term_status);
 	}
 
