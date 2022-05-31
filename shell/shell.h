@@ -19,6 +19,7 @@
 //---------------------------------------
 #include <termios.h>
 #include "../env/env_list.h"
+#include "../ //#"
 
 #define STR_SHELL "shell"
 
@@ -67,6 +68,9 @@ typedef struct s_shell_data
 	//env list
 	t_env_list	env_list;
 	char		*env_default_home;
+
+	//parse
+
 }	t_shell_data;
 
 #endif
