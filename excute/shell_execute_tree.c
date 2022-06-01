@@ -15,95 +15,27 @@
 
 void	set_fd(t_shell_data *p_data, const char *filename, int type)
 {
-	if (type == REDI_IN)
+	if (type == T_REDIRECT_IN)
 		redirection_in(p_data, filename);
-	else if (type == REDI_OUT)
+	else if (type == T_REDIRECT_OUT)
 		redirection_out(p_data, filename);
-	else if (type == APPEND)
+	else if (type == T_REDIRECT_APPEND)
 		redirection_append(p_data, filename);
 }
 
-void	dfs(t_graph *graph, int	vertex_id, t_shell_data *p_data)
+void	tree_traverse(t_shell_tree_node *cmd_tree)
 {
-	t_node	*close_node;
-	t_node	*cur_node;
-	//pid_t	pid;
-	//int		status;
-
-	cur_node = graph->edge[vertex_id];
-	if (cur_node->visited == 1)
-		return ;
-	cur_node->visited = 1;
-	p_data->cmd = cur_node->cmd;
-	close_node = graph->edge[vertex_id]->next;
-	if (cur_node->type)
-		set_fd(p_data, close_node->cmd[0], cur_node->type);
-	//shell_excute(p_data);
-	while (close_node)
+	if (cmd_tree)
 	{
-		//if (close_node->type == '|')
-		//{	
-			//pid = fork();
-			//if (pid == 0)
-			//	shell_excute(p_data);
-			//wait(&status);
-		//}
-		//else
-			//shell_excute(p_data);
-		dfs(graph, close_node->vertex_id, p_data);
-		close_node = close_node->next;
+		/*do something here
+		 *
+		 */
+		tree_traverse(cmd_tree->left);
+		tree_traverse(cmd_tree->right);
 	}
 }
 
-void	dfs2(t_graph *graph, int	vertex_id, t_shell_data *p_data)
-{
-	t_node	*close_node;
-	t_node	*cur_node;
-
-	cur_node = graph->edge[vertex_id];
-	if (cur_node->visited == 1)
-		return ;
-	cur_node->visited = 1;
-	p_data->cmd = cur_node->cmd;
-	close_node = graph->edge[vertex_id]->next;
-	if (cur_node->type)
-		graph->edge[close_node->vertex_id]->visited = 1;
-	shell_excute(p_data);
-	while (close_node)
-	{
-		//if (close_node->type == '|')
-		//{	
-			//pid = fork();
-			//if (pid == 0)
-			//	shell_excute(p_data);
-			//wait(&status);
-		//}
-		//else
-			//shell_excute(p_data);
-		dfs(graph, close_node->vertex_id, p_data);
-		close_node = close_node->next;
-	}
-}
-
-void	init_visited(t_graph *graph)
-{
-	int	i;
-	t_node	*cur;
-	
-	i = 0;
-	while (i < graph->max_vertex_count)
-	{
-		cur = graph->edge[i];
-		while (cur)
-		{	
-			cur->visited = 0;
-			cur = cur->next;
-		}
-		++i;
-	}
-}
-
-void	shell_execute_traversal(t_shell_data *p_data)
+void	shell_execute_tree(t_shell_data *p_data)
 {
 	if (!p_data)
 		return ;
@@ -111,10 +43,7 @@ void	shell_execute_traversal(t_shell_data *p_data)
 	p_data->fd_in_old = dup(STDIN_FILENO);
 	p_data->fd_out_new = dup(STDOUT_FILENO);
 	p_data->fd_in_new = dup(STDIN_FILENO);
-	dfs(p_data->cmd_graph, 0, p_data);
-	init_visited(p_data->cmd_graph);
-	dfs2(p_data->cmd_graph, 0, p_data);
-	destroy_graph(p_data->cmd_graph);
+	tree_traverse(p_data->cmd_tree);
 	if (p_data->line)
 		free(p_data->line);
 	ft_set_status(p_data, S_LINE_READ);

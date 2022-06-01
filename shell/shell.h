@@ -16,6 +16,7 @@
 //---------------------------------------
 #define DEBUG
 #include <stdio.h>
+#include "../tree/shell_tree.h"
 //---------------------------------------
 #include <termios.h>
 #include "../env/env_list.h"
@@ -56,6 +57,9 @@ typedef struct s_shell_data
 	char			*line;
 	//command array
 	char			**cmd; //# 지우고 tree command로 실행해야 할 듯
+	// tree
+	t_shell_tree_node	*cmd_tree;
+
 	// fd
 	int				fd_in_old;
 	int				fd_out_old;
