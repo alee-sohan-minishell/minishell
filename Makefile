@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+         #
+#    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/30 00:57:01 by min-jo           ###   ########.fr        #
+#    Updated: 2022/06/01 21:20:29 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ NON_BUILT_IN_FILE = non_built_in
 EXCUTE_FILE = shell_excute
 REDIRECTION_FILE = redirection
 SHELL_PARSE_FILE = shell_parse
-TREE_FILE = shell_tree
+TREE_FILE = shell_tree shell_heredoc
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include
