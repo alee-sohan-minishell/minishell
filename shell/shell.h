@@ -56,6 +56,11 @@ typedef struct s_shell_data
 	char			*line;
 	//command array
 	char			**cmd; //# 지우고 tree command로 실행해야 할 듯
+	// fd
+	int				fd_in_old;
+	int				fd_out_old;
+	int				fd_in_new;
+	int				fd_out_new;
 
 	//terminal attr
 	struct termios	default_term_attr;

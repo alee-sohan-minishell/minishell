@@ -58,27 +58,35 @@ void	shell_excute(t_shell_data *p_data)
 	}
 	else
 	{
+		//dup2(p_data->fd_out_old, STDOUT_FILENO);
+		//close(p_data->fd_out_old);
 		ft_exec_command(p_data);
 		set_tc_attr(p_data);
-		printf("%d\n", p_data->term_status);
+		//dup2(p_data->fd_out_old, STDOUT_FILENO);
+		//close(p_data->fd_out_old);
+		//dup2(p_data->fd_in_new, STDIN_FILENO);
+		//close(p_data->fd_in_new);
+		//printf("%d\n", p_data->term_status);
 	}
 
 
 	/*	split free	*/
-	int	idx;
+	/*int	idx;
 
 	idx = 0;
-	while (p_data->cmd[idx])
+	while (p_data->cmd && p_data->cmd[idx])
 	{
 		free(p_data->cmd[idx]);
 		idx++;
 	}
-	free(p_data->cmd);
+	//free(p_data->cmd[idx]);
+	if (p_data->cmd)
+		free(p_data->cmd);*/
 	/*	-------------------------	*/
 
 	/*	line string free	*/
-	if (p_data->line)
-		free(p_data->line);
+	//if (p_data->line)
+	//	free(p_data->line);
 	/*	-------------------------	*/
 	/*	default home path free -> 프로그램 종료	*/
 	/*	env list free -> 프로그램 종료	*/
