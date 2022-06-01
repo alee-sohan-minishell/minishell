@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 21:00:46 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/01 21:19:31 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/11 22:15:10 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_shell_heredoc_node	*heredoc_new_node(char *delimiter)
 	if (NULL == node)
 		return (NULL);
 	node->next = NULL;
-	node->delimiter = NULL;
+	node->delimiter = delimiter;
 	return (node);
 }
 

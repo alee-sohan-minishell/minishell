@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/06/01 20:06:26 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/11 21:00:57 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #include "../utils/error_msg_utils_01.h"
 #include "../env/env_utils_01.h"
 #include "shell_utils_01.h"
+#include "../tree/shell_tree_utils.h"
+#include "../parse/shell_parse_utils1.h"
+#include "../parse/shell_parse_utils2.h"
 
 void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 {
@@ -37,8 +40,11 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 	p_data->p_argv = argv;
 	p_data->p_env = env;
 	ft_set_status(p_data, S_LINE_READ);
-	p_data->tree = NULL;
-	p_data->heredoc = NULL;
+	shell_tree_init(&p_data->tree);
+	p_data->focus = &p_data->tree;
+	shell_heredoc_init(&p_data->heredoc);
+	shell_prase_util_init(&p_data->parse_list);
+	shell_parse_util_env_init(&p_data->parse_env);
 	return ;
 }
 
