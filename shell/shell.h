@@ -65,6 +65,8 @@ typedef struct s_shell_data
 	int				fd_in_new;
 	int				fd_out_new;
 	int				pipe_fd[2];
+	int				is_piped;
+	int				p_status;
 	
 	pid_t			pipe_pid[2];
 	//terminal attr

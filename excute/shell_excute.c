@@ -61,6 +61,8 @@ void	shell_excute(t_shell_data *p_data)
 		//dup2(p_data->fd_out_old, STDOUT_FILENO);
 		//close(p_data->fd_out_old);
 		ft_exec_command(p_data);
+		//wait(&p_data->p_status);
+		//p_data->term_status = (128 + (p_data->p_status & 0x7f)) * ((p_data->p_status & 0x7f) != 0) + (p_data->p_status >> 8);
 		set_tc_attr(p_data);
 		//dup2(p_data->fd_out_old, STDOUT_FILENO);
 		//close(p_data->fd_out_old);
