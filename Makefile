@@ -12,12 +12,12 @@
 
 # -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-MD
+CFLAGS = -Wall -Wextra -Werror -g#-MD
 RM = rm -f
 
 NAME = minishell
 
-FILE = main
+FILE = $(if $(MAIN), $(MAIN))
 LIBFT = $(addprefix libft/, libft.a)
 #LIBFT_FILE = ft_isalnum ft_isprint ft_memcmp ft_putchar_fd ft_split \
 			ft_strlcat ft_strncmp ft_substr ft_atoi ft_isalpha \
@@ -40,7 +40,7 @@ BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export ft_export
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in
-EXCUTE_FILE = shell_excute
+EXCUTE_FILE = shell_excute shell_execute_tree
 REDIRECTION_FILE = redirection
 SHELL_PARSE_FILE = shell_parse
 TREE_FILE = shell_tree
@@ -101,5 +101,8 @@ fclean: clean
 re:
 	make fclean
 	make all
+
+test: $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(LIBADD) $^ -o $@
 
 -include $(OBJ:.o=.d)

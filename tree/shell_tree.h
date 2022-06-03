@@ -12,7 +12,6 @@
 
 #ifndef SHELL_TREE_H
 # define SHELL_TREE_H
-# include "../shell/shell.h"
 
 typedef enum e_shell_tree_kind
 {
@@ -47,7 +46,7 @@ typedef struct s_shell_heredoc_node
 	int							cnt; //#
 }	t_shell_heredoc_node;
 
-t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,
+t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv,
 						char *filepath);
 void				tree_insert(t_shell_tree_node *parent,
 						t_shell_tree_node *child);

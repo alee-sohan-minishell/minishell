@@ -29,7 +29,7 @@ void	shell_parse(t_shell_data *p_data)
 }
 
 //# 여러 개 찾는 걸로 바꾸기
-char	*ft_strchr(const char *s, int c)
+/*char	*ft_strchr(const char *s, int c)
 {
 	size_t	cur_idx;
 	size_t	search_idx;
@@ -42,4 +42,4 @@ char	*ft_strchr(const char *s, int c)
 			return ((char *)s + cur_idx);
 		cur_idx++;
 	}
-}
+}*/

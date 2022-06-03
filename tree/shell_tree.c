@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "shell_tree.h"
 
-t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,
+t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv,
 						char *filepath)
 {
 	t_shell_tree_node	*node;
