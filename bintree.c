@@ -134,6 +134,7 @@ int main(int argc, char **argv, char **env)
 	t_shell_tree_node *temp;
 	//t_shell_tree_node *temp1;
 	char	*tmp_argv[2];
+	char	*tmp_argv2[2];
 	
 
 	ft_bzero(&shell, sizeof(shell));
@@ -161,6 +162,8 @@ int main(int argc, char **argv, char **env)
 	printf("\n+++++ Tree Traversal +++++\n");
 	shell.cmd_tree = p_tree->p_root_node;
 	shell_execute_tree(&shell);
+	printf("exit: %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1]);
+		//p_data->term_status = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
 
 	printf("\n+++++ Delete Tree +++++\n");
 	delete_tree(p_tree);
@@ -189,6 +192,7 @@ int main(int argc, char **argv, char **env)
 	shell.cmd_tree = p_tree->p_root_node;
 	shell.is_piped = 0;
 	shell_execute_tree(&shell);
+	printf("exit: %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1]);
 	printf("\n+++++ Delete Tree +++++\n");
 	delete_tree(p_tree);
 
@@ -203,9 +207,9 @@ int main(int argc, char **argv, char **env)
 	tmp_argv[0] = "cat";
 	tmp_argv[1] = NULL;
 	newNode[1].argv = tmp_argv;
-	tmp_argv[0] = "ls";
-	tmp_argv[1] = NULL;
-	newNode[2].argv = tmp_argv;
+	tmp_argv2[0] = "ls";
+	tmp_argv2[1] = NULL;
+	newNode[2].argv = tmp_argv2;
 
 	temp = insert_rightchild_node_BT(temp, newNode[0]);
 	temp = get_rightchild_node_BT(temp);
@@ -217,6 +221,7 @@ int main(int argc, char **argv, char **env)
 	shell.cmd_tree = p_tree->p_root_node;
 	shell.is_piped = 0;
 	shell_execute_tree(&shell);
+	printf("exit: %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1]);
 	printf("\n+++++ Delete Tree +++++\n");
 	delete_tree(p_tree);
 
