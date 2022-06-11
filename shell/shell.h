@@ -23,6 +23,14 @@
 
 #define STR_SHELL "shell"
 
+typedef struct s_pipe_data
+{
+	int		pipe_status[2];
+	int		signal_status;
+	pid_t	pipe_pid[2];
+	int		index;
+}	t_data;
+
 typedef enum e_shell_status
 {
 	S_START = 0,
@@ -66,9 +74,9 @@ typedef struct s_shell_data
 	int				fd_out_new;
 	int				pipe_fd[2];
 	int				is_piped;
-	int				p_status;
+	t_data			global_data;
+	int				process_exit_status;
 	
-	pid_t			pipe_pid[2];
 	//terminal attr
 	struct termios	default_term_attr;
 	struct termios	new_term_attr;

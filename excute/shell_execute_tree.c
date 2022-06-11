@@ -13,7 +13,6 @@
 #include "../redirection/redirection.h"
 #include "../excute/shell_excute.h"
 
-
 void	set_pipe(t_shell_data *p_data)
 {
 
@@ -65,6 +64,7 @@ void	tree_traverse(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 		if (cmd_tree->kind == T_COMMAND)
 		{
 			p_data->cmd = cmd_tree->argv;
+			printf("excute %s\n", p_data->cmd[0]);
 			shell_excute(p_data);
 		}
 		tree_traverse(p_data, cmd_tree->left);
@@ -74,6 +74,9 @@ void	tree_traverse(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 
 void	shell_execute_tree(t_shell_data *p_data)
 {
+	int		all_done = 0;
+	pid_t	pid;
+
 	if (!p_data)
 		return ;
 	p_data->fd_out_old = dup(STDOUT_FILENO);
@@ -81,8 +84,26 @@ void	shell_execute_tree(t_shell_data *p_data)
 	p_data->fd_out_new = dup(STDOUT_FILENO);
 	p_data->fd_in_new = dup(STDIN_FILENO);
 	tree_traverse(p_data, p_data->cmd_tree);
-	wait(&p_data->p_status);
-	p_data->term_status = (128 + (p_data->p_status & 0x7f)) * ((p_data->p_status & 0x7f) != 0) + (p_data->p_status >> 8);
+	printf("i'm waiting for process id %d and %d\n", p_data->global_data.pipe_pid[0], p_data->global_data.pipe_pid[1]);
+	all_done = 0;
+	p_data->global_data.index = 0;
+	if (!p_data->is_piped)
+	{
+		wait(&p_data->process_exit_status);
+		p_data->global_data.pipe_status[1] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
+	}
+	else
+		while (all_done < 2)
+		{
+		pid = wait(&p_data->process_exit_status);
+		printf("i'm process %d\n", pid);
+		if (pid == p_data->global_data.pipe_pid[0])
+		{	p_data->global_data.pipe_status[0] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
+		++all_done;}
+		if (pid == p_data->global_data.pipe_pid[1])
+		{p_data->global_data.pipe_status[1] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
+		++all_done;}
+		}
 
 	if (p_data->line)
 		free(p_data->line);
