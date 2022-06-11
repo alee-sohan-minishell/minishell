@@ -25,7 +25,6 @@
 //debug
 #include <stdio.h>
 
-
 static char	**get_path_list(t_env_list *p_list)
 {
 	t_env_node	*cur_node;
@@ -151,15 +150,20 @@ int	ft_exec_command(t_shell_data *p_data)
 		if (stat(path_list[index], &s) == 0)
 		{
 			pid = fork();
-			if (pid == 0)
+			if (pid > 0)
 			{
-				set_tc_attr_to_default(p_data);
 				if (p_data->is_piped)
 				{
 					p_data->fd_out_new = p_data->pipe_fd[1];
 					dup2(p_data->pipe_fd[1], p_data->fd_out_new);
 					close(p_data->pipe_fd[0]);
 				}
+				p_data->global_data.pipe_pid[p_data->global_data.index] = pid;
+				++p_data->global_data.index;
+			}
+			else if (pid == 0)
+			{
+				set_tc_attr_to_default(p_data);
 				execve(path_list[index], p_data->cmd, *p_data->p_env);
 			}
 			//wait(&status);
