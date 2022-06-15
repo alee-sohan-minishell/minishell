@@ -32,8 +32,7 @@ typedef struct s_parse_list
 	struct s_parse_node	*tail;// dummy node 아님
 }	t_parse_list;
 
-t_state_shell_parse	shell_parse_util_strcmp(t_state_shell_parse state,
-							char *s);
+t_state_shell_parse	shell_parse_util_get_state(char c);
 void				shell_prase_util_init(t_parse_list *list);
 t_parse_node		*shell_parse_util_append_new_node(t_parse_list *list);
 int					shell_parse_util_add_char(t_parse_list *list, char c);

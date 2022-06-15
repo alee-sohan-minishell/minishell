@@ -10,24 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../shell/shell.h"
+#include <stdlib.h>
 #include "../parse/shell_parse_utils1.h"
 #include "../parse/shell_parse_utils2.h"
-#include "../tree/shell_tree.h"
-#include "../tree/shell_tree_utils.h"
+#include "../env/env_list.h"
+#include "../env/env_list_interface_01.h"
+#include "../utils/error_msg_utils_01.h"
 
-int	shell_parse_util_insert_cmd(t_shell_data *p_data)
+int	shell_parse_util_env_convert(t_shell_data *p_data)
 {
-	char				**argv;
-	t_shell_tree_node	*tree_node;
+	t_env_node			*env_node;
+	char				*key;
+	int					cnt;
 
-	argv = shell_parse_util_list_to_argv(&p_data->parse_list);
-	if (NULL == argv)
+	key = shell_parse_util_env_to_str(&p_data->parse_env);
+	if (NULL == key)
 		return (-1);
-	tree_node = tree_new_node(T_COMMAND, argv, 0, NULL);
-	if (NULL == tree_node)
-		return (shell_parse_util_free_argv(argv)); // 무조건 -1 리턴
-	tree_insert(&p_data->focus, tree_node);
-	if (tree_make_cmd_child(tree_node)) // 실패해도 tree는 parse_state_error에서 재귀적으로 지움
-		return (shell_parse_util_free_argv(argv)); // 무조건 -1 리턴
+	if (env_node_search(&p_data->env_list, key, &env_node) == 0)
+	{
+		ft_perror_param("env", key, 0);
+		free(key);
+		return (-1);
+	}
+	free(key);
+	cnt = -1;
+	while (env_node->value[++cnt])
+		if (shell_parse_util_add_char(&p_data->parse_list, env_node->value[cnt]))
+			return (-1);
+	return (0);
 }

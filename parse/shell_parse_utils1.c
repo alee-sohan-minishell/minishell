@@ -15,30 +15,17 @@
 #include "../parse/shell_parse_utils1.h"
 #include "../libft/libft.h"
 
-t_state_shell_parse	shell_parse_util_strcmp(t_state_shell_parse state,
-							char *s)
+t_state_shell_parse	shell_parse_util_get_state(char c)
 {
 	int			cnt;
-	const char	c[] = {' ', '\'', '"', '$', '#', '-', '~',
+	const char	str[] = {' ', '\'', '"', '$', '#', '-', '~',
 		'(', ')', '&', '|', '<', '>'};
 
-	if ('\0' == *s)
-		return (S_P_FINISH);
-	else if (S_P_AND == state && '&' == *s) // 이전 상태가 &인데 &가 하나 더 나오면 && state 이다.
-		return (S_P_BOOL_AND);
-	else if (S_P_PIPE == state && '|' == *s)
-		return (S_P_BOOL_OR);
-	else if (S_P_REDIRECT_IN == state && '<' == *s)
-		return (S_P_REDIRECT_HEREDOC);
-	else if (S_P_REDIRECT_OUT == state && '>' == *s)
-		return (S_P_REDIRECT_APPEND);
-	else if (S_P_DQUOTE == state && '$' == *s)
-		return (S_P_DQUOTE_ENV);
 	cnt = -1;
-	while (++cnt < 13) // 위 처럼 이전 상태의 의존 안 하는 경우, 13개 중에 매칭되는 상태 리턴
-		if (c[cnt] == *s)
+	while (++cnt < 13) // 13개 중에 매칭되는 상태 리턴
+		if (str[cnt] == c)
 			return (cnt);
-	return (S_P_STRING);
+	return (S_P_FINISH); // char c 만 제대로 넣으면 이거 리턴될 일 없음
 }
 
 void	shell_prase_util_init(t_parse_list *list)

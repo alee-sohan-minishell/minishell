@@ -46,48 +46,48 @@ typedef enum e_state_shell_parse
 * shell_parse_state.c
 */
 t_state_shell_parse	shell_parse_state1(t_state_shell_parse state,
-			t_shell_data *p_data, char *str);
+			t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_state2(t_state_shell_parse state,
-			t_shell_data *p_data, char *str);
+			t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
-			t_shell_data *p_data, char *str);
+			t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_state4(t_state_shell_parse state,
-			t_shell_data *p_data, char *str);
+			t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state1.c
 */
-t_state_shell_parse	shell_parse_space(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_quote(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_dquote(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char *s);
+t_state_shell_parse	shell_parse_space(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_quote(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_dquote(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state2.c
 */
-t_state_shell_parse	shell_parse_sharp(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_dash(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_tilda(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char *s);
+t_state_shell_parse	shell_parse_sharp(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_dash(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_tilda(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state3.c
 */
-t_state_shell_parse	shell_parse_and(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_finsih(t_shell_data *p_data, char *s);
+t_state_shell_parse	shell_parse_and(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_finsih(t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state4.c
 */
-t_state_shell_parse	shell_parse_bool_and(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_bool_or(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_redirect_heredoc(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char *s);
-t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char *s);
+t_state_shell_parse	shell_parse_bool_and(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_bool_or(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_heredoc(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char c);
 
 #endif

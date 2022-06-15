@@ -15,6 +15,6 @@
 
 # include "../shell/shell.h"
 
-int	shell_parse_util_insert_cmd(t_shell_data *p_data);
+int	shell_parse_util_env_convert(t_shell_data *p_data);
 
 #endif

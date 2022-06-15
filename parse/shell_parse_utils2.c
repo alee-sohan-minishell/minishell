@@ -11,9 +11,13 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "../shell/shell.h"
 #include "../parse/shell_parse_utils1.h"
+#include "../parse/shell_parse_utils2.h"
 #include "../libft/libft.h"
 #include "../parse/shell_parse_state.h"
+#include "../tree/shell_tree.h"
+#include "../tree/shell_tree_utils.h"
 
 void	shell_parse_util_env_init(t_parse_node *node)
 {
@@ -65,18 +69,6 @@ char	*shell_parse_util_env_to_str(t_parse_node *node)
 	return (ret);
 }
 
-int	shell_parse_util_is_cmd_end(t_state_shell_parse state)
-{
-	// string 다음에 tilda, dash, env, sharp 나오면 string 취급됨, 다음 2개 돌려보셈
-	// echo test~
-	// ehoc test ~
-	if (S_P_ENV == state || S_P_SHARP == state || S_P_TILDA == state
-		|| S_P_DASH == state || S_P_DQUOTE == state || S_P_DQUOTE_ENV == state
-		|| S_P_ENV == state || S_P_QUOTE == state || S_P_STRING == state)
-		return (0);
-	return (1);
-}
-
 // 에러나는 상황에서만 이전 것 free하는 용도로 쓰이기 때문에
 // 항상 -1인 S_P_ERROR를 리턴
 int	shell_parse_util_free_argv(char **argv)
@@ -88,4 +80,20 @@ int	shell_parse_util_free_argv(char **argv)
 		free(argv[cnt]);
 	free(argv);
 	return (-1);
+}
+
+int	shell_parse_util_insert_cmd(t_shell_data *p_data)
+{
+	char				**argv;
+	t_shell_tree_node	*tree_node;
+
+	argv = shell_parse_util_list_to_argv(&p_data->parse_list);
+	if (NULL == argv)
+		return (-1);
+	tree_node = tree_new_node(T_COMMAND, argv, 0, NULL);
+	if (NULL == tree_node)
+		return (shell_parse_util_free_argv(argv)); // 무조건 -1 리턴
+	tree_insert(&p_data->focus, tree_node);
+	if (tree_make_cmd_child(tree_node)) // 실패해도 tree는 parse_state_error에서 재귀적으로 지움
+		return (shell_parse_util_free_argv(argv)); // 무조건 -1 리턴
 }

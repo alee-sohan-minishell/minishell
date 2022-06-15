@@ -22,11 +22,12 @@ void	shell_parse_error()
 void	shell_parse_check()
 {
 	// TODO: str이 \0여서 while문 안 돌아서 if else에서 처리 안되는 경우 체크해야 함
+	// string으로 끝난 경우 append_new_node, inset_cmd
 }
 
-void	loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char **str)
+void	loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 {
-	while (**str)
+	while (*str)
 	{
 		if (S_P_ERROR == *state)
 		{
@@ -47,7 +48,7 @@ void	loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char **str)
 			|| S_P_REDIRECT_HEREDOC == *state || S_P_REDIRECT_APPEND == *state
 			|| S_P_STRING == *state)
 			*state = shell_parse_state4(state, p_data, *str);
-		++(*str);
+		++str;
 	}
 }
 
@@ -63,7 +64,7 @@ void	shell_parse(t_shell_data *p_data)
 	}
 	str = p_data->line;
 	state = S_P_SPACE;
-	loop_parse(p_data, &state, &str);
+	loop_parse(p_data, &state, str);
 	shell_parse_check(); // TODO
 	// TODO malloc 해준 임시 parse 임시 변수들 free 해줬는지 체크하기
 	ft_set_status(p_data, S_CMD);

@@ -16,8 +16,7 @@
 
 void	shell_parse_error(); // TODO
 void	shell_parse_check(); // TODO
-void	loop_parse(t_shell_data *p_data, t_state_shell_parse *state,
-				char **str);
+void	loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str);
 void	shell_parse(t_shell_data *p_data);
 
 #endif

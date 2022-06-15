@@ -10,122 +10,93 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "../shell/shell.h"
 #include "shell_parse_state.h"
 #include "shell_parse_utils1.h"
 #include "shell_parse_utils2.h"
-#include "../env/env_list.h"
-#include "../env/env_list_interface_01.h"
-#include "../utils/error_msg_utils_01.h"
+#include "shell_parse_utils3.h"
 
-t_state_shell_parse	shell_parse_space(t_shell_data *p_data, char *s)
+t_state_shell_parse	shell_parse_space(t_shell_data *p_data, char c)
 {
-	t_state_shell_parse	next_state;
-
-	next_state = shell_parse_util_strcmp(S_P_SPACE, s);
-	if (S_P_STRING == next_state)
+	if (' ' == c)
+		return (S_P_SPACE);
+	else if ('\'' == c || '"' == c || '$' == c || '#' == c || '-' == c
+		|| '~' == c || '(' == c || ')' == c || '&' == c || '|' == c
+		|| '<' == c || '>' == c)
 	{
-		if (shell_parse_util_add_char(&p_data->parse_list, *s))
-			return (S_P_ERROR);
+		if (NULL != p_data->parse_list.tail)
+			if (shell_parse_util_insert_cmd(p_data))
+				return (S_P_ERROR);
+		return (shell_parse_util_get_state(c));
 	}
-	else if (NULL != p_data->parse_list.tail
-		&& shell_parse_util_is_cmd_end(next_state))
-		//# 1. utils2에 있는 is end 함수는 지워야 할듯
-		// 쓸 줄 알고 만들었는데 사이에 스페이스 없으면 문자취급이고
-		// 스페이스 있으면 그 상태로 넘어가야 함, 조건이 조금 다름
-		// echo~랑 echo ~랑 돌려보셈
-	else if (!(S_P_ENV == next || S_P_SHARP == next || S_P_TILDA == next
-		|| S_P_DASH == next || S_P_DQUOTE == next || S_P_DQUOTE_ENV == next
-		|| S_P_ENV == next || S_P_QUOTE == next || S_P_STRING == next))
-
-		if (shell_parse_util_insert_cmd(p_data))
-			return (S_P_ERROR);
-	return (next_state);
+	if (shell_parse_util_add_char(&p_data->parse_list, c))
+		return (S_P_ERROR);
+	return (S_P_STRING);
 }
 
-t_state_shell_parse	shell_parse_quote(t_shell_data *p_data, char *s)
+t_state_shell_parse	shell_parse_quote(t_shell_data *p_data, char c)
 {
-	t_state_shell_parse	next_state;
-	t_parse_node		*node;
-
-	next_state = shell_parse_util_strcmp(S_P_QUOTE, s);
-	if (S_P_QUOTE == next_state)
-	{
-		node = shell_parse_util_append_new_node(&p_data->parse_list);
-		if (NULL == node)
-			return (S_P_ERROR);
-		return (S_P_SPACE);
-	}
-	if (shell_parse_util_add_char(&p_data->parse_list, *s))
+	if ('\'' == c)
+		return (S_P_STRING);
+	if (shell_parse_util_add_char(&p_data->parse_list, c))
 		return (S_P_ERROR);
 	return (S_P_QUOTE);
 }
 
-t_state_shell_parse	shell_parse_dquote(t_shell_data *p_data, char *s)
+t_state_shell_parse	shell_parse_dquote(t_shell_data *p_data, char c)
 {
-	if (S_P_DQUOTE_ENV == shell_parse_util_strcmp(S_P_DQUOTE, s))
+	if ('"' == c)
+		return (S_P_STRING);
+	else if ('$' == c)
 		return (S_P_DQUOTE_ENV);
-	if (shell_parse_util_add_char(&p_data->parse_list, *s))
+	if (shell_parse_util_add_char(&p_data->parse_list, c))
 		return (S_P_ERROR);
 	return (S_P_DQUOTE);
 }
 
-t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char *s)
+t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c)
 {
-	t_state_shell_parse	next_state;
-	t_env_node			*env_node;
-	char				*key;
-	int					cnt;
-
-	next_state = shell_parse_util_strcmp(S_P_ENV, s);
-	if (S_P_STRING != next_state)
+	if (' ' == c || '\'' == c || '"' == c || '$' == c || '#' == c || '-' == c
+		|| '~' == c || '(' == c || ')' == c || '&' == c || '|' == c
+		|| '<' == c || '>' == c)
 	{
-		key = shell_parse_util_env_to_str(&p_data->parse_env);
-		if (NULL == key)
+		if (shell_parse_util_env_convert(p_data))
 			return (S_P_ERROR);
-		if (env_node_search(&p_data->env_list, key, &env_node) == 0)
+		if ('$' == c || '#' == c || '-' == c || '~' == c)
 		{
-			ft_perror_param("env", key, 0);
-			free(key);
-			return (S_P_ERROR);
+			if (shell_parse_util_env_add_char(&p_data->parse_env, c))
+				return (S_P_ERROR);
+			return (S_P_STRING);
 		}
-		cnt = -1;
-		while (env_node->value[++cnt])
-			shell_parse_util_add_char(&p_data->parse_list, env_node->value[cnt]);
-		return (next_state);
+		else if (' ' == c || '\'' == c || '"' == c || '(' == c || ')' == c
+			|| '&' == c || '|' == c || '<' == c || '>' == c)
+			return (shell_parse_util_get_state(c));
 	}
-	// TODO env 다음 state로 오면 안되는 경우가 있는지 생각해봐야 함
-	if (shell_parse_util_env_add_char(&p_data->parse_env, *s))
+	if (shell_parse_util_env_add_char(&p_data->parse_env, c))
 		return (S_P_ERROR);
 	return (S_P_ENV);
 }
 
-// 위에꺼는 next_state로 넘어가는데 이거는 dquote로 넘어가야 함
-t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char *s)
+t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c)
 {
-	// TODO
-	t_env_node			*env_node;
-	char				*key;
-	int					cnt;
-
-	if (S_P_STRING != shell_parse_util_strcmp(S_P_DQUOTE_ENV, s))
+	if (' ' == c || '\'' == c || '"' == c || '$' == c || '#' == c || '-' == c
+		|| '~' == c || '(' == c || ')' == c || '&' == c || '|' == c
+		|| '<' == c || '>' == c)
 	{
-		key = shell_parse_util_env_to_str(&p_data->parse_env);
-		if (NULL == key)
+		if (shell_parse_util_env_convert(p_data))
 			return (S_P_ERROR);
-		if (env_node_search(&p_data->env_list, key, &env_node) == 0)
+		if (' ' == c || '\'' == c || '$' == c || '#' == c || '-' == c
+			|| '~' == c || '(' == c || ')' == c || '&' == c || '|' == c
+			|| '<' == c || '>' == c)
 		{
-			ft_perror_param("env", key, 0);
-			free(key);
-			return (S_P_ERROR);
+			if (shell_parse_util_env_add_char(&p_data->parse_env, c))
+				return (S_P_ERROR);
+			return (S_P_DQUOTE);
 		}
-		cnt = -1;
-		while (env_node->value[++cnt])
-			shell_parse_util_add_char(&p_data->parse_list, env_node->value[cnt]);
-		return (S_P_DQUOTE);
+		else if ('"' == c)
+			return (S_P_STRING);
 	}
-	if (shell_parse_util_env_add_char(&p_data->parse_env, *s))
+	if (shell_parse_util_env_add_char(&p_data->parse_env, c))
 		return (S_P_ERROR);
 	return (S_P_ENV);
 }
