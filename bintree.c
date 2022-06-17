@@ -203,6 +203,58 @@ int main(int argc, char **argv, char **env)
 	printf("\n+++++ Delete Tree +++++\n");
 	delete_tree(p_tree);
 
+	// env > test1.txt < test3.txt
+	newNode[0].kind = T_REDIRECT_OUT;
+	newNode[0].filepath = "test1.txt";
+	newNode[1].kind = T_REDIRECT_IN;
+	newNode[1].filepath = "test3.txt";
+	newNode[2].kind = T_COMMAND;
+	tmp_argv3[0] = "env";
+	tmp_argv3[1] = NULL;
+	newNode[2].argv = tmp_argv3;
+	temp = insert_rightchild_node_BT(temp, newNode[0]);
+	temp = get_rightchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[1]);
+	temp = get_leftchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[2]);
+	
+	//temp = get_root_node_BT(p_tree);
+	printf("\n+++++ Tree Traversal +++++\n");
+	shell.cmd_tree = p_tree->p_root_node;
+	shell.is_piped = 0;
+	shell_execute_tree(&shell);
+	//printf("exit: %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1]);
+	printf("\n+++++ Delete Tree +++++\n");
+	//delete_tree(p_tree);
+
+	// env > test1.txt < test3.txt > test2.txt
+	newNode[0].kind = T_REDIRECT_OUT;
+	newNode[0].filepath = "test1.txt";
+	newNode[1].kind = T_REDIRECT_IN;
+	newNode[1].filepath = "test3.txt";
+	newNode[2].kind = T_REDIRECT_OUT;
+	newNode[2].filepath = "test2.txt";
+	newNode[3].kind = T_COMMAND;
+	tmp_argv3[0] = "env";
+	tmp_argv3[1] = NULL;
+	newNode[3].argv = tmp_argv3;
+	temp = insert_rightchild_node_BT(temp, newNode[0]);
+	temp = get_rightchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[1]);
+	temp = get_leftchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[2]);
+	temp = get_leftchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[3]);
+	
+	//temp = get_root_node_BT(p_tree);
+	printf("\n+++++ Tree Traversal +++++\n");
+	shell.cmd_tree = p_tree->p_root_node;
+	shell.is_piped = 0;
+	shell_execute_tree(&shell);
+	//printf("exit: %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1]);
+	printf("\n+++++ Delete Tree +++++\n");
+	//delete_tree(p_tree);
+
 	/*//cat | cat
 	newNode[0].kind = T_PIPE;
 	newNode[1].kind = T_COMMAND;
