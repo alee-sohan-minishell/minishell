@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/05 16:46:21 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/17 23:50:20 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,23 @@ t_state_shell_parse	shell_parse_sharp(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_dash(t_shell_data *p_data, char c)
 {
 	// TODO //# 1.
+	if (' ' == c)
+	{
+		// 치환
+		return (S_P_SPACE);
+	}
+	else if ('\'' == c || '"' == c || '$' == c || '#' == c || '-' == c
+		|| '~' == c || '(' == c || ')' == c || '&' == c || '|' == c
+		|| '<' == c || '>' == c)
+	{
+		if (NULL != p_data->parse_list.tail)
+			if (shell_parse_util_insert_cmd(p_data))
+				return (S_P_ERROR);
+		return (shell_parse_util_get_state(c));
+	}
+	if (shell_parse_util_add_char(&p_data->parse_list, c))
+		return (S_P_ERROR);
+	return (S_P_STRING);
 }
 
 // string state에서 이쪽으로 넘어오진 않음 공백 없고 바로 다른 문자랑 붙은 경우 string 취급됨

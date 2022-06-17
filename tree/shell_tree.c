@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:56:31 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/11 22:45:37 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/17 23:49:35 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	tree_insert(t_shell_tree_node **p_focus, t_shell_tree_node *item)
 		focus->filepath = item->filepath;
 		tree_delete(item);
 	}
-	else if (NULL == focus->left || NULL == focus->right)
+	else if (NULL == focus->left || NULL == focus->right) //# TODO 자식 밑에 아무것도 없고, NULL
 		tree_append(focus, item);
 	else // 끼워 넣기
 	{

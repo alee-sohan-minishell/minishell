@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/05 17:00:21 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/17 22:31:56 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,38 @@ void	loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 	}
 }
 
+// \ 이 중간에 포함 되거나, ' " 개수가 홀 수 일 때 parse 안 함
+int	shell_parse_check_not_interpret(char *str)
+{
+	int	cnt_q;
+	int	cnt_dq;
+
+	cnt_q = 0;
+	cnt_dq = 0;
+	while (*str)
+	{
+		if ('\\' == *str)
+			return (-1);
+		else if ('\'' == *str)
+			++cnt_q;
+		else if ('"' == *str)
+			++cnt_dq;
+		++str;
+	}
+	return (cnt_q || cnt_dq);
+}
+
 void	shell_parse(t_shell_data *p_data)
 {
 	t_state_shell_parse	state;
-	char				*str;
 
-	if (!p_data->line)
+	if (!p_data->line || shell_parse_check_not_interpret(p_data->line))
 	{
 		ft_set_status(p_data, S_ERROR);
 		return ;
 	}
-	str = p_data->line;
 	state = S_P_SPACE;
-	loop_parse(p_data, &state, str);
+	loop_parse(p_data, &state, p_data->line);
 	shell_parse_check(); // TODO
 	// TODO malloc 해준 임시 parse 임시 변수들 free 해줬는지 체크하기
 	ft_set_status(p_data, S_CMD);

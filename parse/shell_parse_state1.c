@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_parse_state1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/11 22:46:03 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/18 00:01:12 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c)
 	{
 		if (shell_parse_util_env_convert(p_data))
 			return (S_P_ERROR);
-		if ('$' == c || '#' == c || '-' == c || '~' == c)
+		if ('$' == c || '#' == c || '-' == c || '~' == c) //# // TODO $test$test
 		{
 			if (shell_parse_util_env_add_char(&p_data->parse_env, c))
 				return (S_P_ERROR);

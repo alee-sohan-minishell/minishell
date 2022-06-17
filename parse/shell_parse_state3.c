@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/05 16:46:39 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/17 23:57:31 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c)
 {
 	// TODO
+	//# TODO 리다이렉트인 경우 포커스가 밀려나는게 아니라 자식을 밀어냄
+	//# TODO 커맨드가 아니면 포커스는 넣은 것
 }
 
 t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c)
