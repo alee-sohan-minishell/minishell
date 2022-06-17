@@ -16,16 +16,18 @@
 void	set_pipe(t_shell_data *p_data)
 {
 
-	if (pipe(p_data->pipe_fd) == -1)
+	if (pipe(p_data->pipe_fd[p_data->pipe_index]) == -1)
 		printf("pipe error\n");
 	//p_data->pipe_pid[0] = fork();
 	//p_data->pipe_pid[1] = fork();
 	//if (p_data->pipe_pid[0] == 0)
-	p_data->fd_in_new = p_data->pipe_fd[0];
+	/*p_data->fd_out_new = p_data->pipe_fd[1];
 	{
-		dup2(p_data->pipe_fd[0], p_data->fd_in_new);
-		close(p_data->pipe_fd[1]);
-	}
+		dup2(p_data->pipe_fd[1], p_data->fd_out_new);
+		close(p_data->pipe_fd[0]);
+	}*/
+	printf("fd[0]:%d fd[1]:%d\n", p_data->pipe_fd[p_data->pipe_index][0], p_data->pipe_fd[p_data->pipe_index][1]);
+	//++p_data->pipe_index;
 	p_data->is_piped = 1;
 	//if (p_data->pipe_pid[1] == 0)
 	//{
@@ -94,28 +96,40 @@ void	shell_execute_tree(t_shell_data *p_data)
 	p_data->fd_in_old = dup(STDIN_FILENO);
 	p_data->fd_out_new = dup(STDOUT_FILENO);
 	p_data->fd_in_new = dup(STDIN_FILENO);
-	tree_traverse(p_data, p_data->cmd_tree);
-	//printf("i'm waiting for process id %d and %d\n", p_data->global_data.pipe_pid[0], p_data->global_data.pipe_pid[1]);
+	p_data->pipe_index = 0;
+	p_data->pipe_fd = malloc(p_data->pipe_count * sizeof(int[2]));
+	p_data->global_data.pipe_status = malloc(p_data->pipe_count * sizeof(int));
+	p_data->global_data.pipe_pid = malloc(p_data->pipe_count * sizeof(pid_t));
 	all_done = 0;
 	p_data->global_data.index = 0;
-	if (!p_data->is_piped)
+
+	tree_traverse(p_data, p_data->cmd_tree);
+	//printf("i'm waiting for process id %d and %d\n", p_data->global_data.pipe_pid[0], p_data->global_data.pipe_pid[1]);
+	/*if (!p_data->is_piped)
 	{
 		wait(&p_data->process_exit_status);
 		p_data->global_data.pipe_status[1] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
 	}
-	else
-		while (all_done < 2)
+	else*/
+		for (int i = 0; i < p_data->pipe_count; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				close(p_data->pipe_fd[i][j]);
+			}
+		}
+		//close(p_data->pipe_fd[1]);
+		//close(p_data->pipe_fd[0]);
+		while (all_done < p_data->pipe_count)
 		{
 		pid = wait(&p_data->process_exit_status);
 		//printf("i'm process %d\n", pid);
-		if (pid == p_data->global_data.pipe_pid[0])
-		{	p_data->global_data.pipe_status[0] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
-		++all_done;}
-		if (pid == p_data->global_data.pipe_pid[1])
-		{p_data->global_data.pipe_status[1] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
-		++all_done;}
+		if (pid == p_data->global_data.pipe_pid[all_done])
+		{	p_data->global_data.pipe_status[p_data->pipe_count - all_done - 1] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
+		++all_done;
 		}
-
+		}
+		//while ((pid = wait(NULL)) != -1);
 	if (p_data->line)
 		free(p_data->line);
 	ft_set_status(p_data, S_LINE_READ);

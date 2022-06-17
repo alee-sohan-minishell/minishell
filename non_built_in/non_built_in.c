@@ -102,9 +102,9 @@ int	ft_exec_command(t_shell_data *p_data)
 			set_tc_attr_to_default(p_data);
 			if (p_data->is_piped)
 			{
-				p_data->fd_out_new = p_data->pipe_fd[1];
-				dup2(p_data->pipe_fd[1], p_data->fd_out_new);
-				close(p_data->pipe_fd[0]);
+				//p_data->fd_out_new = p_data->pipe_fd[1];
+				//dup2(p_data->pipe_fd[1], p_data->fd_out_new);
+				//close(p_data->pipe_fd[0]);
 			}
 			if (execve(p_data->cmd[0], p_data->cmd, *p_data->p_env) == -1)
 			{
@@ -152,18 +152,35 @@ int	ft_exec_command(t_shell_data *p_data)
 			pid = fork();
 			if (pid > 0)
 			{
-				if (p_data->is_piped)
+				/*if (p_data->is_piped)
 				{
-					p_data->fd_out_new = p_data->pipe_fd[1];
-					dup2(p_data->pipe_fd[1], p_data->fd_out_new);
-					close(p_data->pipe_fd[0]);
-				}
+					p_data->fd_in_new = p_data->pipe_fd[0];
+					dup2(p_data->pipe_fd[0], p_data->fd_in_new);
+					close(p_data->pipe_fd[1]);
+				}*/
 				p_data->global_data.pipe_pid[p_data->global_data.index] = pid;
 				++p_data->global_data.index;
+				++p_data->is_piped;
+				++p_data->pipe_index;
 			}
 			else if (pid == 0)
 			{
 				set_tc_attr_to_default(p_data);
+				printf("%d th %s\n", p_data->is_piped, p_data->cmd[0]);
+				if (p_data->is_piped == 2)
+				{
+					close(p_data->pipe_fd[p_data->pipe_index][0]);
+					p_data->fd_out_new = p_data->pipe_fd[p_data->pipe_index][1];
+					dup2(p_data->pipe_fd[p_data->pipe_index][1], STDOUT_FILENO);
+					close(p_data->pipe_fd[p_data->pipe_index][1]);
+				}
+				else if (p_data->is_piped == 1)
+				{
+					close(p_data->pipe_fd[p_data->pipe_index][1]);
+					p_data->fd_in_new = p_data->pipe_fd[p_data->pipe_index][0];
+					dup2(p_data->pipe_fd[p_data->pipe_index][0], STDIN_FILENO);
+					close(p_data->pipe_fd[p_data->pipe_index][0]);
+				}
 				execve(path_list[index], p_data->cmd, *p_data->p_env);
 			}
 			//wait(&status);

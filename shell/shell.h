@@ -25,9 +25,9 @@
 
 typedef struct s_pipe_data
 {
-	int		pipe_status[2];
+	int		*pipe_status;
 	int		signal_status;
-	pid_t	pipe_pid[2];
+	pid_t	*pipe_pid;
 	int		index;
 }	t_data;
 
@@ -72,7 +72,9 @@ typedef struct s_shell_data
 	int				fd_out_old;
 	int				fd_in_new;
 	int				fd_out_new;
-	int				pipe_fd[2];
+	int				(*pipe_fd)[2];
+	int				pipe_count;
+	int				pipe_index;
 	int				is_piped;
 	t_data			global_data;
 	int				process_exit_status;
