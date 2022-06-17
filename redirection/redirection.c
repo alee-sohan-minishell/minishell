@@ -30,7 +30,7 @@ int	redirection_in(t_shell_data *p_data, const char *file)
 	p_data->fd_in_new = file_fd;
 	ft_dup2(file_fd, STDIN_FILENO);
 	ft_close(file_fd);
-	return (1);
+	return (0);
 }
 
 int	redirection_out(t_shell_data *p_data, const char *file)
@@ -46,7 +46,7 @@ int	redirection_out(t_shell_data *p_data, const char *file)
 	p_data->fd_out_new = file_fd;
 	ft_dup2(file_fd, STDOUT_FILENO);
 	ft_close(file_fd);
-	return (1);
+	return (0);
 }
 
 int	redirection_append(t_shell_data *p_data, const char *file)
@@ -62,5 +62,5 @@ int	redirection_append(t_shell_data *p_data, const char *file)
 	p_data->fd_out_new = file_fd;
 	ft_dup2(file_fd, STDOUT_FILENO);
 	ft_close(file_fd);
-	return (1);
+	return (0);
 }
