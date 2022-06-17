@@ -35,16 +35,26 @@ void	set_pipe(t_shell_data *p_data)
 }
 
 //void	set_fd(t_shell_data *p_data, const char *filename, int type)
-void	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
+int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 {
 	if (cmd_tree->kind == T_REDIRECT_IN)
-		redirection_in(p_data, cmd_tree->filepath);
+	{
+		if (redirection_in(p_data, cmd_tree->filepath) == -1)
+			return (-1);
+	}
 	else if (cmd_tree->kind == T_REDIRECT_OUT)
-		redirection_out(p_data, cmd_tree->filepath);
+	{
+		if (redirection_out(p_data, cmd_tree->filepath) == -1)
+			return (-1);
+	}
 	else if (cmd_tree->kind == T_REDIRECT_APPEND)
-		redirection_append(p_data, cmd_tree->filepath);
+	{
+		if (redirection_append(p_data, cmd_tree->filepath) == -1)
+			return (-1);
+	}
 	else if (cmd_tree->kind == T_PIPE)
 		set_pipe(p_data);
+	return (0);
 }
 
 /*void	make_command_array(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
@@ -60,7 +70,8 @@ void	tree_traverse(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 	if (cmd_tree)
 	{
 		//do something here
-		set_fd(p_data, cmd_tree);
+		if (set_fd(p_data, cmd_tree) == -1)
+			return ;
 		if (cmd_tree->kind == T_COMMAND)
 		{
 			p_data->cmd = cmd_tree->argv;
