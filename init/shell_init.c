@@ -22,7 +22,6 @@
 #include "shell_utils_01.h"
 #include "../tree/shell_tree_utils.h"
 #include "../parse/shell_parse_utils1.h"
-#include "../parse/shell_parse_utils2.h"
 
 void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 {
@@ -43,8 +42,13 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 	shell_tree_init(&p_data->tree);
 	p_data->focus = &p_data->tree;
 	shell_heredoc_init(&p_data->heredoc);
-	shell_prase_util_init(&p_data->parse_list);
-	shell_parse_util_env_init(&p_data->parse_env);
+	shell_prase_util_init_lsit(&p_data->parse_list);
+	p_data->parse_tmp = shell_parse_util_new_node();
+	if (NULL == p_data->parse_tmp)
+		return ;
+	p_data->parse_env = shell_parse_util_new_node();
+	if (NULL == p_data->parse_env)
+		return ;
 	return ;
 }
 

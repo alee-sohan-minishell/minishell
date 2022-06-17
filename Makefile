@@ -42,7 +42,7 @@ SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in
 EXCUTE_FILE = shell_excute
 REDIRECTION_FILE = redirection
-SHELL_PARSE_FILE = shell_parse shell_parse_state shell_parse_state1 shell_parse_state2 shell_parse_state3 shell_parse_state4 shell_parse_utils1 shell_parse_utils2 shell_parse_utils3
+SHELL_PARSE_FILE = shell_parse shell_parse_state shell_parse_state1 shell_parse_state2 shell_parse_state3 shell_parse_state4 shell_parse_utils1 shell_parse_utils2 shell_parse_utils3 shell_parse_check_tree
 TREE_FILE = shell_tree shell_heredoc shell_tree_init shell_tree_utils
 
 READLINE_ROOT = $(shell brew --prefix readline)

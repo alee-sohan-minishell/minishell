@@ -37,9 +37,15 @@ void	heredoc_insert(t_shell_heredoc_node **focus, t_shell_heredoc_node *item)
 
 void	heredoc_delete(t_shell_heredoc_node *heredoc)
 {
-	while (heredoc)
+	t_shell_heredoc_node	*node;
+
+	node = heredoc->next;
+	while (node)
 	{
-		free(heredoc->delimiter);
-		heredoc = heredoc->next;
+		heredoc->next = node->next;
+		free(node->delimiter);
+		free(node);
+		node = heredoc->next;
 	}
+	heredoc->next = NULL;
 }

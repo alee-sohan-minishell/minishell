@@ -3,97 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   shell_parse_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 20:34:06 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/12 11:09:20 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/18 06:41:06 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "../shell/shell.h"
 #include "../parse/shell_parse_utils1.h"
-#include "../parse/shell_parse_utils2.h"
 #include "../libft/libft.h"
-#include "../parse/shell_parse_state.h"
-#include "../tree/shell_tree.h"
-#include "../tree/shell_tree_utils.h"
 
-void	shell_parse_util_env_init(t_parse_node *node)
+// parse_node에 담아둔 것은 정확한 크기를 모르고 malloc 한 거라
+// list에 넣은 때는 정확한 크기 만큼 다시 malloc 함
+// list의 tail이 NULL인 경우도 고려해서 이어 붙임
+t_parse_node	*shell_parse_util_append_node_list(t_parse_node **node,
+						t_parse_list *list)
 {
-	node->cnt = 0;
-	node->size = 0;
-	node->str = NULL;
-	node->next = NULL; // env는 node 하나만 써서 사실이건 사용 안 한다고 보면 됨
-}
+	t_parse_node	*tmp;
+	char			*ret;
 
-int	shell_parse_util_env_add_char(t_parse_node *node, char c)
-{
-	char	*ret;
-
-	// t_shell 구조체에서 지역 변수로 node 선언하고, 그 주소 받아오기 때문에
-	// node 가 NULL인 경우는 없음
-	if (NULL == node->str)
-	{
-		node->str = malloc(sizeof(char) * SHELL_PARSE_NODE_SIZE);
-		if (NULL == node->str)
-			return (-1);
-		node->size = SHELL_PARSE_NODE_SIZE;
-	}
-	if (node->cnt == node->size)
-	{
-		ret = malloc(sizeof(char) * node->size * 2);
-		if (NULL == ret)
-			return (-1);
-		ft_memcopy(ret, node->str, node->size);
-		free(node->str);
-		node->str = ret;
-		node->size *= 2;
-	}
-	node->str[node->cnt++] = c;
-}
-
-
-// env_node에 담아둔 것은 정확한 크기를 모르고 malloc 한 거라
-// parsing 다 돼서 정확한 크기를 알 수 있어, str으로 다시 깔끔하게 만듬
-char	*shell_parse_util_env_to_str(t_parse_node *node)
-{
-	char	*ret;
-
-	ret = malloc(sizeof(char) * node->cnt + 1);
-	if (NULL == ret)
+	tmp = malloc(sizeof(t_parse_node));
+	if (NULL == tmp)
 		return (NULL);
-	ret[node->cnt] = '\0';
-	ft_memcopy(ret, node->str, node->cnt);
-	free(node->str);
-	return (ret);
+	tmp->size = (*node)->cnt;
+	tmp->cnt = (*node)->cnt;
+	ret = shell_parse_util_node_to_str(node);
+	if (NULL == ret)
+	{
+		free(tmp);
+		return (NULL);
+	}
+	tmp->str = ret;
+	if (list->tail)
+		list->tail->next = tmp;
+	list->tail = tmp;
+	*node = shell_parse_util_new_node();
+	if (NULL == *node)
+		return (NULL);
+	return (*node);
 }
 
-// 에러나는 상황에서만 이전 것 free하는 용도로 쓰이기 때문에
-// 항상 -1인 S_P_ERROR를 리턴
-int	shell_parse_util_free_argv(char **argv)
+void	shell_parse_util_free_node(t_parse_node **node)
 {
-	int	cnt;
-
-	cnt = -1;
-	while (argv[++cnt])
-		free(argv[cnt]);
-	free(argv);
-	return (-1);
+	if ((*node)->str)
+		free((*node)->str);
+	free((*node));
+	*node = NULL;
 }
 
-int	shell_parse_util_insert_cmd(t_shell_data *p_data)
+void	shell_parse_util_free_list(t_parse_list *list)
 {
-	char				**argv;
-	t_shell_tree_node	*tree_node;
+	t_parse_node	*tmp;
 
-	argv = shell_parse_util_list_to_argv(&p_data->parse_list);
-	if (NULL == argv)
-		return (-1);
-	tree_node = tree_new_node(T_COMMAND, argv, 0, NULL);
-	if (NULL == tree_node)
-		return (shell_parse_util_free_argv(argv)); // 무조건 -1 리턴
-	tree_insert(&p_data->focus, tree_node);
-	if (tree_make_cmd_child(tree_node)) // 실패해도 tree는 parse_state_error에서 재귀적으로 지움
-		return (shell_parse_util_free_argv(argv)); // 무조건 -1 리턴
+	tmp = list->head.next;
+	while (tmp)
+	{
+		list->head.next = tmp->next;
+		shell_parse_util_free_node(&tmp);
+		tmp = list->head.next;
+	}
+	return (0);
+}
+
+int	shell_parse_util_free_argv(char **argv, int cnt)
+{
+	int	i;
+
+	if (-1 == cnt)
+	{
+		i = -1;
+		while (argv[++i])
+			free(argv[i]);
+		free(argv);
+	}
+	else
+	{
+		i = -1;
+		while (++i < cnt && argv[i])
+			free(argv[i]);
+		free(argv);
+	}
+	return (-1); // 에러나는 상황에서만 이전 것 free하기 때문에 항상 -1인 S_P_ERROR를 리턴
 }

@@ -22,6 +22,7 @@
 #include "../parse/shell_parse_utils1.h"
 #include "../tree/shell_tree.h"
 #include "../tree/shell_heredoc.h"
+#include "../parse/shell_parse_state.h"
 
 #define STR_SHELL "shell"
 
@@ -75,8 +76,9 @@ typedef struct s_shell_data
 	struct s_shell_tree_node	tree; // root 더미노드
 	struct s_shell_heredoc_node	heredoc;
 	struct s_shell_tree_node	*focus; // 처음에 root 더미노드를 가리킴
-	struct s_parse_list			parse_list; // 임시 저장용, 실제 파싱된 argv는 tree_node에 저장됨
-	struct s_parse_node			parse_env; // $env parsing 하기 위한 임시저장 dummy node
+	struct s_parse_list			parse_list; // argv임시 저장, 실제 파싱된 argv는 tree_node에 저장됨
+	struct s_parse_node			*parse_tmp; // parsing하기 위한 임시저장 node, 일반 문자와 redirect가 여기 임시로 저장됨
+	struct s_parse_node			*parse_env; // env를 parsing하기 위한 임시저장 node
 }	t_shell_data;
 
 #endif

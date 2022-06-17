@@ -30,16 +30,12 @@ t_state_shell_parse	shell_parse_state1(t_state_shell_parse state,
 t_state_shell_parse	shell_parse_state2(t_state_shell_parse state,
 			t_shell_data *p_data, char c)
 {
-	if (S_P_SHARP == state)
-		return (shell_parse_sharp(p_data, c));
-	else if (S_P_DASH == state)
-		return (shell_parse_dash(p_data, c));
-	else if (S_P_TILDA == state)
-		return (shell_parse_tilda(p_data, c));
-	else if (S_P_OPEN == state)
+	if (S_P_OPEN == state)
 		return (shell_parse_open(p_data, c));
 	else if (S_P_CLOSE == state)
 		return (shell_parse_close(p_data, c));
+	else if (S_P_REDIRECT_SPACE == state)
+		return (shell_parse_redirect_space(p_data, c));
 }
 
 t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
@@ -53,8 +49,6 @@ t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
 		return (shell_parse_redirect_in(p_data, c));
 	else if (S_P_REDIRECT_OUT == state)
 		return (shell_parse_redirect_out(p_data, c));
-	else if (S_P_FINISH == state)
-		return (shell_parse_finsih(p_data, c));
 }
 
 t_state_shell_parse	shell_parse_state4(t_state_shell_parse state,

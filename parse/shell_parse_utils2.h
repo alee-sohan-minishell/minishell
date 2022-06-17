@@ -14,12 +14,11 @@
 # define SHELL_PARSE_UTILS2_H
 
 # include "../parse/shell_parse_utils1.h"
-# include "../shell/shell.h"
 
-void	shell_parse_util_env_init(t_parse_node *node);
-int		shell_parse_util_env_add_char(t_parse_node *node, char c);
-char	*shell_parse_util_env_to_str(t_parse_node *node);
-int		shell_parse_util_free_argv(char **argv);
-int		shell_parse_util_insert_cmd(t_shell_data *p_data);
+t_parse_node	*shell_parse_util_append_node_list(t_parse_node **node,
+						t_parse_list *list);
+void			shell_parse_util_free_node(t_parse_node **node);
+void			shell_parse_util_free_list(t_parse_list *list);
+int				shell_parse_util_free_argv(char **argv, int cnt);
 
 #endif

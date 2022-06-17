@@ -21,9 +21,6 @@ typedef enum e_state_shell_parse
 	S_P_QUOTE,
 	S_P_DQUOTE,
 	S_P_ENV,
-	S_P_SHARP,
-	S_P_DASH,
-	S_P_TILDA,
 
 	S_P_OPEN,
 	S_P_CLOSE,
@@ -37,9 +34,9 @@ typedef enum e_state_shell_parse
 	S_P_REDIRECT_HEREDOC,
 	S_P_REDIRECT_APPEND,
 	S_P_DQUOTE_ENV,
+	S_P_REDIRECT_SPACE,
 
 	S_P_STRING,
-	S_P_FINISH,
 }	t_state_shell_parse;
 
 /*
@@ -66,11 +63,9 @@ t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c);
 /*
 * shell_parse_state2.c
 */
-t_state_shell_parse	shell_parse_sharp(t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_dash(t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_tilda(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_space(t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state3.c
@@ -79,7 +74,6 @@ t_state_shell_parse	shell_parse_and(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_finsih(t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state4.c

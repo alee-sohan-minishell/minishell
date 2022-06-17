@@ -14,7 +14,10 @@
 # define SHELL_PARSE_UTILS3_H
 
 # include "../shell/shell.h"
+# include "../parse/shell_parse_state.h"
 
-int	shell_parse_util_env_convert(t_shell_data *p_data);
+t_state_shell_parse	shell_parse_util_get_state(char c);
+int					shell_parse_util_insert_cmd(t_shell_data *p_data);
+int					shell_parse_util_env_convert(t_shell_data *p_data);
 
 #endif

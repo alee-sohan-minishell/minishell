@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:56:31 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/17 23:49:35 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/18 06:22:38 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,51 +34,17 @@ t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,
 }
 
 // focus가 바뀌어야 해서 double pointer
-void	tree_insert(t_shell_tree_node **p_focus, t_shell_tree_node *item)
+// 따로 검사하는 건 없는데 줄 수 줄이기 위해서 int 반환, 무조건 성공해서 0을 return
+int	tree_append(t_shell_tree_node **p_focus, t_shell_tree_node *item)
 {
-	t_shell_tree_node	*focus;
-
-	// shell_tree_init에서 구조체의 지역변수 tree_node의 주소를 p_data->focus로 주기 때문에
-	// p_focus가 NULL인 경우는 없음
-	focus = *p_focus;
-	if (T_COMMAND == item->kind)
-		tree_append(focus, item);
-	else if (T_EMPTY == focus->kind)
-	{
-		focus->kind = item->kind;
-		focus->argv = item->argv;
-		focus->fd = item->fd;
-		focus->filepath = item->filepath;
-		tree_delete(item);
-	}
-	else if (NULL == focus->left || NULL == focus->right) //# TODO 자식 밑에 아무것도 없고, NULL
-		tree_append(focus, item);
-	else // 끼워 넣기
-	{
-		if (T_PIPE == item->kind)
-			item->right = focus;
-		else
-			item->left = focus;
-		item->parent = focus->parent;
-		focus->parent = item;
-		focus = focus->parent;
-	}
-}
-
-// focus가 바뀌어야 해서 double pointer
-// root dummy node 인 경우 오른쪽에 끼워 넣음
-void	tree_append(t_shell_tree_node **p_focus, t_shell_tree_node *item)
-{
-	t_shell_tree_node	*focus;
-
-	focus = *p_focus;
-	if (T_ROOT == focus->kind || NULL == focus->right)
-		focus->right = item;
-	else if (NULL == focus->left)
-		focus->left = item;
-	item->parent = focus;
-	if (T_COMMAND != item->kind)
-		*p_focus = item;
+	if (NULL == (*p_focus)->left)
+		(*p_focus)->left = item;
+	else if (NULL == (*p_focus)->right)
+		(*p_focus)->right = item;
+	item->parent = (*p_focus);
+	if (T_COMMAND != item->kind) // command의 경우는 focus 그대로 (짚어넣고 focus올라감)
+		(*p_focus) = item;
+	return (0);
 }
 
 // ls -l < test.txt -a 같이 redirect 후 argv 나오는 경우
@@ -95,7 +61,8 @@ void	tree_find_append_argv(t_shell_tree_node *focus, char **argv)
 	// TODO
 }
 
-void	tree_delete(t_shell_tree_node *tree)
+// tree 따로 검사하는 건 없는데 줄 수 줄이기 위해서, 무조건 성공해서 0 반환
+int	tree_delete(t_shell_tree_node *tree)
 {
 	int		cnt;
 	char	**argv;
@@ -112,6 +79,16 @@ void	tree_delete(t_shell_tree_node *tree)
 		free(tree->filepath);
 	if (tree->left)
 		tree_delete(tree->left);
+	free(tree->left);
 	if (tree->right)
 		tree_delete(tree->right);
+	free(tree->right);
+}
+
+int	is_redirect(t_shell_tree_kind kind)
+{
+	if (S_P_REDIRECT_IN == kind || S_P_REDIRECT_OUT == kind
+		|| S_P_REDIRECT_HEREDOC == kind || S_P_REDIRECT_APPEND == kind)
+		return (1);
+	return (0);
 }
