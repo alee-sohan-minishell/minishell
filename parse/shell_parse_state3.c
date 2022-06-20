@@ -6,14 +6,14 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/18 06:27:47 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/20 19:43:26 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell/shell.h"
 #include "shell_parse_state.h"
-#include "../tree/shell_tree.h"
-#include "../tree/shell_tree_utils.h"
+#include "../tree_heredoc/shell_tree.h"
+#include "../tree_heredoc/shell_tree_utils.h"
 #include "shell_parse_utils1.h"
 
 t_state_shell_parse	shell_parse_and(t_shell_data *p_data, char c)

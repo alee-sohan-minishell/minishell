@@ -6,47 +6,38 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/17 22:31:56 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/20 22:57:59 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "../shell/shell.h"
-#include "../utils/state_machine_utils_01.h"
-#include "../utils/error_msg_utils_01.h"
-#include "../parse/shell_parse_state.h"
-#include "../parse/shell_parse_utils1.h"
-#include "../parse/shell_parse_utils3.h"
-#include "../tree/shell_tree.h"
-#include "../tree/shell_heredoc.h"
+#include "../tree_heredoc/shell_tree.h"
+#include "../tree_heredoc/shell_heredoc.h"
+#include "shell_parse_node_list.h"
+#include "shell_parse_state.h"
 #include "../parse/shell_parse_check_tree.h"
+#include "../utils/error_msg_utils_01.h"
+#include "../utils/state_machine_utils_01.h"
 
 void	shell_parse_free(t_shell_data *p_data)
 {
 	t_parse_node	*node;
 	t_parse_node	*tmp;
 
-	node = p_data->parse_list.head.next;
-	while (node)
-	{
-		tmp = node;
-		node = node->next;
-		if (tmp->str)
-			free(tmp->str);
-		free(tmp);
-	}
-	p_data->parse_list.head.next = NULL;
-	shell_parse_delete_node(&p_data->parse_env);
-	shell_parse_delete_node(&p_data->parse_redirect);
-	tree_delete(&p_data->tree);
-	heredoc_delete(&p_data->heredoc);
+	tree_free(&p_data->tree);
+	p_data->focus = &p_data->tree;
+	heredoc_list_free(&p_data->heredoc_list);
+	shell_parse_list_free(&p_data->parse_list);
+	shell_parse_node_free(p_data->parse_tmp);
+	shell_parse_node_free(p_data->parse_env);
 }
 
+//# 1. TODO 여기 함수들 아직 봐야함 함수 이름들도 새걸로 안 바꿨음
 int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
 {
 	if (S_P_SPACE == state || S_P_STRING == state)
 	{
-		if (p_data->parse_list.tail->cnt)
+		if (p_data->parse_list.tail.pre->cnt) // 아직 남아 있는게 있으면
 			if (NULL == shell_parse_util_append_new_node(&p_data->parse_list))
 				return (-1);
 	}
@@ -135,6 +126,6 @@ void	shell_parse(t_shell_data *p_data)
 		ft_set_status(p_data, S_ERROR);
 		return ;
 	}
-	ft_set_status(p_data, S_CMD);
+	ft_set_status(p_data, S_CMD); // TODO 바로 CMD로 넘어가기 때문에 CMD에서 shell_parse_free() 호출해줘야 함
 	return ;
 }

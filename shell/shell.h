@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/06/17 23:48:31 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/20 20:50:02 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 #define DEBUG
 #include <stdio.h>
 //---------------------------------------
-//# 0. // TODO window에서 컴파일 에러 때문에 임시로 지움 다시 되돌려 놔야 함 #include <termios.h>
+#include <termios.h>
 #include "../env/env_list.h"
-#include "../parse/shell_parse_utils1.h"
-#include "../tree/shell_tree.h"
-#include "../tree/shell_heredoc.h"
-#include "../parse/shell_parse_state.h"
+#include "../tree_heredoc/shell_tree.h"
+#include "../tree_heredoc/shell_heredoc.h"
+#include "../parse/shell_parse_node_list.h"
 
 #define STR_SHELL "shell"
 
@@ -74,7 +73,7 @@ typedef struct s_shell_data
 
 	//parse
 	struct s_shell_tree_node	tree; // root 더미노드
-	struct s_shell_heredoc_node	heredoc;
+	struct s_shell_heredoc_list	heredoc_list;
 	struct s_shell_tree_node	*focus; // 처음에 root 더미노드를 가리킴
 	struct s_parse_list			parse_list; // argv임시 저장, 실제 파싱된 argv는 tree_node에 저장됨
 	struct s_parse_node			*parse_tmp; // parsing하기 위한 임시저장 node, 일반 문자와 redirect가 여기 임시로 저장됨

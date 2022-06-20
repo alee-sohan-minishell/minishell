@@ -6,14 +6,15 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/18 06:51:16 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/20 23:59:51 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//# -1. 여기서 부터 아래 새로 만든 함수들로 쭉 봐야함
 #include "../shell/shell.h"
 #include "shell_parse_state.h"
-#include "../tree/shell_tree.h"
-#include "../tree/shell_tree_utils.h"
+#include "../tree_heredoc/shell_tree.h"
+#include "../tree_heredoc/shell_tree_utils.h"
 #include "shell_parse_utils1.h"
 
 t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c)
@@ -43,7 +44,8 @@ t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c)
 
 t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char c)
 {
-	p_data->focus = p_data->focus->parent;
+	if (p_data->focus->parent)
+		p_data->focus = p_data->focus->parent;
 	if (' ' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
 		|| '|' == c || '<' == c || '>' == c)
@@ -76,3 +78,5 @@ t_state_shell_parse	shell_parse_redirect_space(t_shell_data *p_data, char c)
 		return (S_P_ERROR);
 	return (S_P_STRING);
 }
+
+//# < t1 cat TODO redirect string 하나 더 만드는게 나을 듯

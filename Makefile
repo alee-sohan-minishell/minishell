@@ -6,7 +6,7 @@
 #    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/06/08 23:21:14 by min-jo           ###   ########.fr        #
+#    Updated: 2022/06/20 22:57:12 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ LIBFT = $(addprefix libft/, libft.a)
 
 LOGO_FILE = logo
 SHELL_FILE =
-INIT_FILE = shell_init shell_utils_01
+INIT_FILE = shell_init shell_utils_01 shell_parse_init
 READ_LINE_FILE = shell_readline
 UTILS_FILE = fd_utils_01 error_msg_utils_01 state_machine_utils_01 command_utils_01 \
 			string_utils_01 integer_utils_01
@@ -42,8 +42,11 @@ SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in
 EXCUTE_FILE = shell_excute
 REDIRECTION_FILE = redirection
-SHELL_PARSE_FILE = shell_parse shell_parse_state shell_parse_state1 shell_parse_state2 shell_parse_state3 shell_parse_state4 shell_parse_utils1 shell_parse_utils2 shell_parse_utils3 shell_parse_check_tree
-TREE_FILE = shell_tree shell_heredoc shell_tree_init shell_tree_utils
+SHELL_PARSE_FILE = shell_parse_check_tree shell_parse_node_list \
+			shell_parse_state shell_parse_state1 shell_parse_state2 \
+			shell_parse_state3 shell_parse_state4 shell_parse_util_node_list \
+			shell_parse_util_state shell_parse_tree shell_parse
+TREE_HEREDOC_FILE = shell_tree shell_heredoc
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include
@@ -66,7 +69,7 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix excute/,$(addsuffix .c,$(EXCUTE_FILE))) \
 	$(addprefix redirection/,$(addsuffix .c,$(REDIRECTION_FILE))) \
 	$(addprefix parse/,$(addsuffix .c,$(SHELL_PARSE_FILE))) \
-	$(addprefix tree/,$(addsuffix .c,$(TREE_FILE))) \
+	$(addprefix tree_heredoc/,$(addsuffix .c,$(TREE_HEREDOC_FILE))) \
 
 
 

@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/18 06:30:06 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/20 19:43:26 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "shell_parse_state.h"
 #include "shell_parse_utils1.h"
 #include "shell_parse_utils2.h"
-#include "../tree/shell_tree.h"
-#include "../tree/shell_tree_utils.h"
+#include "../tree_heredoc/shell_tree.h"
+#include "../tree_heredoc/shell_tree_utils.h"
 
 t_state_shell_parse	shell_parse_bool_and(t_shell_data *p_data, char c)
 {

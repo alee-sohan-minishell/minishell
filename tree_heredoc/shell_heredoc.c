@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 21:00:46 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/11 22:15:10 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/20 19:39:26 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,31 @@ t_shell_heredoc_node	*heredoc_new_node(char *delimiter)
 	return (node);
 }
 
-void	heredoc_insert(t_shell_heredoc_node **focus, t_shell_heredoc_node *item)
+void	heredoc_node_free(t_shell_heredoc_node *node)
 {
-	if (NULL == *focus)
-	{
-		*focus = item;
-		return ;
-	}
-	(*focus)->next = item;
+	if (node->delimiter)
+		free(node->delimiter);
+	free(node);
 }
 
-void	heredoc_delete(t_shell_heredoc_node *heredoc)
+void	heredoc_list_add(t_shell_heredoc_list *list, t_shell_heredoc_node *node)
+{
+	node->pre = list->tail.pre;
+	node->next = &list->tail;
+	list->tail.pre->next = node;
+	list->tail.pre = node;
+}
+
+void	heredoc_list_free(t_shell_heredoc_list *list)
 {
 	t_shell_heredoc_node	*node;
 
-	node = heredoc->next;
-	while (node)
+	node = list->head.next;
+	while (node != &list->tail)
 	{
-		heredoc->next = node->next;
-		free(node->delimiter);
-		free(node);
-		node = heredoc->next;
+		list->head.next = node->next;
+		heredoc_node_free(node);
+		node = list->head.next;
 	}
-	heredoc->next = NULL;
+	list->tail.pre = &list->head;
 }

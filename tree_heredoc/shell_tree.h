@@ -6,13 +6,12 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:57:07 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/18 06:22:43 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/20 21:40:47 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_TREE_H
 # define SHELL_TREE_H
-# include "../shell/shell.h"
 
 typedef enum e_shell_tree_kind
 {
@@ -43,11 +42,13 @@ typedef struct s_shell_tree_node
 
 t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,
 						char *filepath);
-int					tree_append(t_shell_tree_node **p_focus,
+void				tree_free(t_shell_tree_node *tree); // tree root가 dummy인 걸 고려한 free
+void				tree_append(t_shell_tree_node **p_focus,
 						t_shell_tree_node *item);
-void				tree_find_append_argv(t_shell_tree_node *focus,
-						char **argv); // TODO
-int					tree_delete(t_shell_tree_node *tree);
-int					is_redirect(t_shell_tree_kind kind);
+void				shell_tree_insert_push_child(t_shell_tree_node **p_focus,
+						t_shell_tree_node *item, int push_left,
+						int append_left);
+void				shell_tree_insert_push_focus(t_shell_tree_node **p_focus,
+						t_shell_tree_node *item, int push_left);
 
 #endif
