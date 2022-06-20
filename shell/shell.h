@@ -75,9 +75,10 @@ typedef struct s_shell_data
 	int				(*pipe_fd)[2];
 	int				pipe_count;
 	int				pipe_index;
-	int				is_piped;
+	int				pipe_num;
 	t_data			global_data;
 	int				process_exit_status;
+	int				cmd_count;
 	
 	//terminal attr
 	struct termios	default_term_attr;

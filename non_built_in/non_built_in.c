@@ -100,7 +100,6 @@ int	ft_exec_command(t_shell_data *p_data)
 		else if (pid == 0)
 		{
 			set_tc_attr_to_default(p_data);
-			if (p_data->is_piped)
 			{
 				//p_data->fd_out_new = p_data->pipe_fd[1];
 				//dup2(p_data->pipe_fd[1], p_data->fd_out_new);
@@ -160,26 +159,54 @@ int	ft_exec_command(t_shell_data *p_data)
 				}*/
 				p_data->global_data.pipe_pid[p_data->global_data.index] = pid;
 				++p_data->global_data.index;
-				++p_data->is_piped;
-				++p_data->pipe_index;
+				//++p_data->is_piped;
+				//++p_data->pipe_index;
 			}
 			else if (pid == 0)
 			{
 				set_tc_attr_to_default(p_data);
-				printf("%d th %s\n", p_data->is_piped, p_data->cmd[0]);
-				if (p_data->is_piped == 2)
+				if (p_data->cmd_count == 0)
 				{
-					close(p_data->pipe_fd[p_data->pipe_index][0]);
-					p_data->fd_out_new = p_data->pipe_fd[p_data->pipe_index][1];
-					dup2(p_data->pipe_fd[p_data->pipe_index][1], STDOUT_FILENO);
-					close(p_data->pipe_fd[p_data->pipe_index][1]);
+				printf("if %dth %s\n", p_data->cmd_count, p_data->cmd[0]);
+					close(p_data->pipe_fd[p_data->cmd_count][0]);
+					p_data->fd_out_new = p_data->pipe_fd[p_data->cmd_count][1];
+					dup2(p_data->pipe_fd[p_data->cmd_count][1], STDOUT_FILENO);
+					close(p_data->pipe_fd[p_data->cmd_count][1]);
+					if (p_data->pipe_count > 1)
+					{
+						for (int i = 0; i < p_data->pipe_count - 1; i++)
+						{
+							close(p_data->pipe_fd[i + 1][0]);
+							close(p_data->pipe_fd[i + 1][1]);
+						}
+					}
 				}
-				else if (p_data->is_piped == 1)
+				else if (p_data->cmd_count == p_data->pipe_count)
 				{
-					close(p_data->pipe_fd[p_data->pipe_index][1]);
-					p_data->fd_in_new = p_data->pipe_fd[p_data->pipe_index][0];
-					dup2(p_data->pipe_fd[p_data->pipe_index][0], STDIN_FILENO);
-					close(p_data->pipe_fd[p_data->pipe_index][0]);
+				printf("elif %d th %s\n", p_data->cmd_count, p_data->cmd[0]);
+					if (p_data->cmd_count > 1)
+					{
+						for (int i = 0; i < p_data->pipe_count; i++)
+						{
+							close(p_data->pipe_fd[p_data->cmd_count - 2][0]);
+							close(p_data->pipe_fd[p_data->cmd_count - 2][1]);	
+						}
+					}
+					p_data->fd_in_new = p_data->pipe_fd[p_data->cmd_count - 1][0];
+					close(p_data->pipe_fd[p_data->cmd_count - 1][1]);
+					dup2(p_data->pipe_fd[p_data->cmd_count - 1][0], STDIN_FILENO);
+					close(p_data->pipe_fd[p_data->cmd_count - 1][0]);
+				}
+				else
+				{
+				printf("else %dth %s\n", p_data->cmd_count, p_data->cmd[0]);
+					close(p_data->pipe_fd[p_data->cmd_count - 1][1]);
+					dup2(p_data->pipe_fd[p_data->cmd_count - 1][0], STDIN_FILENO);
+					close(p_data->pipe_fd[p_data->cmd_count - 1][0]);
+					
+					close(p_data->pipe_fd[p_data->cmd_count][0]);
+					dup2(p_data->pipe_fd[p_data->cmd_count][1], STDOUT_FILENO);
+					close(p_data->pipe_fd[p_data->cmd_count][1]);
 				}
 				execve(path_list[index], p_data->cmd, *p_data->p_env);
 			}

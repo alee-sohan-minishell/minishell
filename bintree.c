@@ -130,7 +130,7 @@ int main(int argc, char **argv, char **env)
 	t_shell_data	shell;
 	t_tree *p_tree;
 	t_shell_tree_node root_node;
-	t_shell_tree_node newNode[5];
+	t_shell_tree_node newNode[7];
 	t_shell_tree_node *temp;
 	//t_shell_tree_node *temp1;
 	char	*tmp_argv[2];
@@ -139,8 +139,8 @@ int main(int argc, char **argv, char **env)
 	
 	ft_bzero(&shell, sizeof(shell));
 	shell_init(&shell, argc, &argv, &env);
-	shell.is_piped = 0;
 	root_node.kind = 0;
+	root_node.idx = 42;
 	p_tree = make_tree(root_node);
 	temp = p_tree->p_root_node;
     /*//cat > ls
@@ -310,27 +310,30 @@ int main(int argc, char **argv, char **env)
 	temp = get_root_node_BT(p_tree);
 	printf("\n+++++ Tree Traversal +++++\n");
 	shell.cmd_tree = p_tree->p_root_node;
-	shell.is_piped = 0;
+	shell.pipe_count = 1;
 	shell_execute_tree(&shell);
 	printf("exit: %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1]);
 	printf("\n+++++ Delete Tree +++++\n");
 	delete_tree(p_tree);*/
 
-	//cat | cat | ls
+	//cat | cat | cat | ls
 	newNode[0].kind = T_PIPE;
 	newNode[1].kind = T_COMMAND;
 	newNode[2].kind = T_PIPE;
 	newNode[3].kind = T_COMMAND;
-	newNode[4].kind = T_COMMAND;
+	newNode[4].kind = T_PIPE;
+	newNode[5].kind = T_COMMAND;
+	newNode[6].kind = T_COMMAND;
 	tmp_argv[0] = "ls";
 	tmp_argv[1] = NULL;
 	newNode[1].argv = tmp_argv;
 	tmp_argv2[0] = "cat";
 	tmp_argv2[1] = NULL;
 	newNode[3].argv = tmp_argv2;
+	newNode[5].argv = tmp_argv2;
 	tmp_argv3[0] = "cat";
 	tmp_argv3[1] = NULL;
-	newNode[4].argv = tmp_argv3;
+	newNode[6].argv = tmp_argv3;
 
 	temp = insert_rightchild_node_BT(temp, newNode[0]);
 	temp = get_rightchild_node_BT(temp);
@@ -339,14 +342,17 @@ int main(int argc, char **argv, char **env)
 	temp = get_rightchild_node_BT(temp);
 	temp = insert_leftchild_node_BT(temp, newNode[3]);
 	temp = insert_rightchild_node_BT(temp, newNode[4]);
+	temp = get_rightchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[5]);
+	temp = insert_rightchild_node_BT(temp, newNode[6]);
 
 	temp = get_root_node_BT(p_tree);
 	printf("\n+++++ Tree Traversal +++++\n");
 	shell.cmd_tree = p_tree->p_root_node;
-	shell.is_piped = 1;
-	shell.pipe_count = 2;
+	//shell.is_piped = 1;
+	shell.pipe_count = 3;
 	shell_execute_tree(&shell);
-	printf("exit: %d %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1], shell.global_data.pipe_status[2]);
+	printf("exit: %d %d %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1], shell.global_data.pipe_status[2], shell.global_data.pipe_status[3]);
 	printf("\n+++++ Delete Tree +++++\n");
 	delete_tree(p_tree);
 

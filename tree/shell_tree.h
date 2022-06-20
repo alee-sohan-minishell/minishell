@@ -37,6 +37,7 @@ typedef struct s_shell_tree_node
 	char						**argv;
 	int							fd;
 	char						*filepath;
+	int							idx;
 }	t_shell_tree_node;
 
 typedef struct s_shell_heredoc_node
