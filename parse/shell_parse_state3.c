@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 19:43:26 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 14:01:04 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c)
 		return (S_P_REDIRECT_IN);
 	else if (' ' == c)
 	{
-		if (shell_parse_util_insert_redirect(p_data, T_REDIRECT_IN))
+		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
+		p_data->redirect_kind = T_EMPTY;
 		return (S_P_SPACE);
 	}
 	else if ('\'' == c)
@@ -76,12 +77,13 @@ t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c)
 {
 	p_data->redirect_kind = T_REDIRECT_OUT;
-	if (' ' == c &&  p_data->parse_tmp->cnt == 0)
+	if (' ' == c && p_data->parse_tmp->cnt == 0)
 		return (S_P_REDIRECT_OUT);
 	else if (' ' == c)
 	{
-		if (shell_parse_util_insert_redirect(p_data, T_REDIRECT_OUT))
+		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
+		p_data->redirect_kind = T_EMPTY;
 		return (S_P_SPACE);
 	}
 	else if ('\'' == c)

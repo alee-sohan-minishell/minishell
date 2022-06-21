@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/20 22:57:59 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 14:51:10 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 #include "../tree_heredoc/shell_heredoc.h"
 #include "shell_parse_node_list.h"
 #include "shell_parse_state.h"
-#include "../parse/shell_parse_check_tree.h"
+#include "shell_parse_check_tree.h"
 #include "../utils/error_msg_utils_01.h"
 #include "../utils/state_machine_utils_01.h"
+#include "shell_parse_util_node_list.h"
+#include "shell_parse_util_tree.h"
 
 void	shell_parse_free(t_shell_data *p_data)
 {
@@ -32,28 +34,28 @@ void	shell_parse_free(t_shell_data *p_data)
 	shell_parse_node_free(p_data->parse_env);
 }
 
-//# 1. TODO 여기 함수들 아직 봐야함 함수 이름들도 새걸로 안 바꿨음
 int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
 {
-	if (S_P_SPACE == state || S_P_STRING == state)
-	{
-		if (p_data->parse_list.tail.pre->cnt) // 아직 남아 있는게 있으면
-			if (NULL == shell_parse_util_append_new_node(&p_data->parse_list))
-				return (-1);
-	}
-	else if (S_P_QUOTE == state || S_P_DQUOTE == state
+	if (S_P_QUOTE == state || S_P_DQUOTE == state
 		|| S_P_OPEN == state || S_P_AND == state || S_P_PIPE == state
-		|| S_P_BOOL_AND == state || S_P_BOOL_OR == state
-		|| shell_parse_util_is_redirect(state) || S_P_DQUOTE_ENV == state)
+		|| S_P_BOOL_AND == state || S_P_BOOL_OR == state)
 		return (-1);
-	else if (S_P_ENV == state)
+	if (p_data->parse_env->cnt) // 아직 남아 있는게 있으면
 	{
-		if (shell_parse_util_env_convert(p_data))
-			return (-1);
-		if (NULL == shell_parse_util_append_new_node(&p_data->parse_list))
+		if (shell_parse_find_str_in_env(p_data)) // p_data->parse_env에 있는 문자 key로 env 찾아서 p_data->parse_tmp에 바로 add_char 함
+			return (S_P_ERROR);
+	}
+	if (shell_parse_util_is_redirect(state))
+	{
+		if (shell_parse_util_insert_redirect(p_data))
 			return (-1);
 	}
-	if (p_data->parse_list.head.next)
+	if (p_data->parse_tmp->cnt)
+	{
+		if (shell_parse_list_append_node(&p_data->parse_list, p_data->parse_tmp))
+			return (-1);
+	}
+	if (p_data->parse_list.cnt)
 		if (shell_parse_util_insert_cmd(p_data))
 			return (-1);
 	return (0);

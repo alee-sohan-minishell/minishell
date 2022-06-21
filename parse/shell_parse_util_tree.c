@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 23:07:09 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 22:24:22 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 14:52:14 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	shell_parse_util_insert_redirect(t_shell_data *p_data)
 	str = shell_parse_node_to_str(p_data->parse_tmp);
 	if (NULL == str)
 		return (-1);
-	tree_node = tree_new_node(p_data->kind, NULL, -1, str); // str의 포인터가 그대로 filepath로 들어가기 때문에 str free 해주면 안됨
+	tree_node = tree_new_node(p_data->redirect_kind, NULL, -1, str); // str의 포인터가 그대로 filepath로 들어가기 때문에 str free 해주면 안됨
 	if (NULL == tree_node)
 		return (-1);
 	shell_parse_util_push_tree(&p_data->focus, tree_node);
@@ -108,4 +108,5 @@ int	shell_parse_util_insert_argv_in_cmd(t_shell_tree_node *focus, char *str)
 
 	//# TODO 2. 매개변수 argv로 받아야 하는지 str로 받아야 하는지 모르겠다.
 	// 찾은 command node의 오른쪽 argv에 넣어줘야 함
+	return (0);
 }

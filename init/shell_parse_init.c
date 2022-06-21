@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:19:56 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 23:11:51 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 11:53:51 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ int	shell_parse_init(t_shell_data *p_data)
 	p_data->parse_env = shell_parse_new_node();
 	if (NULL == p_data->parse_env)
 		return (-1);
-	p_data->redirect_state = T_EMPTY;
+	p_data->redirect_kind = T_EMPTY;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:57:15 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 23:38:17 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 11:40:38 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	shell_parse_find_str_in_env(t_shell_data *p_data)
 	free(key);
 	cnt = -1;
 	while (env_node->value[++cnt])
-		if (shell_parse_node_add_char(&p_data->parse_list,
+		if (shell_parse_node_add_char(&p_data->parse_tmp,
 			env_node->value[cnt]))
 			return (-1);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/05/26 14:25:54 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/21 14:57:42 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 #include "parse/shell_parse.h"
 #include "excute/shell_excute.h"
 
+#include "parse/shell_parse.h"
+
+void	print_tree(t_shell_data *shell)
+{
+	shell_parse_free(shell);
+	ft_set_status(shell, S_CLOSE);
+}
 
 int	main(int argc, char *argv[], char *env[])
 {
@@ -36,10 +43,14 @@ int	main(int argc, char *argv[], char *env[])
 		else if (shell.status == S_PARSE)
 			shell_parse(&shell);
 		else if (shell.status == S_CMD)
-			shell_excute(&shell);
+			print_tree(&shell);
+		// TODO
+		// else if (shell.status == S_CMD)
+		// 	shell_excute(&shell);
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)
 			break ;
 	}
 	status_close(&shell);
+	// while (1); // TODO
 	return (shell.last_status);
 }

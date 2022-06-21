@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 19:43:26 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 14:21:47 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,37 +18,84 @@
 
 t_state_shell_parse	shell_parse_bool_and(t_shell_data *p_data, char c)
 {
-	// TODO
+	if (' ' == c)
+		return (S_P_BOOL_AND);
+	else if (' ' == c || '\'' == c || '"' == c || '$' == c
+		|| '(' == c || ')' == c
+		|| '|' == c || '<' == c || '>' == c)
+		return (shell_parse_util_get_state(c));
+	else if ('&' == c)
+		return (S_P_ERROR);
+	if (shell_parse_node_add_char(&p_data->parse_tmp, c))
+		return (S_P_ERROR);
+	return (S_P_STRING);
 }
 
 t_state_shell_parse	shell_parse_bool_or(t_shell_data *p_data, char c)
 {
-	// TODO
+	if (' ' == c)
+		return (S_P_BOOL_AND);
+	else if (' ' == c || '\'' == c || '"' == c || '$' == c
+		|| '(' == c || ')' == c || '&' == c
+		|| '<' == c || '>' == c)
+		return (shell_parse_util_get_state(c));
+	else if ('|' == c)
+		return (S_P_ERROR);
+	if (shell_parse_node_add_char(&p_data->parse_tmp, c))
+		return (S_P_ERROR);
+	return (S_P_STRING);
 }
 
 t_state_shell_parse	shell_parse_redirect_heredoc(t_shell_data *p_data, char c)
 {
-	//# TODO 리다이렉트인 경우 포커스가 밀려나는게 아니라 자식을 밀어냄
-	//# TODO 커맨드가 아니면 포커스는 넣은 것
-
-
-	// 임시 node에 add_char 하다가 list로 넣을지, redirect tree_insert 할지 결정하자
-	if (' ' == c)
-		return (S_P_REDIRECT_SPACE);
-	else if ('\'' == c || '"' == c || '$' == c)
-		return (shell_parse_util_get_state(c));
-	else if ('<' == c)
+	p_data->redirect_kind = S_P_REDIRECT_HEREDOC;
+	if (' ' == c &&  p_data->parse_tmp->cnt == 0)
 		return (S_P_REDIRECT_HEREDOC);
-	else if ('(' == c || ')' == c || '&' == c || '|' == c || '>' == c)
+	else if (' ' == c)
+	{
+		if (shell_parse_util_insert_redirect(p_data))
+			return (S_P_ERROR);
+		p_data->redirect_kind = T_EMPTY;
+		return (S_P_SPACE);
+	}
+	else if ('\'' == c)
+		return (S_P_REDIRECT_QUOTE);
+	else if ('"' == c)
+		return (S_P_REDIRECT_DQUOTE);
+	else if ('$' == c)
+		return (S_P_REDIRECT_ENV);
+	else if ('(' == c || ')' == c || '&' == c || '|' == c
+		|| '<' == c || '>' == c)
 		return (S_P_ERROR);
 	if (shell_parse_node_add_char(&p_data->parse_tmp, c))
 		return (S_P_ERROR);
-	return (S_P_REDIRECT_IN);
+	return (S_P_REDIRECT_HEREDOC);
 }
 
 t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char c)
 {
-	// TODO
+	p_data->redirect_kind = S_P_REDIRECT_APPEND;
+	if (' ' == c &&  p_data->parse_tmp->cnt == 0)
+		return (S_P_REDIRECT_APPEND);
+	else if (' ' == c)
+	{
+		if (shell_parse_util_insert_redirect(p_data))
+			return (S_P_ERROR);
+		p_data->redirect_kind = T_EMPTY;
+		return (S_P_SPACE);
+	}
+	else if ('\'' == c)
+		return (S_P_REDIRECT_QUOTE);
+	else if ('"' == c)
+		return (S_P_REDIRECT_DQUOTE);
+	else if ('$' == c)
+		return (S_P_REDIRECT_ENV);
+	else if ('(' == c || ')' == c || '&' == c || '|' == c
+		|| '<' == c || '>' == c)
+		return (S_P_ERROR);
+	if (shell_parse_node_add_char(&p_data->parse_tmp, c))
+		return (S_P_ERROR);
+	return (S_P_REDIRECT_APPEND);
 }
 
 t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char c)

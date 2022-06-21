@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 23:59:20 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 13:54:36 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ if (' ' == c || '\'' == c || '"' == c || '$' == c
 // 한 문장 끝나는 상황에서만 insert_cmd
 // 한 단어 끝나야 list_append_node
 // 한 글자씩은 add_char
+
+// TODO tab 넣어야 함함
 
 t_state_shell_parse	shell_parse_space(t_shell_data *p_data, char c)
 {
@@ -99,6 +101,12 @@ t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c)
 
 t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c)
 {
+	if ('"' == c && p_data->parse_env->cnt == 0)
+	{
+		if (shell_parse_node_add_char(&p_data->parse_tmp, '$'))
+			return (S_P_ERROR);
+		return (S_P_STRING);
+	}
 	if (' ' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
 		|| '|' == c || '<' == c || '>' == c)
@@ -107,6 +115,8 @@ t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c)
 			return (S_P_ERROR);
 		if ('"' == c)
 			reuturn (S_P_STRING);
+		else if ("$" == c)
+			return (S_P_DQUOTE_ENV);
 		if (shell_parse_node_add_char(&p_data->parse_tmp, c))
 			return (S_P_ERROR);
 		return (S_P_DQUOTE);
