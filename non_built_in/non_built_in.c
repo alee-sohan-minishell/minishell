@@ -24,6 +24,8 @@
 
 //debug
 #include <stdio.h>
+#define WRITE 1
+#define READ 0
 
 static char	**get_path_list(t_env_list *p_list)
 {
@@ -151,62 +153,36 @@ int	ft_exec_command(t_shell_data *p_data)
 			pid = fork();
 			if (pid > 0)
 			{
-				/*if (p_data->is_piped)
-				{
-					p_data->fd_in_new = p_data->pipe_fd[0];
-					dup2(p_data->pipe_fd[0], p_data->fd_in_new);
-					close(p_data->pipe_fd[1]);
-				}*/
 				p_data->global_data.pipe_pid[p_data->global_data.index] = pid;
 				++p_data->global_data.index;
-				//++p_data->is_piped;
-				//++p_data->pipe_index;
 			}
 			else if (pid == 0)
 			{
 				set_tc_attr_to_default(p_data);
-				if (p_data->cmd_count == 0)
+				if (p_data->is_piped)
 				{
-				printf("if %dth %s\n", p_data->cmd_count, p_data->cmd[0]);
-					close(p_data->pipe_fd[p_data->cmd_count][0]);
-					p_data->fd_out_new = p_data->pipe_fd[p_data->cmd_count][1];
-					dup2(p_data->pipe_fd[p_data->cmd_count][1], STDOUT_FILENO);
-					close(p_data->pipe_fd[p_data->cmd_count][1]);
-					if (p_data->pipe_count > 1)
+					for (int i = 0; i < p_data->cmd_count - 1; i++)
 					{
-						for (int i = 0; i < p_data->pipe_count - 1; i++)
-						{
-							close(p_data->pipe_fd[i + 1][0]);
-							close(p_data->pipe_fd[i + 1][1]);
-						}
+						close(p_data->pipe_fd[i][READ]);
+						close(p_data->pipe_fd[i][WRITE]);
 					}
-				}
-				else if (p_data->cmd_count == p_data->pipe_count)
-				{
-				printf("elif %d th %s\n", p_data->cmd_count, p_data->cmd[0]);
-					if (p_data->cmd_count > 1)
+					if (p_data->cmd_count > 0)
 					{
-						for (int i = 0; i < p_data->pipe_count; i++)
-						{
-							close(p_data->pipe_fd[p_data->cmd_count - 2][0]);
-							close(p_data->pipe_fd[p_data->cmd_count - 2][1]);	
-						}
+						close(p_data->pipe_fd[p_data->cmd_count - 1][WRITE]);
+						dup2(p_data->pipe_fd[p_data->cmd_count - 1][READ], STDIN_FILENO);
+						close(p_data->pipe_fd[p_data->cmd_count - 1][READ]);
 					}
-					p_data->fd_in_new = p_data->pipe_fd[p_data->cmd_count - 1][0];
-					close(p_data->pipe_fd[p_data->cmd_count - 1][1]);
-					dup2(p_data->pipe_fd[p_data->cmd_count - 1][0], STDIN_FILENO);
-					close(p_data->pipe_fd[p_data->cmd_count - 1][0]);
-				}
-				else
-				{
-				printf("else %dth %s\n", p_data->cmd_count, p_data->cmd[0]);
-					close(p_data->pipe_fd[p_data->cmd_count - 1][1]);
-					dup2(p_data->pipe_fd[p_data->cmd_count - 1][0], STDIN_FILENO);
-					close(p_data->pipe_fd[p_data->cmd_count - 1][0]);
-					
-					close(p_data->pipe_fd[p_data->cmd_count][0]);
-					dup2(p_data->pipe_fd[p_data->cmd_count][1], STDOUT_FILENO);
-					close(p_data->pipe_fd[p_data->cmd_count][1]);
+					if (p_data->cmd_count < p_data->pipe_count)
+					{
+						close(p_data->pipe_fd[p_data->cmd_count][READ]);
+						dup2(p_data->pipe_fd[p_data->cmd_count][WRITE], STDOUT_FILENO);
+						close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
+					}
+					for (int i = p_data->cmd_count + 1; i < p_data->pipe_count; i++)
+					{
+						close(p_data->pipe_fd[i][READ]);
+						close(p_data->pipe_fd[i][WRITE]);
+					}
 				}
 				execve(path_list[index], p_data->cmd, *p_data->p_env);
 			}

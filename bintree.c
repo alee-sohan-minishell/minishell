@@ -135,7 +135,7 @@ int main(int argc, char **argv, char **env)
 	//t_shell_tree_node *temp1;
 	char	*tmp_argv[2];
 	char	*tmp_argv2[2];
-	char	*tmp_argv3[2];
+	//char	*tmp_argv3[2];
 	
 	ft_bzero(&shell, sizeof(shell));
 	shell_init(&shell, argc, &argv, &env);
@@ -143,6 +143,50 @@ int main(int argc, char **argv, char **env)
 	root_node.idx = 42;
 	p_tree = make_tree(root_node);
 	temp = p_tree->p_root_node;
+	// cat < test1.txt | cat < test2.txt
+	
+	newNode[0].kind = T_PIPE;
+	newNode[1].kind = T_REDIRECT_IN;
+	newNode[1].filepath = "test2.txt";
+	newNode[2].kind = T_REDIRECT_IN;
+	newNode[2].filepath = "test1.txt";
+	newNode[3].kind = T_COMMAND;
+	newNode[4].kind = T_COMMAND;
+
+	tmp_argv[0] = "cat";
+	tmp_argv[1] = NULL;
+	newNode[3].argv = tmp_argv;
+	
+	tmp_argv2[0] = "cat";
+	tmp_argv2[1] = NULL;
+	newNode[4].argv = tmp_argv2;
+
+	temp = insert_rightchild_node_BT(temp, newNode[0]);
+	temp = get_rightchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[1]);
+	temp = insert_rightchild_node_BT(temp, newNode[2]);
+	temp = get_leftchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[3]);
+	temp = get_root_node_BT(p_tree);
+	temp = get_rightchild_node_BT(temp);
+	temp = get_rightchild_node_BT(temp);
+	temp = insert_leftchild_node_BT(temp, newNode[4]);
+
+	shell.pipe_count = 1;
+	shell.cmd_tree = p_tree->p_root_node;
+	shell_execute_tree(&shell);
+	printf("exit: %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1]);
+
+	//cat
+	/*	
+	newNode[0].kind = T_COMMAND;
+	tmp_argv[0] = "cat";
+	tmp_argv[1] = NULL;
+	newNode[0].argv = tmp_argv;
+	temp = insert_leftchild_node_BT(temp, newNode[0]);
+	shell.pipe_count = 0;
+	shell.cmd_tree = p_tree->p_root_node;
+	shell_execute_tree(&shell);*/
     /*//cat > ls
 	newNode[0].kind = T_REDIRECT_OUT;
 	newNode[0].filepath = "ls";
@@ -317,6 +361,8 @@ int main(int argc, char **argv, char **env)
 	delete_tree(p_tree);*/
 
 	//cat | cat | cat | ls
+	/*char *tmp_argv4[2];
+
 	newNode[0].kind = T_PIPE;
 	newNode[1].kind = T_COMMAND;
 	newNode[2].kind = T_PIPE;
@@ -330,10 +376,12 @@ int main(int argc, char **argv, char **env)
 	tmp_argv2[0] = "cat";
 	tmp_argv2[1] = NULL;
 	newNode[3].argv = tmp_argv2;
-	newNode[5].argv = tmp_argv2;
 	tmp_argv3[0] = "cat";
-	tmp_argv3[1] = NULL;
-	newNode[6].argv = tmp_argv3;
+	tmp_argv3[1] = NULL;	
+	newNode[5].argv = tmp_argv3;
+	tmp_argv4[0] = "cat";
+	tmp_argv4[1] = NULL;
+	newNode[6].argv = tmp_argv4;
 
 	temp = insert_rightchild_node_BT(temp, newNode[0]);
 	temp = get_rightchild_node_BT(temp);
@@ -354,7 +402,7 @@ int main(int argc, char **argv, char **env)
 	shell_execute_tree(&shell);
 	printf("exit: %d %d %d %d\n", shell.global_data.pipe_status[0], shell.global_data.pipe_status[1], shell.global_data.pipe_status[2], shell.global_data.pipe_status[3]);
 	printf("\n+++++ Delete Tree +++++\n");
-	delete_tree(p_tree);
+	delete_tree(p_tree);*/
 
 
 	return 0;
