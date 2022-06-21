@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 23:59:51 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:05:55 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c)
 	if (NULL == empty)
 		return (S_P_ERROR);
 	shell_parse_util_push_tree(&p_data->focus, empty);
-	if (shell_parse_node_add_char(&p_data->parse_env, c))
+	if (shell_parse_node_add_char(p_data->parse_env, c))
 		return (S_P_ERROR);
 	return (S_P_STRING);
 }
@@ -50,7 +50,7 @@ t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char c)
 		|| '(' == c || ')' == c || '&' == c
 		|| '|' == c || '<' == c || '>' == c)
 		return (shell_parse_util_get_state(c));
-	if (shell_parse_node_add_char(&p_data->parse_env, c))
+	if (shell_parse_node_add_char(p_data->parse_env, c))
 		return (S_P_ERROR);
 	return (S_P_STRING);
 }

@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 14:01:04 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:27:22 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 
 t_state_shell_parse	shell_parse_and(t_shell_data *p_data, char c)
 {
-	if ('&' == c)
-		return (S_P_BOOL_AND);
+	if (p_data)
+		if ('&' == c)
+			return (S_P_BOOL_AND);
 	return (S_P_ERROR);
 }
 
@@ -41,7 +42,7 @@ t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c)
 		return (S_P_ERROR);
 	else if ('|' == c)
 		return (S_P_BOOL_OR);
-	if (shell_parse_node_add_char(&p_data->parse_env, c))
+	if (shell_parse_node_add_char(p_data->parse_env, c))
 		return (S_P_ERROR);
 	return (S_P_STRING);
 }
@@ -69,7 +70,7 @@ t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c)
 		return (S_P_REDIRECT_HEREDOC);
 	else if ('(' == c || ')' == c || '&' == c || '|' == c || '>' == c)
 		return (S_P_ERROR);
-	if (shell_parse_node_add_char(&p_data->parse_tmp, c))
+	if (shell_parse_node_add_char(p_data->parse_tmp, c))
 		return (S_P_ERROR);
 	return (S_P_REDIRECT_IN);
 }
@@ -96,7 +97,7 @@ t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c)
 		return (S_P_REDIRECT_APPEND);
 	else if ('(' == c || ')' == c || '&' == c || '|' == c || '<' == c)
 		return (S_P_ERROR);
-	if (shell_parse_node_add_char(&p_data->parse_tmp, c))
+	if (shell_parse_node_add_char(p_data->parse_tmp, c))
 		return (S_P_ERROR);
 	return (S_P_REDIRECT_OUT);
 }

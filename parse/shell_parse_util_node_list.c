@@ -6,13 +6,16 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:57:15 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 11:40:38 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:43:24 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell/shell.h"
 #include "shell_parse_node_list.h"
 #include "../libft/libft.h"
+#include "shell_parse_util_node_list.h"
+#include "../env/env_list_interface_01.h"
+#include "../utils/error_msg_utils_01.h"
 
 int	shell_parse_node_add_char(t_parse_node *node, char c)
 {
@@ -24,7 +27,7 @@ int	shell_parse_node_add_char(t_parse_node *node, char c)
 		if (NULL == ret)
 			return (-1);
 		node->size += SHELL_PARSE_NODE_SIZE;
-		ft_memcopy(ret, node->str, node->size);
+		ft_memcpy(ret, node->str, node->size);
 		free(node->str);
 		node->str = ret;
 	}
@@ -71,6 +74,7 @@ char	**shell_parse_list_to_argv(t_parse_list *list) // 원래 list free
 		node = list->head.next;
 	}
 	list->tail.pre = NULL;
+	return (argv);
 }
 
 void	shell_parse_util_argv_free(char **argv, int cnt)
@@ -111,8 +115,7 @@ int	shell_parse_find_str_in_env(t_shell_data *p_data)
 	free(key);
 	cnt = -1;
 	while (env_node->value[++cnt])
-		if (shell_parse_node_add_char(&p_data->parse_tmp,
-			env_node->value[cnt]))
+		if (shell_parse_node_add_char(p_data->parse_tmp, env_node->value[cnt]))
 			return (-1);
 	return (0);
 }

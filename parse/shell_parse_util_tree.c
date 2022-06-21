@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 23:07:09 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 14:52:14 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:59:43 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,6 @@
 #include "../tree_heredoc/shell_tree.h"
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_state.h"
-
-int	shell_parse_util_insert_cmd(t_shell_data *p_data)
-{
-	char				**argv;
-	t_shell_tree_node	*tree_node;
-
-	argv = shell_parse_list_to_argv(&p_data->parse_list);
-	if (NULL == argv)
-		return (-1);
-	tree_node = tree_new_node(T_COMMAND, argv, -1, NULL); // argv의 포인터가 그대로 들어가기 때문에 argv free 해주면 안됨
-	if (NULL == tree_node)
-	{
-		shell_parse_util_argv_free(argv, -1);
-		return (-1);
-	}
-	shell_parse_util_push_tree(&p_data->focus, tree_node);
-}
-
-int	shell_parse_util_insert_redirect(t_shell_data *p_data)
-{
-	char				*str;
-	t_shell_tree_node	*tree_node;
-
-	str = shell_parse_node_to_str(p_data->parse_tmp);
-	if (NULL == str)
-		return (-1);
-	tree_node = tree_new_node(p_data->redirect_kind, NULL, -1, str); // str의 포인터가 그대로 filepath로 들어가기 때문에 str free 해주면 안됨
-	if (NULL == tree_node)
-		return (-1);
-	shell_parse_util_push_tree(&p_data->focus, tree_node);
-	return (0);
-}
 
 int	shell_parse_util_is_redirect(t_shell_tree_kind kind)
 {
@@ -84,11 +52,44 @@ void	shell_parse_util_push_tree(t_shell_tree_node **p_focus,
 		(*p_focus)->argv = item->argv;
 		(*p_focus)->fd = item->fd;
 		(*p_focus)->filepath = item->filepath;
-		return (tree_delete(item));
+		return (tree_free(item));
 	}
 	else if ((*p_focus)->left && (*p_focus)->right) // 자식 꽉 찬 경우 focus를 민다
 		return (shell_tree_insert_push_focus(p_focus, item, push_left));
-	return (tree_append((*p_focus), item));
+	return (tree_append(p_focus, item));
+}
+
+int	shell_parse_util_insert_cmd(t_shell_data *p_data)
+{
+	char				**argv;
+	t_shell_tree_node	*tree_node;
+
+	argv = shell_parse_list_to_argv(&p_data->parse_list);
+	if (NULL == argv)
+		return (-1);
+	tree_node = tree_new_node(T_COMMAND, argv, -1, NULL); // argv의 포인터가 그대로 들어가기 때문에 argv free 해주면 안됨
+	if (NULL == tree_node)
+	{
+		shell_parse_util_argv_free(argv, -1);
+		return (-1);
+	}
+	shell_parse_util_push_tree(&p_data->focus, tree_node);
+	return (0);
+}
+
+int	shell_parse_util_insert_redirect(t_shell_data *p_data)
+{
+	char				*str;
+	t_shell_tree_node	*tree_node;
+
+	str = shell_parse_node_to_str(p_data->parse_tmp);
+	if (NULL == str)
+		return (-1);
+	tree_node = tree_new_node(p_data->redirect_kind, NULL, -1, str); // str의 포인터가 그대로 filepath로 들어가기 때문에 str free 해주면 안됨
+	if (NULL == tree_node)
+		return (-1);
+	shell_parse_util_push_tree(&p_data->focus, tree_node);
+	return (0);
 }
 
 // ls -l < test.txt -a 같이 redirect 후 argv 나오는 경우
@@ -108,5 +109,6 @@ int	shell_parse_util_insert_argv_in_cmd(t_shell_tree_node *focus, char *str)
 
 	//# TODO 2. 매개변수 argv로 받아야 하는지 str로 받아야 하는지 모르겠다.
 	// 찾은 command node의 오른쪽 argv에 넣어줘야 함
+	str = NULL;
 	return (0);
 }

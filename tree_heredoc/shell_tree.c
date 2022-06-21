@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:56:31 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 22:48:23 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 16:02:35 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,
 	node->right = NULL;
 	node->kind = kind;
 	node->argv = argv;
-	node->fd = 0;
+	node->fd = fd;
 	node->filepath = filepath;
 	return (node);
 }
@@ -46,11 +46,11 @@ void	tree_free(t_shell_tree_node *tree)
 	if (tree->filepath)
 		free(tree->filepath);
 	if (tree->left)
-		tree_delete(tree->left);
+		tree_free(tree->left);
 	free(tree->left);
 	tree->left = NULL;
 	if (tree->right)
-		tree_delete(tree->right);
+		tree_free(tree->right);
 	free(tree->right);
 	tree->right = NULL;
 }

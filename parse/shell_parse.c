@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/21 14:51:10 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 16:01:21 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@
 
 void	shell_parse_free(t_shell_data *p_data)
 {
-	t_parse_node	*node;
-	t_parse_node	*tmp;
-
 	tree_free(&p_data->tree);
 	p_data->focus = &p_data->tree;
 	heredoc_list_free(&p_data->heredoc_list);
@@ -47,12 +44,14 @@ int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
 	}
 	if (shell_parse_util_is_redirect(state))
 	{
+		if (p_data->parse_tmp->cnt == 0)
+			return (-1);
 		if (shell_parse_util_insert_redirect(p_data))
 			return (-1);
 	}
 	if (p_data->parse_tmp->cnt)
 	{
-		if (shell_parse_list_append_node(&p_data->parse_list, p_data->parse_tmp))
+		if (shell_parse_list_append_node(&p_data->parse_list, &(p_data->parse_tmp)))
 			return (-1);
 	}
 	if (p_data->parse_list.cnt)
@@ -70,20 +69,20 @@ char	*loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 		else if (S_P_SPACE == *state || S_P_QUOTE == *state
 			|| S_P_DQUOTE == *state || S_P_ENV == *state
 			|| S_P_DQUOTE_ENV == *state)
-			*state = shell_parse_state1(state, p_data, *str);
+			*state = shell_parse_state1(*state, p_data, *str);
 		else if (S_P_OPEN == *state || S_P_CLOSE == *state)
-			*state = shell_parse_state2(state, p_data, *str);
+			*state = shell_parse_state2(*state, p_data, *str);
 		else if (S_P_AND == *state || S_P_PIPE == *state
 			|| S_P_REDIRECT_IN == *state || S_P_REDIRECT_OUT == *state)
-			*state = shell_parse_state3(state, p_data, *str);
+			*state = shell_parse_state3(*state, p_data, *str);
 		else if (S_P_BOOL_AND == *state || S_P_BOOL_OR == *state
 			|| S_P_REDIRECT_HEREDOC == *state || S_P_REDIRECT_APPEND == *state
 			|| S_P_STRING == *state)
-			*state = shell_parse_state4(state, p_data, *str);
+			*state = shell_parse_state4(*state, p_data, *str);
 		else if (S_P_REDIRECT_ENV == *state || S_P_REDIRECT_QUOTE == *state
 			|| S_P_REDIRECT_DQUOTE == *state
 			|| S_P_REDIRECT_DQUOTE_ENV == *state)
-			*state = shell_parse_state5(state, p_data, *str);
+			*state = shell_parse_state5(*state, p_data, *str);
 		++str;
 	}
 	return (NULL);
@@ -122,7 +121,8 @@ void	shell_parse(t_shell_data *p_data)
 	}
 	state = S_P_SPACE;
 	ret = loop_parse(p_data, &state, p_data->line);
-	if (ret && shell_parse_check(p_data, state) && shell_parse_check_tree(p_data))
+	if (ret && shell_parse_check(p_data, state)
+		&& shell_parse_check_tree(p_data->focus))
 	{
 		ft_perror_param("error while parse", ret, 0); // TODO 뒷 문장 전체 출력하는 걸로 괜찮은가?
 		shell_parse_free(p_data);
