@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:57:15 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 19:48:54 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 20:40:16 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	**shell_parse_list_to_argv(t_parse_list *list) // 원래 list free
 		node = list->head.next;
 	}
 	list->tail.pre = &list->head;
+	list->cnt = 0;
 	return (argv);
 }
 
@@ -106,6 +107,7 @@ int	shell_parse_find_str_in_env(t_shell_data *p_data)
 	key = shell_parse_node_to_str(p_data->parse_env);
 	if (NULL == key)
 		return (-1);
+	p_data->parse_env = NULL;
 	if (env_node_search(&p_data->env_list, key, &env_node) == 0)
 	{
 		ft_perror_param("env", key, 0);

@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 15:27:22 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 22:49:05 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c)
 		return (S_P_ERROR);
 	else if ('|' == c)
 		return (S_P_BOOL_OR);
-	if (shell_parse_node_add_char(p_data->parse_env, c))
+	if (shell_parse_node_add_char(p_data->parse_tmp, c))
 		return (S_P_ERROR);
 	return (S_P_STRING);
 }
@@ -53,12 +53,13 @@ t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c)
 	p_data->redirect_kind = T_REDIRECT_IN;
 	if (' ' == c &&  p_data->parse_tmp->cnt == 0) // 아무것도 없이 처음에 ' ' 만났을 때만, 아닌 경우는 문자 추가하러 가야 됨
 		return (S_P_REDIRECT_IN);
-	else if (' ' == c)
+	else if (' ' == c || '(' == c || ')' == c
+		|| '&' == c || '|' == c || '>' == c)
 	{
 		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
 		p_data->redirect_kind = T_EMPTY;
-		return (S_P_SPACE);
+		return (shell_parse_util_get_state(c));
 	}
 	else if ('\'' == c)
 		return (S_P_REDIRECT_QUOTE);
@@ -68,8 +69,6 @@ t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c)
 		return (S_P_REDIRECT_ENV);
 	else if ('<' == c)
 		return (S_P_REDIRECT_HEREDOC);
-	else if ('(' == c || ')' == c || '&' == c || '|' == c || '>' == c)
-		return (S_P_ERROR);
 	if (shell_parse_node_add_char(p_data->parse_tmp, c))
 		return (S_P_ERROR);
 	return (S_P_REDIRECT_IN);
@@ -80,12 +79,13 @@ t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c)
 	p_data->redirect_kind = T_REDIRECT_OUT;
 	if (' ' == c && p_data->parse_tmp->cnt == 0)
 		return (S_P_REDIRECT_OUT);
-	else if (' ' == c)
+	else if (' ' == c || '(' == c || ')' == c
+		|| '&' == c || '|' == c || '<' == c)
 	{
 		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
 		p_data->redirect_kind = T_EMPTY;
-		return (S_P_SPACE);
+		return (shell_parse_util_get_state(c));
 	}
 	else if ('\'' == c)
 		return (S_P_REDIRECT_QUOTE);
@@ -95,8 +95,6 @@ t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c)
 		return (S_P_REDIRECT_ENV);
 	else if ('>' == c)
 		return (S_P_REDIRECT_APPEND);
-	else if ('(' == c || ')' == c || '&' == c || '|' == c || '<' == c)
-		return (S_P_ERROR);
 	if (shell_parse_node_add_char(p_data->parse_tmp, c))
 		return (S_P_ERROR);
 	return (S_P_REDIRECT_OUT);

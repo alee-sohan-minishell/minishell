@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 23:07:09 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 15:59:43 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 23:33:00 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ void	shell_parse_util_push_tree(t_shell_tree_node **p_focus,
 		return (shell_tree_insert_push_child(p_focus, item, push_left, append_left));
 	else if (T_COMMAND == item->kind)
 		return (tree_append(p_focus, item));
-	else if (T_EMPTY == (*p_focus)->kind)
+	else if (T_EMPTY == (*p_focus)->kind && T_EMPTY != item->kind)
 	{
 		(*p_focus)->kind = item->kind;
 		(*p_focus)->argv = item->argv;
 		(*p_focus)->fd = item->fd;
 		(*p_focus)->filepath = item->filepath;
-		return (tree_free(item));
+		return (tree_free(item, 0));
 	}
 	else if ((*p_focus)->left && (*p_focus)->right) // 자식 꽉 찬 경우 focus를 민다
 		return (shell_tree_insert_push_focus(p_focus, item, push_left));
@@ -84,6 +84,9 @@ int	shell_parse_util_insert_redirect(t_shell_data *p_data)
 
 	str = shell_parse_node_to_str(p_data->parse_tmp);
 	if (NULL == str)
+		return (-1);
+	p_data->parse_tmp = shell_parse_new_node();
+	if (NULL == p_data->parse_tmp)
 		return (-1);
 	tree_node = tree_new_node(p_data->redirect_kind, NULL, -1, str); // str의 포인터가 그대로 filepath로 들어가기 때문에 str free 해주면 안됨
 	if (NULL == tree_node)

@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/21 19:45:16 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 22:55:15 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 void	shell_parse_free(t_shell_data *p_data)
 {
-	tree_free(&p_data->tree);
+	tree_free(&p_data->tree, 1);
 	p_data->focus = &p_data->tree;
 	heredoc_list_free(&p_data->heredoc_list);
 	shell_parse_list_free(&p_data->parse_list);
@@ -42,7 +42,7 @@ int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
 	if (p_data->parse_env->cnt) // 아직 남아 있는게 있으면
 	{
 		if (shell_parse_find_str_in_env(p_data)) // p_data->parse_env에 있는 문자 key로 env 찾아서 p_data->parse_tmp에 바로 add_char 함
-			return (S_P_ERROR);
+			return (-1);
 	}
 	if (shell_parse_util_is_redirect(state))
 	{
@@ -51,7 +51,7 @@ int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
 		if (shell_parse_util_insert_redirect(p_data))
 			return (-1);
 	}
-	if (p_data->parse_tmp->cnt)
+	else if (p_data->parse_tmp->cnt)
 	{
 		if (shell_parse_list_append_node(&p_data->parse_list, &(p_data->parse_tmp)))
 			return (-1);
@@ -108,7 +108,7 @@ int	shell_parse_check_not_interpret(char *str)
 			++cnt_dq;
 		++str;
 	}
-	return (cnt_q || cnt_dq);
+	return (cnt_q % 2 || cnt_dq % 2);
 }
 
 void	shell_parse(t_shell_data *p_data)

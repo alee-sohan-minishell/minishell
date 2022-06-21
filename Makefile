@@ -6,13 +6,13 @@
 #    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/06/21 15:45:51 by min-jo           ###   ########.fr        #
+#    Updated: 2022/06/21 20:05:52 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-MD
+CFLAGS = -Wall -Wextra -Werror -MD -fsanitize=address -g
 RM = rm -f
 
 NAME = minishell

@@ -1,0 +1,7 @@
+b parse/shell_parse.c:69
+target stop-hook add --one-liner "p c”
+target stop-hook add --one-liner "p *p_data->parse_tmp”
+target stop-hook add --one-liner "p *p_data->parse_env”
+((sleep 3 && ls -la) | (sleep 1 && (cat << test1 && cat)) << test2)
+target stop-hook add --one-liner "p **p_focus"”
+target stop-hook add --one-liner "p *item"

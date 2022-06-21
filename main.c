@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/06/21 14:57:42 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 23:34:23 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,49 @@
 #include "parse/shell_parse.h"
 #include "excute/shell_excute.h"
 
+// TODO
 #include "parse/shell_parse.h"
+#include <stdlib.h>
+#include "init/shell_parse_init.h"
+
+int count = 0;
+
+void	print_recur(t_shell_tree_node *t, int left)
+{
+	char	*which[] = {"root", "empty", "string", "int", "cmd", "|", "&&", "||", "<", ">", "<<", ">>"};
+	int cnt = 0;
+
+	printf("%d: tree %s %d\n", count++, which[t->kind], left);
+
+	if (NULL == t->argv)
+		printf("	no argv\n");
+	else
+		while (t->argv[cnt])
+		{
+			printf("	%d: %s\n", cnt, t->argv[cnt]);
+			++cnt;
+		}
+
+	if (NULL == t->filepath)
+		printf("	no filepath\n");
+	else
+		printf("	file: %s\n", t->filepath);
+
+	if (t->left)
+		print_recur(t->left, 1);
+	if (t->right)
+		print_recur(t->right, 0);
+	printf("up\n\n");
+}
 
 void	print_tree(t_shell_data *shell)
 {
+	print_recur(shell->tree.right, 0);
+	printf("\n");
+	count = 0;
 	shell_parse_free(shell);
-	ft_set_status(shell, S_CLOSE);
+	shell_parse_init(shell);
+	ft_set_status(shell, S_LINE_READ);
 }
 
 int	main(int argc, char *argv[], char *env[])

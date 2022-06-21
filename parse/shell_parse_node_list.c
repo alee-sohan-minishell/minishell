@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 20:03:33 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 19:49:03 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 20:41:23 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,12 @@ t_parse_node	*shell_parse_new_node()
 
 void	shell_parse_node_free(t_parse_node *node)
 {
-	if (node->str)
-		free(node->str);
-	free(node);
+	if (node)
+	{
+		if (node->str)
+			free(node->str);
+		free(node);
+	}
 }
 
 // 원래 node 그대로 list로 감, 원래 node 자리에 새로 동적할당
@@ -66,4 +69,5 @@ void	shell_parse_list_free(t_parse_list *list)
 		node = list->head.next;
 	}
 	list->tail.pre = &list->head;
+	list->cnt = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:56:31 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 16:02:35 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 22:54:57 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,
 }
 
 // tree root가 dummy인 걸 고려한 free
-void	tree_free(t_shell_tree_node *tree)
+void	tree_free(t_shell_tree_node *tree, int filepath)
 {
 	int		cnt;
 
@@ -43,14 +43,14 @@ void	tree_free(t_shell_tree_node *tree)
 			free(tree->argv[cnt]);
 		free(tree->argv);
 	}
-	if (tree->filepath)
+	if (filepath && tree->filepath)
 		free(tree->filepath);
 	if (tree->left)
-		tree_free(tree->left);
+		tree_free(tree->left, filepath);
 	free(tree->left);
 	tree->left = NULL;
 	if (tree->right)
-		tree_free(tree->right);
+		tree_free(tree->right, filepath);
 	free(tree->right);
 	tree->right = NULL;
 }
@@ -70,26 +70,27 @@ void	tree_append(t_shell_tree_node **p_focus, t_shell_tree_node *item)
 void	shell_tree_insert_push_child(t_shell_tree_node **p_focus,
 			t_shell_tree_node *item, int push_left, int append_left)
 {
+	t_shell_tree_node	*tmp;
+
 	if (push_left) // focus의 왼쪽 자식을 밀어내는 경우
 	{
-		item->right = (*p_focus)->left;
-		if (append_left)
-			item->left = (*p_focus)->left;
+		tmp = (*p_focus)->left;
 		(*p_focus)->left = item;
 	}
 	else
 	{
-		item->right = (*p_focus)->right;
-		if (append_left)
-			item->left = (*p_focus)->right;
+		tmp = (*p_focus)->right;
 		(*p_focus)->right = item;
 	}
-	if (append_left && item->left)
-		item->left->parent = item;
-	else if (append_left && item->right)
-		item->right->parent = item;
 	item->parent = *p_focus;
-	(*p_focus) = item; // 방금 짚어넣은 아이템으로 포커스 이동
+	if (append_left)
+		item->left = tmp;
+	else
+		item->right = tmp;
+	if (tmp)
+		tmp->parent = item;
+	if (T_COMMAND != item->kind)
+		(*p_focus) = item; // 방금 짚어넣은 아이템으로 포커스 이동
 }
 
 void	shell_tree_insert_push_focus(t_shell_tree_node **p_focus,

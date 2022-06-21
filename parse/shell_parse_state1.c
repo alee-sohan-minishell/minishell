@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 15:26:14 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 23:22:13 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ if (' ' == c || '\'' == c || '"' == c || '$' == c
 
 t_state_shell_parse	shell_parse_space(t_shell_data *p_data, char c)
 {
-	if (' ' == c || '\'' == c || '"' == c || '$' == c
-		|| '<' == c || '>' == c)
+	if (' ' == c || '\'' == c || '"' == c || '$' == c)
 		return (shell_parse_util_get_state(c));
-	else if ('(' == c || ')' == c || '&' == c || '|' == c)
+	else if ('(' == c || ')' == c || '&' == c || '|' == c
+		|| '<' == c || '>' == c)
 	{
-		if (p_data->parse_list.tail.pre->cnt)
+		if (p_data->parse_list.cnt)
 			if (shell_parse_util_insert_cmd(p_data))
 				return (S_P_ERROR);
 		return (shell_parse_util_get_state(c));
