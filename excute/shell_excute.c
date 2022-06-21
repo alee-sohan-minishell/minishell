@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:09:58 by alee              #+#    #+#             */
-/*   Updated: 2022/05/28 04:03:43 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/21 15:41:34 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,32 @@
 //debug
 #include "../redirection/redirection.h"
 
+/*
+
+	Todo
+	1. heredoc (한번 호출)
+
+	2. recursive command (노드를 순휘하면서 호출)
+		1) 노드 확인
+		2) 명령어에 대한 타입 실행
+
+	3. fd recover (한번 호출)
+
+*/
+//debug test : heredoc
+#include "../heredoc/heredoc.h"
+
 void	shell_excute(t_shell_data *p_data)
 {
+	//test : heredoc
+	printf("[%s] [%s] [%s] \n", p_data->cmd[0], p_data->cmd[1], p_data->cmd[2]);
+	//cat << eof
+	if (ft_strcmp(p_data->cmd[1], "<<") == 0)
+	{
+		printf("heredoc start\n");
+		heredoc(p_data, p_data->cmd[2]);
+	}
+
 	if (!p_data)
 		return ;
 	if (!p_data->cmd[0])
@@ -36,11 +60,6 @@ void	shell_excute(t_shell_data *p_data)
 		ft_cd(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "pwd") == 0)
 		ft_pwd(p_data->cmd);
-	else if (ft_strcmp(p_data->cmd[0], "redi") == 0)
-	{
-		execv("/bin/echo", NULL);
-		printf("redirection test \n");
-	}
 	else if (ft_strcmp(p_data->cmd[0], "echo") == 0)
 		ft_echo(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
@@ -60,7 +79,7 @@ void	shell_excute(t_shell_data *p_data)
 	{
 		ft_exec_command(p_data);
 		set_tc_attr(p_data);
-		printf("%d\n", p_data->term_status);
+		// printf("%d\n", p_data->term_status);
 	}
 
 

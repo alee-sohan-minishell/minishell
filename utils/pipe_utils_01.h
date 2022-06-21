@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_parse.c                                      :+:      :+:    :+:   */
+/*   pipe_utils_01.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/17 18:24:19 by alee             ###   ########.fr       */
+/*   Created: 2022/06/21 14:05:07 by alee              #+#    #+#             */
+/*   Updated: 2022/06/21 14:08:20 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../shell/shell.h"
-#include "../utils/state_machine_utils_01.h"
-#include "../libft/libft.h"
+#ifndef PIPE_UTILS_01_H
+# define PIPE_UTILS_01_H
 
-void	shell_parse(t_shell_data *p_data)
-{
-	if (!p_data)
-		return ;
-	p_data->cmd = ft_split(p_data->line, ' ');
-	if (!p_data->cmd)
-	{
-		ft_set_status(p_data, S_ERROR);
-		return ;
-	}
-	ft_set_status(p_data, S_CMD);
-	return ;
-}
+int	ft_pipe(int	fildes[2]);
+
+#endif

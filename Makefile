@@ -6,7 +6,7 @@
 #    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/05/28 02:08:17 by alee             ###   ########.fr        #
+#    Updated: 2022/06/21 14:47:25 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SHELL_FILE =
 INIT_FILE = shell_init shell_utils_01
 READ_LINE_FILE = shell_readline
 UTILS_FILE = fd_utils_01 error_msg_utils_01 state_machine_utils_01 command_utils_01 \
-			string_utils_01 integer_utils_01
+			string_utils_01 integer_utils_01 pipe_utils_01
 BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export ft_export_utils
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
@@ -43,6 +43,7 @@ NON_BUILT_IN_FILE = non_built_in
 SHELL_PARSE_FILE = shell_parse
 EXCUTE_FILE = shell_excute
 REDIRECTION_FILE = redirection
+HEREDOC_FILE = heredoc
 
 READLINE_ROOT = $(shell brew --prefix readline)
 READLINE_INCLUDE = $(READLINE_ROOT)/include
@@ -65,6 +66,7 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix parse/,$(addsuffix .c,$(SHELL_PARSE_FILE))) \
 	$(addprefix excute/,$(addsuffix .c,$(EXCUTE_FILE))) \
 	$(addprefix redirection/,$(addsuffix .c,$(REDIRECTION_FILE))) \
+	$(addprefix heredoc/,$(addsuffix .c,$(HEREDOC_FILE))) \
 
 
 

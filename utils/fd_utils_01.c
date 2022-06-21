@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 03:01:59 by alee              #+#    #+#             */
-/*   Updated: 2022/05/28 06:48:51 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/21 13:51:12 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,12 @@ int	ft_close(int fd)
 	if (close_fd == -1)
 		ft_perror((const char *)0);
 	return (close_fd);
+}
+
+void	recover_default_fd(t_shell_data *p_data)
+{
+	ft_dup2(p_data->cp_stdin, STDIN_FILENO);
+	ft_dup2(p_data->cp_stdout, STDOUT_FILENO);
+	ft_dup2(p_data->cp_stderr, STDERR_FILENO);
+	return ;
 }
