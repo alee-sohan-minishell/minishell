@@ -17,6 +17,8 @@
 # include "../tree_heredoc/shell_tree.h"
 
 int		shell_parse_util_insert_cmd(t_shell_data *p_data);
+int		shell_parse_util_insert_redirect(t_shell_data *p_data);
+int		shell_parse_util_is_redirect(t_shell_tree_kind kind);
 void	shell_parse_util_push_tree(t_shell_tree_node **p_focus,
 			t_shell_tree_node *item);
 int		shell_parse_util_insert_argv_in_cmd(t_shell_tree_node *focus,

@@ -33,8 +33,12 @@ typedef enum e_state_shell_parse
 	S_P_BOOL_OR,
 	S_P_REDIRECT_HEREDOC,
 	S_P_REDIRECT_APPEND,
+
 	S_P_DQUOTE_ENV,
-	S_P_REDIRECT_SPACE,
+	S_P_REDIRECT_ENV,
+	S_P_REDIRECT_QUOTE,
+	S_P_REDIRECT_DQUOTE,
+	S_P_REDIRECT_DQUOTE_ENV,
 
 	S_P_STRING,
 }	t_state_shell_parse;
@@ -49,6 +53,8 @@ t_state_shell_parse	shell_parse_state2(t_state_shell_parse state,
 t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
 			t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_state4(t_state_shell_parse state,
+			t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_state5(t_state_shell_parse state,
 			t_shell_data *p_data, char c);
 
 /*
@@ -65,7 +71,7 @@ t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c);
 */
 t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_redirect_space(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_in_space(t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state3.c
@@ -83,5 +89,14 @@ t_state_shell_parse	shell_parse_bool_or(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_heredoc(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char c);
+
+/*
+* shell_parse_state5.c
+*/
+t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_quote(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_dquote(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_dquote_env(t_shell_data *p_data,
+						char c);
 
 #endif

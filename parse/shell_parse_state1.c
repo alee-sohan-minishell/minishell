@@ -12,8 +12,8 @@
 
 #include "../shell/shell.h"
 #include "shell_parse_state.h"
-#include "shell_parse_node_list.h"
 #include "shell_parse_util_state.h"
+#include "shell_parse_node_list.h"
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_util_tree.h"
 
@@ -80,14 +80,15 @@ t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c)
 	{
 		if (shell_parse_find_str_in_env(p_data)) // p_data->parse_env에 있는 문자 key로 env 찾아서 p_data->parse_tmp에 바로 add_char 함
 			return (S_P_ERROR);
-		if (' ' == c ||  '(' == c || ')' == c
+		if (' ' == c || '(' == c || ')' == c
 			|| '&' == c || '|' == c || '<' == c || '>' == c)
 		{
 			if (shell_parse_list_append_node(&p_data->parse_list,
 				p_data->parse_tmp))
 				return (S_P_ERROR);
-			if (shell_parse_util_insert_cmd(p_data))
-				return (S_P_ERROR);
+			if (' ' != c)
+				if (shell_parse_util_insert_cmd(p_data))
+					return (S_P_ERROR);
 		}
 		return (shell_parse_util_get_state(c));
 	}
@@ -112,5 +113,5 @@ t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c)
 	}
 	if (shell_parse_node_add_char(&p_data->parse_env, c))
 		return (S_P_ERROR);
-	return (S_P_ENV);
+	return (S_P_DQUOTE_ENV);
 }

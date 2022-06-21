@@ -19,7 +19,7 @@
 void	shell_parse_free(t_shell_data *p_data);
 int		shell_parse_check(t_shell_data *p_data, t_state_shell_parse state);
 int		shell_parse_check_not_interpret(char *str);
-int		loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str);
+char	*loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str);
 void	shell_parse(t_shell_data *p_data);
 
 #endif

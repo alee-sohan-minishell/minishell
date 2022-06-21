@@ -62,8 +62,10 @@ int	shell_parse_init(t_shell_data *p_data)
 	shell_list_init(&p_data->parse_list);
 	p_data->parse_tmp = shell_parse_new_node();
 	if (NULL == p_data->parse_tmp)
-		return ;
+		return (-1);
 	p_data->parse_env = shell_parse_new_node();
 	if (NULL == p_data->parse_env)
-		return ;
+		return (-1);
+	p_data->redirect_state = T_EMPTY;
+	return (0);
 }

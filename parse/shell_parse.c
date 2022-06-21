@@ -43,9 +43,8 @@ int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
 	}
 	else if (S_P_QUOTE == state || S_P_DQUOTE == state
 		|| S_P_OPEN == state || S_P_AND == state || S_P_PIPE == state
-		|| S_P_REDIRECT_IN == state || S_P_REDIRECT_OUT == state
 		|| S_P_BOOL_AND == state || S_P_BOOL_OR == state
-		|| is_redirect(state) || S_P_DQUOTE_ENV == state)
+		|| shell_parse_util_is_redirect(state) || S_P_DQUOTE_ENV == state)
 		return (-1);
 	else if (S_P_ENV == state)
 	{
@@ -60,21 +59,17 @@ int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
 	return (0);
 }
 
-int	loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
+char	*loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 {
 	while (*str)
 	{
 		if (S_P_ERROR == *state)
-		{
-			ft_perror_param("error while parse", str, 0); // TODO 뒷 문장 전체 출력하는 걸로 괜찮은가?
-			return (-1);
-		}
+			return (str);
 		else if (S_P_SPACE == *state || S_P_QUOTE == *state
 			|| S_P_DQUOTE == *state || S_P_ENV == *state
 			|| S_P_DQUOTE_ENV == *state)
 			*state = shell_parse_state1(state, p_data, *str);
-		else if (S_P_OPEN == *state || S_P_CLOSE == *state
-			|| S_P_REDIRECT_SPACE == *state)
+		else if (S_P_OPEN == *state || S_P_CLOSE == *state)
 			*state = shell_parse_state2(state, p_data, *str);
 		else if (S_P_AND == *state || S_P_PIPE == *state
 			|| S_P_REDIRECT_IN == *state || S_P_REDIRECT_OUT == *state)
@@ -83,9 +78,13 @@ int	loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 			|| S_P_REDIRECT_HEREDOC == *state || S_P_REDIRECT_APPEND == *state
 			|| S_P_STRING == *state)
 			*state = shell_parse_state4(state, p_data, *str);
+		else if (S_P_REDIRECT_ENV == *state || S_P_REDIRECT_QUOTE == *state
+			|| S_P_REDIRECT_DQUOTE == *state
+			|| S_P_REDIRECT_DQUOTE_ENV == *state)
+			*state = shell_parse_state5(state, p_data, *str);
 		++str;
 	}
-	return (0);
+	return (NULL);
 }
 
 // \ 이 중간에 포함 되거나, ' " 개수가 홀 수 일 때 parse 안 함
@@ -112,6 +111,7 @@ int	shell_parse_check_not_interpret(char *str)
 void	shell_parse(t_shell_data *p_data)
 {
 	t_state_shell_parse	state;
+	char				*ret;
 
 	if (!p_data->line || shell_parse_check_not_interpret(p_data->line))
 	{
@@ -119,9 +119,10 @@ void	shell_parse(t_shell_data *p_data)
 		return ;
 	}
 	state = S_P_SPACE;
-	if (loop_parse(p_data, &state, p_data->line)
-		&& shell_parse_check(p_data, state) && shell_parse_check_tree(p_data))
+	ret = loop_parse(p_data, &state, p_data->line);
+	if (ret && shell_parse_check(p_data, state) && shell_parse_check_tree(p_data))
 	{
+		ft_perror_param("error while parse", ret, 0); // TODO 뒷 문장 전체 출력하는 걸로 괜찮은가?
 		shell_parse_free(p_data);
 		ft_set_status(p_data, S_ERROR);
 		return ;

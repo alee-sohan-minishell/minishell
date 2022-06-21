@@ -34,8 +34,8 @@ t_state_shell_parse	shell_parse_state2(t_state_shell_parse state,
 		return (shell_parse_open(p_data, c));
 	else if (S_P_CLOSE == state)
 		return (shell_parse_close(p_data, c));
-	else if (S_P_REDIRECT_SPACE == state)
-		return (shell_parse_redirect_space(p_data, c));
+	else if (S_P_R_IN_SPACE == state)
+		return (shell_parse_redirect_in_space(p_data, c));
 }
 
 t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
@@ -64,4 +64,17 @@ t_state_shell_parse	shell_parse_state4(t_state_shell_parse state,
 		return (shell_parse_redirect_append(p_data, c));
 	else if (S_P_STRING == state)
 		return (shell_parse_string(p_data, c));
+}
+
+t_state_shell_parse	shell_parse_state5(t_state_shell_parse state,
+			t_shell_data *p_data, char c)
+{
+	if (S_P_REDIRECT_ENV == state)
+		return (shell_parse_redirect_env(p_data, c));
+	else if (S_P_REDIRECT_QUOTE == state)
+		return (shell_parse_redirect_quote(p_data, c));
+	else if (S_P_REDIRECT_DQUOTE == state)
+		return (shell_parse_redirect_dquote(p_data, c));
+	else if (S_P_REDIRECT_DQUOTE_ENV == state)
+		return (shell_parse_redirect_dquote_env(p_data, c));
 }

@@ -13,6 +13,7 @@
 #include "../shell/shell.h"
 #include "../tree_heredoc/shell_tree.h"
 #include "shell_parse_util_node_list.h"
+#include "shell_parse_state.h"
 
 int	shell_parse_util_insert_cmd(t_shell_data *p_data)
 {
@@ -22,13 +23,38 @@ int	shell_parse_util_insert_cmd(t_shell_data *p_data)
 	argv = shell_parse_list_to_argv(&p_data->parse_list);
 	if (NULL == argv)
 		return (-1);
-	tree_node = tree_new_node(T_COMMAND, argv, 0, NULL); // argv의 포인터가 그대로 들어가기 때문에 argv free 해주면 안됨
+	tree_node = tree_new_node(T_COMMAND, argv, -1, NULL); // argv의 포인터가 그대로 들어가기 때문에 argv free 해주면 안됨
 	if (NULL == tree_node)
 	{
 		shell_parse_util_argv_free(argv, -1);
 		return (-1);
 	}
 	shell_parse_util_push_tree(&p_data->focus, tree_node);
+}
+
+int	shell_parse_util_insert_redirect(t_shell_data *p_data)
+{
+	char				*str;
+	t_shell_tree_node	*tree_node;
+
+	str = shell_parse_node_to_str(p_data->parse_tmp);
+	if (NULL == str)
+		return (-1);
+	tree_node = tree_new_node(p_data->kind, NULL, -1, str); // str의 포인터가 그대로 filepath로 들어가기 때문에 str free 해주면 안됨
+	if (NULL == tree_node)
+		return (-1);
+	shell_parse_util_push_tree(&p_data->focus, tree_node);
+	return (0);
+}
+
+int	shell_parse_util_is_redirect(t_shell_tree_kind kind)
+{
+	if (S_P_REDIRECT_IN == kind || S_P_REDIRECT_OUT == kind
+		|| S_P_REDIRECT_HEREDOC == kind || S_P_REDIRECT_APPEND == kind
+		|| S_P_REDIRECT_ENV == kind || S_P_REDIRECT_QUOTE == kind
+		|| S_P_REDIRECT_DQUOTE == kind || S_P_REDIRECT_DQUOTE_ENV == kind)
+		return (1);
+	return (0);
 }
 
 // focus가 바뀌어야 해서 double pointer
@@ -47,7 +73,8 @@ void	shell_parse_util_push_tree(t_shell_tree_node **p_focus,
 	if (T_PIPE == item->kind)
 		append_left = 0;
 	if (T_ROOT == (*p_focus)->kind || // root인 경우나
-		(is_redirect((*p_focus)->kind) && is_redirect(item->kind))) // focus, item 둘 다 redirect인 경우 자식을 민다
+		(shell_parse_util_is_redirect((*p_focus)->kind)
+		&& shell_parse_util_is_redirect(item->kind))) // focus, item 둘 다 redirect인 경우 자식을 민다
 		return (shell_tree_insert_push_child(p_focus, item, push_left, append_left));
 	else if (T_COMMAND == item->kind)
 		return (tree_append(p_focus, item));
@@ -63,7 +90,6 @@ void	shell_parse_util_push_tree(t_shell_tree_node **p_focus,
 		return (shell_tree_insert_push_focus(p_focus, item, push_left));
 	return (tree_append((*p_focus), item));
 }
-
 
 // ls -l < test.txt -a 같이 redirect 후 argv 나오는 경우
 // redirect tree_node 밑에 가장 첫 번째 오른쪽 command tree_node 찾아서 argv 넣어줌

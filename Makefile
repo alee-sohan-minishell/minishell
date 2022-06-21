@@ -45,7 +45,7 @@ REDIRECTION_FILE = redirection
 SHELL_PARSE_FILE = shell_parse_check_tree shell_parse_node_list \
 			shell_parse_state shell_parse_state1 shell_parse_state2 \
 			shell_parse_state3 shell_parse_state4 shell_parse_util_node_list \
-			shell_parse_util_state shell_parse_tree shell_parse
+			shell_parse_tree shell_parse
 TREE_HEREDOC_FILE = shell_tree shell_heredoc
 
 READLINE_ROOT = $(shell brew --prefix readline)

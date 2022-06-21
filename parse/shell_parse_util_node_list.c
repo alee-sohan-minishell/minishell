@@ -110,7 +110,7 @@ int	shell_parse_find_str_in_env(t_shell_data *p_data)
 	}
 	free(key);
 	cnt = -1;
-	while (env_node->value[++cnt]) //# TODO add char 이 안에서 말고 여기선 걍 str 리턴하고 따로 하는게 나으려나? 일단 줄 수 모잘라서 이렇게 함
+	while (env_node->value[++cnt])
 		if (shell_parse_node_add_char(&p_data->parse_list,
 			env_node->value[cnt]))
 			return (-1);
