@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/21 16:01:21 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 19:45:16 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	shell_parse_free(t_shell_data *p_data)
 	heredoc_list_free(&p_data->heredoc_list);
 	shell_parse_list_free(&p_data->parse_list);
 	shell_parse_node_free(p_data->parse_tmp);
+	p_data->parse_tmp = NULL;
 	shell_parse_node_free(p_data->parse_env);
+	p_data->parse_env = NULL;
 }
 
 int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
@@ -121,8 +123,8 @@ void	shell_parse(t_shell_data *p_data)
 	}
 	state = S_P_SPACE;
 	ret = loop_parse(p_data, &state, p_data->line);
-	if (ret && shell_parse_check(p_data, state)
-		&& shell_parse_check_tree(p_data->focus))
+	if (shell_parse_check(p_data, state)
+		&& shell_parse_check_tree(p_data->focus) && ret)
 	{
 		ft_perror_param("error while parse", ret, 0); // TODO 뒷 문장 전체 출력하는 걸로 괜찮은가?
 		shell_parse_free(p_data);

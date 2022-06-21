@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:19:56 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 11:53:51 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 19:38:46 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	shell_tree_init(t_shell_tree_node *node)
 void	shell_heredoc_init(t_shell_heredoc_list *list)
 {
 	list->head.pre = NULL;
-	list->head.next = NULL;
+	list->head.next = &list->tail;
 	list->head.delimiter = NULL;
-	list->tail.pre = NULL;
+	list->tail.pre = &list->head;
 	list->tail.next = NULL;
 	list->tail.delimiter = NULL;
 }
@@ -45,12 +45,12 @@ void	shell_list_init(t_parse_list *list)
 	list->head.size = 0;
 	list->head.cnt = 0;
 	list->head.str = NULL;
-	list->head.next = NULL;
+	list->head.pre = NULL;
 	list->head.next = &list->tail;
 	list->tail.size = 0;
 	list->tail.cnt = 0;
 	list->tail.str = NULL;
-	list->tail.next = &list->head;
+	list->tail.pre = &list->head;
 	list->tail.next = NULL;
 }
 

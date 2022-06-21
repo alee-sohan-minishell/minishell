@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 20:03:33 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 23:07:53 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 19:49:03 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_parse_node	*shell_parse_new_node()
 		return (NULL);
 	}
 	ret->cnt = 0;
-	ret->size = 0;
+	ret->size = SHELL_PARSE_NODE_SIZE;
 	ret->next = NULL;
 	ret->pre = NULL;
 	return (ret);
@@ -65,4 +65,5 @@ void	shell_parse_list_free(t_parse_list *list)
 		shell_parse_node_free(node);
 		node = list->head.next;
 	}
+	list->tail.pre = &list->head;
 }

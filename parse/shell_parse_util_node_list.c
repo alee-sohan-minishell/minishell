@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:57:15 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 15:43:24 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/21 19:48:54 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*shell_parse_node_to_str(t_parse_node *node)
 {
 	char	*ret;
 
-	ret = malloc(sizeof(char) * node->cnt + 1);
+	ret = malloc(sizeof(char) * (node->cnt + 1));
 	if (NULL == ret)
 		return (NULL);
 	ret[node->cnt] = '\0';
@@ -58,7 +58,7 @@ char	**shell_parse_list_to_argv(t_parse_list *list) // 원래 list free
 	t_parse_node	*node;
 	char			*arg;
 
-	argv = malloc(sizeof(char *) * list->cnt + 1);
+	argv = malloc(sizeof(char *) * (list->cnt + 1));
 	if (NULL == argv)
 		return (NULL);
 	argv[list->cnt] = NULL;
@@ -73,7 +73,7 @@ char	**shell_parse_list_to_argv(t_parse_list *list) // 원래 list free
 		argv[cnt] = arg;
 		node = list->head.next;
 	}
-	list->tail.pre = NULL;
+	list->tail.pre = &list->head;
 	return (argv);
 }
 
