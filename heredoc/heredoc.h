@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd_utils_01.h                                      :+:      :+:    :+:   */
+/*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 03:01:28 by alee              #+#    #+#             */
-/*   Updated: 2022/06/22 17:09:00 by alee             ###   ########.fr       */
+/*   Created: 2022/06/22 16:36:50 by alee              #+#    #+#             */
+/*   Updated: 2022/06/22 17:27:55 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FD_UTILS_01_H
-# define FD_UTILS_01_H
+#ifndef HEREDOC_H
+# define HEREDOC_H
+# include "../shell/shell.h"
+# include "../tree_heredoc/shell_tree.h"
 
-int	ft_dup(int fd);
-int	ft_dup2(int fd1, int fd2);
-int	ft_close(int fd);
-int	ft_pipe(int *fildes);
+int	heredoc(t_shell_data *p_data, const char *eof);
+int	heredoc_readline(int *heredoc_pipe, const char *eof);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/05/26 12:21:20 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/22 18:58:53 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <readline/history.h>
 #include "shell_readline.h"
 #include "../init/shell_utils_01.h"
+
+//debug
+#include <stdio.h>
 
 void	shell_readline(t_shell_data *p_data)
 {

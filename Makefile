@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
+#    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/06/21 20:05:52 by min-jo           ###   ########.fr        #
+#    Updated: 2022/06/22 16:44:18 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -MD -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror #-MD -fsanitize=address -g
 RM = rm -f
 
 NAME = minishell
@@ -43,6 +43,7 @@ SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in
 EXCUTE_FILE = shell_excute shell_execute_tree
 REDIRECTION_FILE = redirection
+HEREDOC_FILE = heredoc
 SHELL_PARSE_FILE = shell_parse_check_tree shell_parse_node_list \
 			shell_parse_state shell_parse_state1 shell_parse_state2 \
 			shell_parse_state3 shell_parse_state4 shell_parse_state5 \
@@ -72,7 +73,7 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix redirection/,$(addsuffix .c,$(REDIRECTION_FILE))) \
 	$(addprefix parse/,$(addsuffix .c,$(SHELL_PARSE_FILE))) \
 	$(addprefix tree_heredoc/,$(addsuffix .c,$(TREE_HEREDOC_FILE))) \
-
+	$(addprefix heredoc/,$(addsuffix .c,$(HEREDOC_FILE))) \
 
 
 

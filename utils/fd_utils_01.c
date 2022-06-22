@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 03:01:59 by alee              #+#    #+#             */
-/*   Updated: 2022/05/28 06:48:51 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/22 17:10:28 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	ft_dup2(int fildes, int fildes2)
 	return (result);
 }
 
-
 int	ft_close(int fd)
 {
 	int	close_fd;
@@ -51,4 +50,14 @@ int	ft_close(int fd)
 	if (close_fd == -1)
 		ft_perror((const char *)0);
 	return (close_fd);
+}
+
+int	ft_pipe(int *fildes)
+{
+	int	result;
+
+	result = pipe(fildes);
+	if (result)
+		ft_perror_exit((const char *)0, 1);
+	return (result);
 }

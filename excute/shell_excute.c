@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:09:58 by alee              #+#    #+#             */
-/*   Updated: 2022/05/28 04:03:43 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/22 16:26:44 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ void	shell_excute(t_shell_data *p_data)
 		ft_cd(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "pwd") == 0)
 		ft_pwd(p_data->cmd);
-	else if (ft_strcmp(p_data->cmd[0], "redi") == 0)
-	{
-		execv("/bin/echo", NULL);
-		printf("redirection test \n");
-	}
 	else if (ft_strcmp(p_data->cmd[0], "echo") == 0)
 		ft_echo(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
@@ -51,11 +46,6 @@ void	shell_excute(t_shell_data *p_data)
 		ft_unset(p_data->cmd, &p_data->env_list);
 	else if (ft_strcmp(p_data->cmd[0], "export") == 0)
 		ft_export(p_data->cmd, &p_data->env_list);
-	else if (ft_strcmp(p_data->cmd[0], "break") == 0)
-	{
-		ft_set_status(p_data, S_ERROR);
-		return ;
-	}
 	else
 	{
 		//dup2(p_data->fd_out_old, STDOUT_FILENO);

@@ -15,6 +15,7 @@
 #include "../parse/shell_parse.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include "../heredoc/heredoc.h"
 
 void	set_pipe(t_shell_data *p_data)
 {
@@ -42,9 +43,20 @@ void	set_pipe(t_shell_data *p_data)
 
 //void	set_fd(t_shell_data *p_data, const char *filename, int type)
 //
+//debug
+#include <stdio.h>
+#include "../tree_heredoc/shell_heredoc.h"
+
 int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 {
-	if (cmd_tree->kind == T_REDIRECT_IN)
+	if (cmd_tree->kind == T_REDIRECT_HEREDOC)
+	{
+		//TODO : heredoc의 eof 문자열이 파싱 구조에 보이지 않음
+		// p_data->heredoc_list.head.delimiter와 같이 heredoc리스트의 delimiter를 넣어주어야 한다.
+		if (heredoc(p_data, cmd_tree->filepath) == -1)
+			return (-1);
+	}
+	else if (cmd_tree->kind == T_REDIRECT_IN)
 	{
 		if (redirection_in(p_data, cmd_tree->filepath) == -1)
 			return (-1);
