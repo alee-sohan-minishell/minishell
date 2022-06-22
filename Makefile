@@ -17,7 +17,7 @@ RM = rm -f
 
 NAME = minishell
 
-FILE = main
+FILE = $(if $(MAIN), $(MAIN))
 LIBFT = $(addprefix libft/, libft.a)
 #LIBFT_FILE = ft_isalnum ft_isprint ft_memcmp ft_putchar_fd ft_split \
 			ft_strlcat ft_strncmp ft_substr ft_atoi ft_isalpha \
@@ -105,5 +105,8 @@ fclean: clean
 re:
 	make fclean
 	make all
+
+test: $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(LIBADD) $^ -o $@
 
 -include $(OBJ:.o=.d)

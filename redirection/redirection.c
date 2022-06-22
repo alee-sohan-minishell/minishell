@@ -17,7 +17,7 @@
 #include "../utils/error_msg_utils_01.h"
 #include "../shell/shell.h"
 
-int	redirection_in(const char *file)
+int	redirection_in(t_shell_data *p_data, const char *file)
 {
 	int	file_fd;
 
@@ -27,12 +27,13 @@ int	redirection_in(const char *file)
 		ft_perror_param((const char *)0, file, 1);
 		return (-1);
 	}
-	ft_dup2(file_fd, STDOUT_FILENO);
+	p_data->fd_in_new = file_fd;
+	ft_dup2(file_fd, STDIN_FILENO);
 	ft_close(file_fd);
-	return (1);
+	return (0);
 }
 
-int	redirection_out(const char *file)
+int	redirection_out(t_shell_data *p_data, const char *file)
 {
 	int	file_fd;
 
@@ -42,12 +43,13 @@ int	redirection_out(const char *file)
 		ft_perror_param((const char *)0, file, 1);
 		return (-1);
 	}
+	p_data->fd_out_new = file_fd;
 	ft_dup2(file_fd, STDOUT_FILENO);
 	ft_close(file_fd);
-	return (1);
+	return (0);
 }
 
-int	redirection_append(const char *file)
+int	redirection_append(t_shell_data *p_data, const char *file)
 {
 	int	file_fd;
 
@@ -57,7 +59,8 @@ int	redirection_append(const char *file)
 		ft_perror_param((const char *)0, file, 1);
 		return (-1);
 	}
+	p_data->fd_out_new = file_fd;
 	ft_dup2(file_fd, STDOUT_FILENO);
 	ft_close(file_fd);
-	return (1);
+	return (0);
 }

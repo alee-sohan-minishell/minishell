@@ -134,3 +134,19 @@ void	shell_parse(t_shell_data *p_data)
 	ft_set_status(p_data, S_CMD); // TODO 바로 CMD로 넘어가기 때문에 CMD에서 shell_parse_free() 호출해줘야 함
 	return ;
 }
+
+//# 여러 개 찾는 걸로 바꾸기
+/*char	*ft_strchr(const char *s, int c)
+{
+	size_t	cur_idx;
+	size_t	search_idx;
+
+	cur_idx = 0;
+	search_idx = ft_strlen(s) + 1;
+	while (cur_idx < search_idx)
+	{
+		if (*((char *)s + cur_idx) == (char)c)
+			return ((char *)s + cur_idx);
+		cur_idx++;
+	}
+}*/

@@ -24,7 +24,8 @@
 
 //debug
 #include <stdio.h>
-
+#define WRITE 1
+#define READ 0
 
 static char	**get_path_list(t_env_list *p_list)
 {
@@ -87,7 +88,7 @@ int	ft_exec_command(t_shell_data *p_data)
 	pid_t	pid;
 	char	**path_list;
 	int		index;
-	int		status;
+	//int		status;
 	struct stat	s;
 
 	index = 0;
@@ -101,6 +102,11 @@ int	ft_exec_command(t_shell_data *p_data)
 		else if (pid == 0)
 		{
 			set_tc_attr_to_default(p_data);
+			{
+				//p_data->fd_out_new = p_data->pipe_fd[1];
+				//dup2(p_data->pipe_fd[1], p_data->fd_out_new);
+				//close(p_data->pipe_fd[0]);
+			}
 			if (execve(p_data->cmd[0], p_data->cmd, *p_data->p_env) == -1)
 			{
 				if (errno == ENOEXEC)//이짓까지 해야될까?
@@ -133,8 +139,8 @@ int	ft_exec_command(t_shell_data *p_data)
 				}
 			}
 		}
-		wait(&status);
-		p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
+		//wait(&status);
+		//p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
 		if (path_list)
 			free_array(path_list);
 		return (0);
@@ -145,13 +151,43 @@ int	ft_exec_command(t_shell_data *p_data)
 		if (stat(path_list[index], &s) == 0)
 		{
 			pid = fork();
-			if (pid == 0)
+			if (pid > 0)
+			{
+				p_data->global_data.pipe_pid[p_data->global_data.index] = pid;
+				++p_data->global_data.index;
+			}
+			else if (pid == 0)
 			{
 				set_tc_attr_to_default(p_data);
+				if (p_data->is_piped)
+				{
+					for (int i = 0; i < p_data->cmd_count - 1; i++)
+					{
+						close(p_data->pipe_fd[i][READ]);
+						close(p_data->pipe_fd[i][WRITE]);
+					}
+					if (p_data->cmd_count > 0)
+					{
+						close(p_data->pipe_fd[p_data->cmd_count - 1][WRITE]);
+						dup2(p_data->pipe_fd[p_data->cmd_count - 1][READ], STDIN_FILENO);
+						close(p_data->pipe_fd[p_data->cmd_count - 1][READ]);
+					}
+					if (p_data->cmd_count < p_data->pipe_count)
+					{
+						close(p_data->pipe_fd[p_data->cmd_count][READ]);
+						dup2(p_data->pipe_fd[p_data->cmd_count][WRITE], STDOUT_FILENO);
+						close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
+					}
+					for (int i = p_data->cmd_count + 1; i < p_data->pipe_count; i++)
+					{
+						close(p_data->pipe_fd[i][READ]);
+						close(p_data->pipe_fd[i][WRITE]);
+					}
+				}
 				execve(path_list[index], p_data->cmd, *p_data->p_env);
 			}
-			wait(&status);
-			p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
+			//wait(&status);
+			//p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
 			break ;
 		}
 		++index;
