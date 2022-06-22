@@ -20,7 +20,6 @@
 #include "excute/shell_excute.h"
 
 // TODO
-#include "parse/shell_parse.h"
 #include <stdlib.h>
 #include "init/shell_parse_init.h"
 
@@ -79,11 +78,9 @@ int	main(int argc, char *argv[], char *env[])
 			shell_readline(&shell);
 		else if (shell.status == S_PARSE)
 			shell_parse(&shell);
-		else if (shell.status == S_CMD)
-			print_tree(&shell);
 		// TODO
-		// else if (shell.status == S_CMD)
-		// 	shell_excute(&shell);
+		else if (shell.status == S_CMD)
+			shell_execute_tree(&shell);
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)
 			break ;
 	}

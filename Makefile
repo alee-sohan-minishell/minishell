@@ -41,7 +41,7 @@ BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export ft_export
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal
 NON_BUILT_IN_FILE = non_built_in
-EXCUTE_FILE = shell_excute
+EXCUTE_FILE = shell_excute shell_execute_tree
 REDIRECTION_FILE = redirection
 SHELL_PARSE_FILE = shell_parse_check_tree shell_parse_node_list \
 			shell_parse_state shell_parse_state1 shell_parse_state2 \

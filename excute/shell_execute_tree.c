@@ -1,5 +1,4 @@
 #include "../shell/shell.h"
-#include "../libft/libft.h"
 #include "../utils/state_machine_utils_01.h"
 #include "../built_in/ft_cd.h"
 #include "../built_in/ft_pwd.h"
@@ -12,6 +11,8 @@
 #include "../init/shell_utils_01.h"
 #include "../redirection/redirection.h"
 #include "../excute/shell_excute.h"
+#include <unistd.h>
+#include <stdlib.h>
 
 void	set_pipe(t_shell_data *p_data)
 {
@@ -117,9 +118,9 @@ void	shell_execute_tree(t_shell_data *p_data)
 	p_data->cmd_count = p_data->pipe_count;
 	p_data->is_piped = 0;
 
-	cur = p_data->cmd_tree;
+	cur = &p_data->tree;
 	tree_traverse_set_pipe(p_data, cur);
-	cur = p_data->cmd_tree;
+	cur = &p_data->tree;
 	tree_traverse_exe_cmd(p_data, cur);
 	//printf("i'm waiting for process id %d and %d\n", p_data->global_data.pipe_pid[0], p_data->global_data.pipe_pid[1]);
 	/*if (!p_data->is_piped)
