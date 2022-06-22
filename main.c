@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/06/21 23:34:23 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/22 23:38:03 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,54 +18,7 @@
 #include "utils/state_machine_utils_01.h"
 #include "parse/shell_parse.h"
 #include "excute/shell_excute.h"
-
-// TODO
-#include <stdlib.h>
-#include "init/shell_parse_init.h"
-
-int count = 0;
-
-void	print_recur(t_shell_tree_node *t, int left)
-{
-	char	*which[] = {"root", "empty", "string", "int", "cmd", "|", "&&", "||", "<", ">", "<<", ">>"};
-	int cnt = 0;
-	if (t)
-	{
-		printf("%d: tree %s" , count++, which[t->kind]);
-		if (t->kind == T_PIPE)
-			printf("%d", t->pnum);
-		printf(" %d\n", left);
-
-		if (NULL == t->argv)
-			printf("	no argv\n");
-		else
-			while (t->argv[cnt])
-			{
-				printf("	%d: %s\n", cnt, t->argv[cnt]);
-				++cnt;
-			}
-		if (NULL == t->filepath)
-			printf("	no filepath\n");
-		else
-			printf("	file: %s\n", t->filepath);
-		print_recur(t->left, 1);
-		print_recur(t->right, 0);
-		printf("up\n\n");
-	}
-}
-
-void	print_tree(t_shell_data *shell)
-{
-	t_shell_tree_node	*cur;
-
-	cur = &shell->tree;
-	print_recur(cur, 0);
-	printf("\n");
-	count = 0;
-	//shell_parse_free(shell);
-	//shell_parse_init(shell);
-	//ft_set_status(shell, S_LINE_READ);
-}
+#include "print.h"
 
 int	main(int argc, char *argv[], char *env[])
 {
@@ -82,7 +35,6 @@ int	main(int argc, char *argv[], char *env[])
 			shell_readline(&shell);
 		else if (shell.status == S_PARSE)
 			shell_parse(&shell);
-		// TODO
 		else if (shell.status == S_CMD)
 		{
 			print_tree(&shell);
@@ -92,6 +44,5 @@ int	main(int argc, char *argv[], char *env[])
 			break ;
 	}
 	status_close(&shell);
-	// while (1); // TODO
 	return (shell.last_status);
 }

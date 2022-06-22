@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_parse_init.h                                 :+:      :+:    :+:   */
+/*   shell_parse_util_tree_push.h                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 18:19:56 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 22:56:02 by min-jo           ###   ########.fr       */
+/*   Created: 2022/06/01 20:34:47 by min-jo            #+#    #+#             */
+/*   Updated: 2022/06/22 22:33:52 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_PARSE_INIT_H
-# define SHELL_PARSE_INIT_H
+#ifndef SHELL_PARSE_UTIL_TREE_PUSH_H
+# define SHELL_PARSE_UTIL_TREE_PUSH_H
 
 # include "../tree_heredoc/shell_tree.h"
-# include "../tree_heredoc/shell_heredoc.h"
-# include "../parse/shell_parse_node_list.h"
-# include "../shell/shell.h"
 
-void	shell_tree_init(t_shell_tree_node *node);
-void	shell_heredoc_init(t_shell_heredoc_list *list);
-void	shell_list_init(t_parse_list *list);
-int		shell_parse_init(t_shell_data *p_data);
+int		is_child_full(t_shell_tree_node *focus);
+int		is_kind_bool(t_shell_tree_kind kind);
+void	shell_parse_util_push_replace(t_shell_tree_node **p_focus,
+				t_shell_tree_node *item);
+void	shell_parse_util_push_focus(t_shell_tree_node **p_focus,
+				t_shell_tree_node *item);
+void	shell_parse_util_push_chld(t_shell_tree_node **p_focus,
+				t_shell_tree_node *item);
 
 #endif
