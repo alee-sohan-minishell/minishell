@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_parse_init.h                                 :+:      :+:    :+:   */
+/*   print.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 18:19:56 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 22:56:02 by min-jo           ###   ########.fr       */
+/*   Created: 2022/05/30 00:57:07 by min-jo            #+#    #+#             */
+/*   Updated: 2022/06/22 22:52:06 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_PARSE_INIT_H
-# define SHELL_PARSE_INIT_H
+#ifndef PRINT_H
+# define PRINT_H
 
-# include "../tree_heredoc/shell_tree.h"
-# include "../tree_heredoc/shell_heredoc.h"
-# include "../parse/shell_parse_node_list.h"
-# include "../shell/shell.h"
+#include "shell/shell.h"
 
-void	shell_tree_init(t_shell_tree_node *node);
-void	shell_heredoc_init(t_shell_heredoc_list *list);
-void	shell_list_init(t_parse_list *list);
-int		shell_parse_init(t_shell_data *p_data);
+void	print_tree(t_shell_data *shell);
 
 #endif

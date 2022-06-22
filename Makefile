@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
+#    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/06/22 16:44:18 by alee             ###   ########.fr        #
+#    Updated: 2022/06/22 22:51:09 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ RM = rm -f
 NAME = minishell
 
 #FILE = $(if $(MAIN), $(MAIN))
-FILE = main
+FILE = main print
 LIBFT = $(addprefix libft/, libft.a)
 #LIBFT_FILE = ft_isalnum ft_isprint ft_memcmp ft_putchar_fd ft_split \
 			ft_strlcat ft_strncmp ft_substr ft_atoi ft_isalpha \
@@ -48,7 +48,7 @@ SHELL_PARSE_FILE = shell_parse_check_tree shell_parse_node_list \
 			shell_parse_state shell_parse_state1 shell_parse_state2 \
 			shell_parse_state3 shell_parse_state4 shell_parse_state5 \
 			shell_parse_util_node_list shell_parse_util_state \
-			shell_parse_util_tree shell_parse
+			shell_parse_util_tree shell_parse shell_parse_util_tree_push
 TREE_HEREDOC_FILE = shell_tree shell_heredoc
 
 READLINE_ROOT = $(shell brew --prefix readline)
