@@ -11,6 +11,8 @@
 #include "../init/shell_utils_01.h"
 #include "../redirection/redirection.h"
 #include "../excute/shell_excute.h"
+#include "../init/shell_parse_init.h"
+#include "../parse/shell_parse.h"
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -89,7 +91,7 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 		if (cmd_tree->kind == T_COMMAND)
 		{
 			p_data->cmd = cmd_tree->argv;
-			printf("excute %s\n", p_data->cmd[0]);
+			//printf("excute %s\n", p_data->cmd[0]);
 			shell_excute(p_data);
 			--p_data->cmd_count;
 		}
@@ -111,8 +113,8 @@ void	shell_execute_tree(t_shell_data *p_data)
 	p_data->fd_in_new = dup(STDIN_FILENO);
 	p_data->pipe_index = 0;
 	p_data->pipe_fd = malloc(p_data->pipe_count * sizeof(int[2]));
-	p_data->global_data.pipe_status = malloc(p_data->pipe_count + 1 * sizeof(int));
-	p_data->global_data.pipe_pid = malloc(p_data->pipe_count + 1 * sizeof(pid_t));
+	p_data->global_data.pipe_status = malloc((p_data->pipe_count + 1) * sizeof(int));
+	p_data->global_data.pipe_pid = malloc((p_data->pipe_count + 1) * sizeof(pid_t));
 	p_data->global_data.index = 0;
 	p_data->pipe_num = p_data->pipe_count;
 	p_data->cmd_count = p_data->pipe_count;
@@ -131,7 +133,7 @@ void	shell_execute_tree(t_shell_data *p_data)
 	else*/
 		if (p_data->is_piped)
 		{
-			for (int i = 0; i < p_data->pipe_count + 1; i++)
+			for (int i = 0; i < p_data->pipe_count; i++)
 			{
 				for (int j = 0; j < 2; j++)
 				{
@@ -155,10 +157,16 @@ void	shell_execute_tree(t_shell_data *p_data)
 		//while ((pid = wait(NULL)) != -1);
 	if (p_data->line)
 		free(p_data->line);
+	shell_parse_free(p_data);
+	shell_parse_init(p_data);
 	ft_set_status(p_data, S_LINE_READ);
 	dup2(p_data->fd_out_old, STDOUT_FILENO);
 	dup2(p_data->fd_in_old, STDIN_FILENO);
 	close(p_data->fd_out_old);
 	close(p_data->fd_in_old);
+	p_data->pipe_count = 0;
+	free(p_data->pipe_fd);
+	free(p_data->global_data.pipe_status);
+	free(p_data->global_data.pipe_pid);
 	return ;
 }
