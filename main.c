@@ -29,38 +29,42 @@ void	print_recur(t_shell_tree_node *t, int left)
 {
 	char	*which[] = {"root", "empty", "string", "int", "cmd", "|", "&&", "||", "<", ">", "<<", ">>"};
 	int cnt = 0;
+	if (t)
+	{
+		printf("%d: tree %s" , count++, which[t->kind]);
+		if (t->kind == T_PIPE)
+			printf("%d", t->pnum);
+		printf(" %d\n", left);
 
-	printf("%d: tree %s %d\n", count++, which[t->kind], left);
-
-	if (NULL == t->argv)
-		printf("	no argv\n");
-	else
-		while (t->argv[cnt])
-		{
-			printf("	%d: %s\n", cnt, t->argv[cnt]);
-			++cnt;
-		}
-
-	if (NULL == t->filepath)
-		printf("	no filepath\n");
-	else
-		printf("	file: %s\n", t->filepath);
-
-	if (t->left)
+		if (NULL == t->argv)
+			printf("	no argv\n");
+		else
+			while (t->argv[cnt])
+			{
+				printf("	%d: %s\n", cnt, t->argv[cnt]);
+				++cnt;
+			}
+		if (NULL == t->filepath)
+			printf("	no filepath\n");
+		else
+			printf("	file: %s\n", t->filepath);
 		print_recur(t->left, 1);
-	if (t->right)
 		print_recur(t->right, 0);
-	printf("up\n\n");
+		printf("up\n\n");
+	}
 }
 
 void	print_tree(t_shell_data *shell)
 {
-	print_recur(shell->tree.right, 0);
+	t_shell_tree_node	*cur;
+
+	cur = &shell->tree;
+	print_recur(cur, 0);
 	printf("\n");
 	count = 0;
-	shell_parse_free(shell);
-	shell_parse_init(shell);
-	ft_set_status(shell, S_LINE_READ);
+	//shell_parse_free(shell);
+	//shell_parse_init(shell);
+	//ft_set_status(shell, S_LINE_READ);
 }
 
 int	main(int argc, char *argv[], char *env[])
@@ -80,7 +84,10 @@ int	main(int argc, char *argv[], char *env[])
 			shell_parse(&shell);
 		// TODO
 		else if (shell.status == S_CMD)
+		{
+			print_tree(&shell);
 			shell_execute_tree(&shell);
+		}
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)
 			break ;
 	}

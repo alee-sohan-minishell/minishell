@@ -32,11 +32,13 @@ t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c)
 	if (' ' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || '<' == c || '>' == c)
 	{
+		//TODO 나중에 pnum 지우기 
 		pipe = tree_new_node(T_PIPE, NULL, -1, NULL);
 		if (NULL == pipe)
 			return (S_P_ERROR);
-		shell_parse_util_push_tree(&p_data->focus, pipe);
 		++p_data->pipe_count;
+		pipe->pnum = p_data->pipe_count;
+		shell_parse_util_push_tree(&p_data->focus, pipe);
 		return (shell_parse_util_get_state(c));
 	}
 	else if (')' == c || '&' == c)

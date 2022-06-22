@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../shell/shell.h"
+#include "../tree_heredoc/shell_tree.h"
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_state.h"
 
@@ -35,7 +36,9 @@ void	shell_parse_util_push_tree(t_shell_tree_node **p_focus,
 	// p_focus가 NULL인 경우는 없음
 	push_left = 1;
 	append_left = 1;
-	if (T_ROOT == (*p_focus)->kind)
+	//if ((*p_focus)->right)
+	//	append_left = 0;
+	if (T_ROOT == (*p_focus)->kind || T_PIPE == (*p_focus)->kind)
 		push_left = 0;
 	if (T_PIPE == item->kind)
 		append_left = 0;

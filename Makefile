@@ -12,7 +12,7 @@
 
 # -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-MD -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
 RM = rm -f
 
 NAME = minishell
