@@ -16,7 +16,6 @@
 //---------------------------------------
 #define DEBUG
 #include <stdio.h>
-#include "../tree/shell_tree.h"
 //---------------------------------------
 #include <termios.h>
 #include "../env/env_list.h"

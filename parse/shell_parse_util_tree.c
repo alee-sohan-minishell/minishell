@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../shell/shell.h"
-#include "../tree_heredoc/shell_tree.h"
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_state.h"
 

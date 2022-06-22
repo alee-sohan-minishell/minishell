@@ -17,7 +17,8 @@ RM = rm -f
 
 NAME = minishell
 
-FILE = $(if $(MAIN), $(MAIN))
+#FILE = $(if $(MAIN), $(MAIN))
+FILE = main
 LIBFT = $(addprefix libft/, libft.a)
 #LIBFT_FILE = ft_isalnum ft_isprint ft_memcmp ft_putchar_fd ft_split \
 			ft_strlcat ft_strncmp ft_substr ft_atoi ft_isalpha \

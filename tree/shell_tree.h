@@ -15,6 +15,7 @@
 
 typedef enum e_shell_tree_kind
 {
+	T_ROOT,
 	T_EMPTY,
 	T_STRING,
 	T_INT,
@@ -40,15 +41,8 @@ typedef struct s_shell_tree_node
 	int							idx;
 }	t_shell_tree_node;
 
-typedef struct s_shell_heredoc_node
-{
-	struct s_shell_heredoc_node	*next;
-	char						*delimiter;
-	int							cnt; //#
-}	t_shell_heredoc_node;
-
 t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv,
-						char *filepath);
+						int left, char *filepath);
 void				tree_insert(t_shell_tree_node *parent,
 						t_shell_tree_node *child);
 void				tree_delete(t_shell_tree_node *tree);
