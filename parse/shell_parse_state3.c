@@ -36,6 +36,7 @@ t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c)
 		if (NULL == pipe)
 			return (S_P_ERROR);
 		shell_parse_util_push_tree(&p_data->focus, pipe);
+		++p_data->pipe_count;
 		return (shell_parse_util_get_state(c));
 	}
 	else if (')' == c || '&' == c)
