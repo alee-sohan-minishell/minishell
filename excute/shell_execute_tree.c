@@ -179,5 +179,6 @@ void	shell_execute_tree(t_shell_data *p_data)
 	free(p_data->pipe_fd);
 	free(p_data->global_data.pipe_status);
 	free(p_data->global_data.pipe_pid);
+	set_tc_attr(p_data);
 	return ;
 }

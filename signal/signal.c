@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 18:36:39 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 18:01:26 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/23 21:41:47 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	while_background_handler(int signo)
 void	set_signal_background(void)
 {
 	signal(SIGINT, while_background_handler);
-
 	signal(SIGQUIT, SIG_IGN);
 }
 

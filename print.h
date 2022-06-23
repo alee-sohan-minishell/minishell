@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:57:07 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 22:52:06 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/23 21:42:28 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINT_H
 # define PRINT_H
-
-#include "shell/shell.h"
+# include "shell/shell.h"
 
 void	print_tree(t_shell_data *shell);
 
