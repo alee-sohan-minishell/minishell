@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/06/22 23:38:03 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/23 17:14:14 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char *argv[], char *env[])
 			shell_parse(&shell);
 		else if (shell.status == S_CMD)
 		{
-			print_tree(&shell);
+			// print_tree(&shell);
 			shell_execute_tree(&shell);
 		}
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)

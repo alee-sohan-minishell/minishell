@@ -103,7 +103,6 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 		if (cmd_tree->kind == T_COMMAND)
 		{
 			p_data->cmd = cmd_tree->argv;
-			//printf("excute %s\n", p_data->cmd[0]);
 			shell_excute(p_data);
 			--p_data->cmd_count;
 		}
