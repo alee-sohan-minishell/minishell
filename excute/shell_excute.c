@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:09:58 by alee              #+#    #+#             */
-/*   Updated: 2022/06/22 16:26:44 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/23 20:01:53 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	shell_excute(t_shell_data *p_data)
 	else if (ft_strcmp(p_data->cmd[0], "echo") == 0)
 		ft_echo(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
-		ft_exit(p_data->cmd, 1);
+		ft_exit(p_data->cmd, p_data->last_status);
 	else if (ft_strcmp(p_data->cmd[0], "env") == 0)
 		ft_env(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "unset") == 0)

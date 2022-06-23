@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 18:38:42 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 18:26:52 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/23 20:09:02 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int	ft_exec_command(t_shell_data *p_data)
 	if (!path_list[index])
 	{
 		ft_self_perror_param(NULL, p_data->cmd[0], "command not found");
-		p_data->term_status = 127;
+		p_data->last_status = 127;
 	}
 	free_array(path_list);
 	return (0);
