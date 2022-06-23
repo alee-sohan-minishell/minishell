@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 05:40:09 by alee              #+#    #+#             */
-/*   Updated: 2022/06/22 18:58:53 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/23 19:16:27 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 #include "shell_readline.h"
 #include "../init/shell_utils_01.h"
 
-//debug
-#include <stdio.h>
-
 void	shell_readline(t_shell_data *p_data)
 {
 	set_signal_background();
@@ -33,9 +30,7 @@ void	shell_readline(t_shell_data *p_data)
 		set_tc_attr_to_default(p_data);
 		return ;
 	}
-	/*	ADD HISTORY	*/
 	insert_cmd_history(p_data->line);
-	/*	Set Status	*/
 	ft_set_status(p_data, S_PARSE);
 	return ;
 }

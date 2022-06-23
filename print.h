@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utils_01.c                                  :+:      :+:    :+:   */
+/*   print.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 03:50:29 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 19:15:01 by alee             ###   ########.fr       */
+/*   Created: 2022/05/30 00:57:07 by min-jo            #+#    #+#             */
+/*   Updated: 2022/06/22 22:52:06 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#ifndef PRINT_H
+# define PRINT_H
 
-int	is_variable_rule(char ch)
-{
-	if (ch == '_')
-		return (1);
-	if (ft_isalpha(ch))
-		return (1);
-	return (0);
-}
+#include "shell/shell.h"
+
+void	print_tree(t_shell_data *shell);
+
+#endif
