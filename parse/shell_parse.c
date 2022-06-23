@@ -13,6 +13,7 @@
 #include "../shell/shell.h"
 #include "../utils/state_machine_utils_01.h"
 #include "../libft/libft.h"
+#include "shell_parse.h"
 
 /****************temp implementation**********/
 #include "../env/env_list_interface_01.h"
@@ -50,64 +51,88 @@ int		cmd_count(const char *str)
 	return (count);
 }
 
-t_graph	*cmd_split(const char *str, char *sep, int size)
-{
-	t_graph	*graph;
-	char	*cmd;
-	char	**tmp;
-	int		i;
-	int		count;
-	int		type;
+/****************** to here********************/
 
-	i = 0;
-	count = 0;
-	type = 0;
-	graph = create_graph(size);
-	while (i < size)
-	{
-		add_vertex(graph, i);
-		++i;
-	}
-	i = 0;
+
+int	is_stack_empty(t_stack *stack)
+{
+	if (stack->size >= MAX_LINE_LEN - 1)
+		return (1);
+	return (0);
+}
+
+int	is_stack_full(t_stack *stack)
+{
+	if (stack->size < 0)
+		return (1);
+	return (0);
+}
+
+void	push(t_stack *stack, int val)
+{
+	if (!is_stack_full(stack))
+		stack->arr[++stack->size] = val;
+}
+
+int		pop(t_stack *stack)
+{
+	if (!is_stack_empty(stack))
+		return (stack->arr[stack->size--]);
+	return (-1);
+}
+
+int	is_qoute_unclosed(char *str)
+{
+	int		dqoute;
+	int		qoute;
+	
+	dqoute = 0;
+	qoute = 0;
 	while (*str)
 	{
-		while (str[i] && !is_seperator(sep, str[i]))
-			++i;
-		cmd = ft_strndup(str, i);
-		tmp = ft_split(cmd, ' ');
-		free(cmd);
-		graph->edge[count]->cmd = tmp;
-		str += i;
-		if (is_seperator(sep, *str))
-		{
-			if (*str == '|')
-				type = PIPE;
-			else if (*str == '<')
-				type = REDI_IN;
-			else if (*str == '>')
-				type = REDI_OUT;
-			++str;
-		}
-				//if (is_seperator(sep, *str))
-		if (*str == '>')
-		{
-			type = APPEND;
-			++str;
-		}
-		add_edge(graph, count, count + 1, type);
-		if (count)
-			graph->edge[count - 1]->next->cmd = tmp;
-		i = 0;
-		++count;
+		if (*str == '\'')
+			++qoute;
+		else if (*str == '\"')
+			++dqoute;
+		++str;
 	}
-	return (graph);
+	if ((qoute % 2) || (dqoute % 2))
+		return (1);
+	return (0);
 }
-/****************** to here********************/
+
+int	is_metacharacter(char c)
+{
+	if (c == ' ' || )
+}
+
+void	get_token_list(t_token_list *list, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		
+	}
+}
 
 void	shell_parse(t_shell_data *p_data)
 {
+	t_token_list	token_list;
+
+	token_list.head = NULL;
+	token_list.tail = NULL;
+	token_list.size = 0;
+
 	if (!p_data)
 		return ;
+	if (is_qoute_unclosed(p_data->line))
+	{	
+		write(2, "unclosed qoute\n", 15);
+		ft_set_status(p_data, S_ERROR);
+		return ;
+	}
 	p_data->cmd_count = cmd_count(p_data->line);
 	if (!p_data->cmd_count)
 	{
