@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:20:23 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 23:31:39 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/24 20:25:03 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	shell_parse_util_push_chld(t_shell_tree_node **p_focus,
 	if (T_ROOT == (*p_focus)->kind
 		|| ((*p_focus)->left && !(*p_focus)->right))
 		push_left = 0;
-	if (T_PIPE == (*p_focus)->kind)
+	if (T_PIPE == item->kind)
 		append_left = 0;
 	shell_tree_insert_push_child(p_focus, item, push_left, append_left);
 }

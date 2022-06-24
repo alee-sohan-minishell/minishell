@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 23:38:50 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/24 20:07:47 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,16 @@ t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c)
 {
 	t_shell_tree_node	*pipe;
 
+	//TODO 나중에 pnum 지우기
+	pipe = tree_new_node(T_PIPE, NULL, -1, NULL);
+	if (NULL == pipe)
+		return (S_P_ERROR);
+	++p_data->pipe_count;
+	pipe->pnum = p_data->pipe_count;
+	shell_parse_util_push_tree(&p_data->focus, pipe);
 	if (' ' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || '<' == c || '>' == c)
-	{
-		//TODO 나중에 pnum 지우기
-		pipe = tree_new_node(T_PIPE, NULL, -1, NULL);
-		if (NULL == pipe)
-			return (S_P_ERROR);
-		++p_data->pipe_count;
-		pipe->pnum = p_data->pipe_count;
-		shell_parse_util_push_tree(&p_data->focus, pipe);
 		return (shell_parse_util_get_state(c));
-	}
 	else if (')' == c || '&' == c)
 		return (S_P_ERROR);
 	else if ('|' == c)

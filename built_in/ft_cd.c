@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 14:57:11 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 15:37:35 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/24 19:54:32 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int	is_chdir_home(char **cmd, char **o_home_path, t_shell_data *p_data)
 	}
 	if (get_cmd_count(cmd) > 1 && ft_strcmp(cmd[1], "~") == 0)
 	{
-		*o_home_path = p_data->env_default_home;
+		if (env_node_search(&p_data->env_list, "HOME", &home_node) == 0)
+			*o_home_path = p_data->env_default_home;
+		else
+			*o_home_path = home_node->value;
 		return (1);
 	}
 	return (0);
