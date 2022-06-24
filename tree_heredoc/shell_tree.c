@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:56:31 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 22:54:57 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/24 02:01:34 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,
 	return (node);
 }
 
-// tree root가 dummy인 걸 고려한 free
 void	tree_free(t_shell_tree_node *tree, int filepath)
 {
 	int		cnt;
@@ -55,7 +54,6 @@ void	tree_free(t_shell_tree_node *tree, int filepath)
 	tree->right = NULL;
 }
 
-// focus가 바뀌어야 해서 double pointer
 void	tree_append(t_shell_tree_node **p_focus, t_shell_tree_node *item)
 {
 	if (NULL == (*p_focus)->left)

@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 21:19:34 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/24 01:59:01 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	arg_init(t_shell_data *p_data, int argc, char **env[])
 
 int	isatty_init(t_shell_data *p_data)
 {
-	p_data->term_status = isatty(STDOUT_FILENO) && \
-	isatty(STDIN_FILENO) && isatty(STDERR_FILENO);
+	p_data->term_status = (isatty(STDOUT_FILENO) && \
+			isatty(STDIN_FILENO) && isatty(STDERR_FILENO));
 	if (p_data->term_status == 0)
 	{
 		ft_putendl_fd("Invalid terminal status", STDOUT_FILENO);
