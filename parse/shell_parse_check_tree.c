@@ -11,8 +11,11 @@ int	shell_parse_check_tree(t_shell_tree_node *focus)
 		return (S_P_ERROR);
 
 	// pipe
+	// 파이프 밑에 자식 없는 경우 cat "fdsf" |    |<d
 	else if (')' == c || '&' == c)
 		return (S_P_ERROR);
+
+	// heredoc이나 redirect 내용물에 파일 없는 경우
 	*/
 }
 
