@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/06/24 19:11:59 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/24 23:25:21 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	main(int argc, char *argv[], char *env[])
 			shell_parse(&shell);
 		else if (shell.status == S_CMD)
 		{
-			print_tree(&shell);
-			// shell_execute_tree(&shell);
+			// print_tree(&shell);
+			shell_execute_tree(&shell);
 		}
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)
 			break ;

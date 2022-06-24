@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 23:07:09 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 23:39:12 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/24 23:24:34 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,68 +16,30 @@
 #include "shell_parse_state.h"
 #include "shell_parse_util_tree_push.h"
 
-int	shell_parse_util_is_redirect(t_shell_tree_kind kind)
+int	is_redirect(t_shell_tree_kind kind)
 {
-	if (S_P_REDIRECT_IN == kind || S_P_REDIRECT_OUT == kind
-		|| S_P_REDIRECT_HEREDOC == kind || S_P_REDIRECT_APPEND == kind
-		|| S_P_REDIRECT_ENV == kind || S_P_REDIRECT_QUOTE == kind
-		|| S_P_REDIRECT_DQUOTE == kind || S_P_REDIRECT_DQUOTE_ENV == kind)
+	if (T_REDIRECT_IN == kind || T_REDIRECT_OUT == kind
+		|| T_REDIRECT_HEREDOC == kind || T_REDIRECT_APPEND == kind)
 		return (1);
 	return (0);
 }
 
 // focus가 바뀌어야 해서 double pointer
-void	shell_parse_util_push_tree(t_shell_tree_node **p_focus,
+void	shell_parse_util_push_tree(t_shell_tree_node **p_f,
 				t_shell_tree_node *item)
 {
-	int	push_left;
-	int	append_left;
-
 	// shell_tree_init에서 구조체의 지역변수 tree_node의 주소를 p_data->focus로 주기 때문에
-	// p_focus가 NULL인 경우는 없음
-	push_left = 1;
-	append_left = 1;
-	if (T_EMPTY == (*p_focus)->kind
-		&& (T_PIPE == item->kind || shell_parse_util_is_redirect(item->kind)
-		|| T_BOOL_AND == item->kind || T_BOOL_OR == item->kind))
-		return (shell_parse_util_push_replace(p_focus, item));
-	else if (is_child_full(*p_focus)
-		|| (shell_parse_util_is_redirect((*p_focus)->kind) && (*p_focus)->left
-		&& !shell_parse_util_is_redirect(item->kind)))
-		return (shell_parse_util_push_focus(p_focus, item));
-	shell_parse_util_push_chld(p_focus, item);
-
-/*
-	if (T_EMPTY == (*p_focus)->kind
-		&& (T_PIPE == item->kind || shell_parse_util_is_redirect(item->kind)
-		|| T_BOOL_AND == item->kind || T_BOOL_OR == item->kind))
-	{
-		(*p_focus)->kind = item->kind;
-		(*p_focus)->argv = item->argv;
-		(*p_focus)->fd = item->fd;
-		(*p_focus)->filepath = item->filepath;
-		return (tree_free(item, 0));
-	}
-	else if (T_ROOT == (*p_focus)->kind
-		|| ((*p_focus)->left && NULL == (*p_focus)->right
-		&& (T_EMPTY == (*p_focus)->kind || T_PIPE == (*p_focus)->kind
-		|| (shell_parse_util_is_redirect((*p_focus)->kind) && T_PIPE == item->kind))))
-		push_left = 0;
-	else if ((*p_focus)->left && (*p_focus)->right
-		&& (T_PIPE == (*p_focus)->kind || T_BOOL_AND == (*p_focus)->kind
-		|| T_BOOL_OR == (*p_focus)->kind))
-		push_left = 0;
-	if (T_PIPE == item->kind)
-		append_left = 0;
-	if ((((*p_focus)->left && (*p_focus)->right) && (T_PIPE == (*p_focus)->kind
-		|| T_BOOL_AND == (*p_focus)->kind || T_BOOL_OR == (*p_focus)->kind
-		|| T_EMPTY == (*p_focus)->kind))
-		|| (shell_parse_util_is_redirect((*p_focus)->kind)
-		&& (*p_focus)->left && 0 == shell_parse_util_is_redirect(item->kind)))
-		shell_tree_insert_push_focus(p_focus, item, push_left);
-	else
-		shell_tree_insert_push_child(p_focus, item, push_left, append_left);
-		*/
+	// p_f가 NULL인 경우는 없음
+	if (T_EMPTY == (*p_f)->kind
+		&& !(T_EMPTY == item->kind || T_COMMAND == item->kind))
+		return (shell_parse_util_push_replace(p_f, item));
+	else if ((T_EMPTY == (*p_f)->kind && is_full(*p_f))
+		|| (T_PIPE == (*p_f)->kind && is_full(*p_f) && !is_redirect(item->kind))
+		|| (is_bool((*p_f)->kind) && is_full(*p_f) && T_PIPE != item->kind)
+		|| (is_redirect((*p_f)->kind) && !(*p_f)->left && !(*p_f)->right && T_PIPE == item->kind)
+		|| (is_redirect((*p_f)->kind) && (*p_f)->left && !is_redirect(item->kind)))
+		return (shell_tree_insert_push_focus(p_f, item, 1));
+	shell_parse_util_push_chld(p_f, item);
 }
 
 int	shell_parse_util_insert_cmd(t_shell_data *p_data)

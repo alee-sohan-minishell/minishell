@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:40:49 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 21:57:04 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/24 23:17:21 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@
 # include "shell_parse_state.h"
 
 t_state_shell_parse	shell_parse_util_get_state(char c);
+int					is_redirect_state(t_state_shell_parse state);
 
 #endif
