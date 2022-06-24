@@ -56,7 +56,9 @@ int	shell_parse_util_insert_cmd(t_shell_data *p_data)
 		shell_parse_util_argv_free(argv, -1);
 		return (-1);
 	}
+	tree_node->cmdnum = p_data->cmd_count;
 	shell_parse_util_push_tree(&p_data->focus, tree_node);
+	++p_data->cmd_count;
 	return (0);
 }
 

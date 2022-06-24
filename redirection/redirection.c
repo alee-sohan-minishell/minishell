@@ -25,6 +25,7 @@ int	redirection_in(t_shell_data *p_data, const char *file)
 	if (file_fd == -1)
 	{
 		ft_perror_param((const char *)0, file, 1);
+		p_data->global_data.pipe_status[p_data->cmd_count] = 1;
 		return (-1);
 	}
 	p_data->fd_in_new = file_fd;

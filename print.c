@@ -55,8 +55,8 @@ void	print_tree(t_shell_data *shell)
 	print_recur(cur, 0);
 	printf("\n");
 	count = 0;
-	shell_parse_free(shell);
-	shell->pipe_count = 0;
-	shell_parse_init(shell);
-	ft_set_status(shell, S_LINE_READ);
+	//shell_parse_free(shell);
+	//shell->pipe_count = 0;
+	//shell_parse_init(shell);
+	//ft_set_status(shell, S_LINE_READ);
 }

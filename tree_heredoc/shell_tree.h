@@ -40,6 +40,7 @@ typedef struct s_shell_tree_node
 	char						*filepath;
 	//TODO
 	int							pnum;
+	int							cmdnum;
 }	t_shell_tree_node;
 
 t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,

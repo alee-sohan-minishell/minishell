@@ -20,9 +20,9 @@
 void	set_pipe(t_shell_data *p_data)
 {
 
-	--p_data->pipe_num;
-	if (pipe(p_data->pipe_fd[p_data->pipe_num]) == -1)
+	if (pipe(p_data->pipe_fd[p_data->pipe_index]) == -1)
 		printf("pipe error\n");
+	++p_data->pipe_index;
 	//p_data->pipe_pid[0] = fork();
 	//p_data->pipe_pid[1] = fork();
 	//if (p_data->pipe_pid[0] == 0)
@@ -59,7 +59,12 @@ int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 	else if (cmd_tree->kind == T_REDIRECT_IN)
 	{
 		if (redirection_in(p_data, cmd_tree->filepath) == -1)
+		{
+			p_data->is_fileio_success = 0;
 			return (-1);
+			
+		}
+		p_data->is_fileio_success = 1;
 	}
 	else if (cmd_tree->kind == T_REDIRECT_OUT)
 	{
@@ -98,13 +103,16 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 {
 	if (cmd_tree)
 	{
-		if (set_fd(p_data, cmd_tree) == -1)
-			return ;
+		//if (set_fd(p_data, cmd_tree) == -1)
+		//	p_data->is_fileio_success = 0;
+		set_fd(p_data, cmd_tree);
+		//else
+		//	p_data->is_fileio_success = 1;
 		if (cmd_tree->kind == T_COMMAND)
 		{
 			p_data->cmd = cmd_tree->argv;
 			shell_excute(p_data);
-			--p_data->cmd_count;
+			++p_data->cmd_count;
 		}
 		tree_traverse_exe_cmd(p_data, cmd_tree->left);
 		tree_traverse_exe_cmd(p_data, cmd_tree->right);
@@ -126,14 +134,13 @@ void	shell_execute_tree(t_shell_data *p_data)
 	p_data->pipe_fd = malloc(p_data->pipe_count * sizeof(int[2]));
 	p_data->global_data.pipe_status = malloc((p_data->pipe_count + 1) * sizeof(int));
 	p_data->global_data.pipe_pid = malloc((p_data->pipe_count + 1) * sizeof(pid_t));
-	p_data->global_data.index = 0;
-	p_data->pipe_num = p_data->pipe_count;
-	p_data->cmd_count = p_data->pipe_count;
 	p_data->is_piped = 0;
+	p_data->is_fileio_success = 1;
 
 	cur = &p_data->tree;
 	tree_traverse_set_pipe(p_data, cur);
 	cur = &p_data->tree;
+	p_data->cmd_count = 0;
 	tree_traverse_exe_cmd(p_data, cur);
 	//printf("i'm waiting for process id %d and %d\n", p_data->global_data.pipe_pid[0], p_data->global_data.pipe_pid[1]);
 	/*if (!p_data->is_piped)
@@ -160,11 +167,15 @@ void	shell_execute_tree(t_shell_data *p_data)
 			for (int i = 0; i < p_data->pipe_count + 1; i++)
 				if (pid == p_data->global_data.pipe_pid[i])
 			{
-				p_data->global_data.pipe_status[p_data->pipe_count - i] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
+				p_data->global_data.pipe_status[i] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
 			}
 			if (pid == -1)
 				break ;
 		}
+	printf("exit:");
+	for (int i = 0; i < p_data->pipe_count + 1; i++)
+		printf("%d ", p_data->global_data.pipe_status[i]);
+	printf("\n");
 		//while ((pid = wait(NULL)) != -1);
 	if (p_data->line)
 		free(p_data->line);

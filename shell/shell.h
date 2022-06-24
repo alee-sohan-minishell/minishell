@@ -81,6 +81,7 @@ typedef struct s_shell_data
 	int				cmd_count;
 	int				pfds[2];
 	int				is_piped;
+	int				is_fileio_success;
 	
 	//terminal attr
 	struct termios	default_term_attr;
