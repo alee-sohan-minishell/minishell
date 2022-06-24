@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 01:02:20 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 19:12:31 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/23 21:10:59 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	ft_unset(char **cmd, t_env_list *p_list)
 	ret = 0;
 	while (idx < get_cmd_count(cmd))
 	{
-		if (is_variable_rule(cmd[idx][0]) == 0 || ft_strchr(cmd[idx], '=') != (char *)0)
+		if (is_variable_rule(cmd[idx][0]) == 0 || \
+			ft_strchr(cmd[idx], '=') != (char *)0)
 			ft_self_perror_param("unset", cmd[idx], "not a valid identifier");
 		if (env_node_delete(p_list, cmd[idx]) == 0)
 			ret = 1;

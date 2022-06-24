@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 02:51:07 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 15:54:57 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/23 21:20:29 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "../utils/string_utils_01.h"
 #include "ft_export_utils.h"
 #include "../utils/error_msg_utils_01.h"
+#include "../utils/error_msg_utils_02.h"
 #include "../libft/libft.h"
 #include "../env/env_list_interface_02.h"
 #include "ft_export.h"

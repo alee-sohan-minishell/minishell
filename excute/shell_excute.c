@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:09:58 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 20:01:53 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/23 22:04:55 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,9 @@ void	shell_excute(t_shell_data *p_data)
 		ft_export(p_data->cmd, &p_data->env_list);
 	else
 	{
-		//dup2(p_data->fd_out_old, STDOUT_FILENO);
-		//close(p_data->fd_out_old);
 		ft_exec_command(p_data);
-		//wait(&p_data->p_status);
-		//p_data->term_status = (128 + (p_data->p_status & 0x7f)) * ((p_data->p_status & 0x7f) != 0) + (p_data->p_status >> 8);
 		set_tc_attr(p_data);
-		//dup2(p_data->fd_out_old, STDOUT_FILENO);
-		//close(p_data->fd_out_old);
-		//dup2(p_data->fd_in_new, STDIN_FILENO);
-		//close(p_data->fd_in_new);
-		//printf("%d\n", p_data->term_status);
 	}
-
-
-	/*	split free	*/
-	/*int	idx;
-
-	idx = 0;
-	while (p_data->cmd && p_data->cmd[idx])
-	{
-		free(p_data->cmd[idx]);
-		idx++;
-	}
-	//free(p_data->cmd[idx]);
-	if (p_data->cmd)
-		free(p_data->cmd);*/
-	/*	-------------------------	*/
-
-	/*	line string free	*/
-	//if (p_data->line)
-	//	free(p_data->line);
-	/*	-------------------------	*/
-	/*	default home path free -> 프로그램 종료	*/
-	/*	env list free -> 프로그램 종료	*/
-	//set_tc_attr(p_data);
 	ft_set_status(p_data, S_LINE_READ);
 	return ;
 }

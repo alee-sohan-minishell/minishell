@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 04:31:16 by alee              #+#    #+#             */
-/*   Updated: 2022/06/20 18:22:40 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/23 21:19:34 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "../env/env_list.h"
 #include "../utils/fd_utils_01.h"
 #include "../utils/error_msg_utils_01.h"
+#include "../utils/error_msg_utils_02.h"
 #include "../env/env_utils_01.h"
 #include "shell_utils_01.h"
 #include "shell_parse_init.h"
