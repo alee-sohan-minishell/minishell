@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 20:34:47 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 22:33:52 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/24 22:39:52 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 
 # include "../tree_heredoc/shell_tree.h"
 
-int		is_child_full(t_shell_tree_node *focus);
-int		is_kind_bool(t_shell_tree_kind kind);
+int		is_full(t_shell_tree_node *focus);
+int		is_left(t_shell_tree_node *focus);
+int		is_bool(t_shell_tree_kind kind);
 void	shell_parse_util_push_replace(t_shell_tree_node **p_focus,
 				t_shell_tree_node *item);
-void	shell_parse_util_push_focus(t_shell_tree_node **p_focus,
-				t_shell_tree_node *item);
-void	shell_parse_util_push_chld(t_shell_tree_node **p_focus,
+void	shell_parse_util_push_chld(t_shell_tree_node **p_f,
 				t_shell_tree_node *item);
 
 #endif

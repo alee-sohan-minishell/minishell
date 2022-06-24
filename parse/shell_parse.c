@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/21 22:55:15 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/24 23:18:24 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../utils/state_machine_utils_01.h"
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_util_tree.h"
+#include "shell_parse_util_state.h"
 
 void	shell_parse_free(t_shell_data *p_data)
 {
@@ -44,7 +45,7 @@ int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
 		if (shell_parse_find_str_in_env(p_data)) // p_data->parse_env에 있는 문자 key로 env 찾아서 p_data->parse_tmp에 바로 add_char 함
 			return (-1);
 	}
-	if (shell_parse_util_is_redirect(state))
+	if (is_redirect_state(state))
 	{
 		if (p_data->parse_tmp->cnt == 0)
 			return (-1);
