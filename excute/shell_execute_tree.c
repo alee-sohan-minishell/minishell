@@ -113,8 +113,8 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 
 void	shell_execute_tree(t_shell_data *p_data)
 {
-	pid_t	pid;
-	t_shell_tree_node *cur;
+	pid_t				pid;
+	t_shell_tree_node	*cur;
 
 	if (!p_data)
 		return ;
