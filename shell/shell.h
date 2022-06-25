@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/06/25 20:48:12 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 23:16:04 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_shell_data
 	//parse
 	struct s_shell_tree_node	tree; // root 더미노드
 	struct s_shell_heredoc_list	heredoc_list;
+	int							heredoc_cnt;
 	struct s_shell_tree_node	*focus; // 처음에 root 더미노드를 가리킴
 	struct s_parse_list			parse_list; // argv임시 저장, 실제 파싱된 argv는 tree_node에 저장됨
 	struct s_parse_node			*parse_tmp; // parsing하기 위한 임시저장 node, 일반 문자와 redirect가 여기 임시로 저장됨

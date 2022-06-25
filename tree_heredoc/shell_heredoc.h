@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:57:07 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 19:33:24 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 23:08:25 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_shell_heredoc_list
 {
 	struct s_shell_heredoc_node	head;
 	struct s_shell_heredoc_node	tail;
+	int							cnt;
 }	t_shell_heredoc_list;
 
 t_shell_heredoc_node	*heredoc_new_node(char *delimiter);

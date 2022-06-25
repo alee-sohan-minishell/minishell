@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:40:49 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 20:41:28 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 21:58:24 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../libft/libft.h"
 #include "shell_parse_state.h"
 #include "shell_parse_util_tree.h"
+#include "shell_parse_util_tree2.h"
 
 t_state_shell_parse	shell_parse_util_get_state(char c)
 {
@@ -88,7 +89,7 @@ t_state_shell_parse	treat_first_env(t_state_shell_parse state,
 		if (S_P_ENV == state)
 			return (S_P_STRING);
 		else // if (S_P_REDIRECT_ENV == state)
-			return (p_data->redirect_kind);
+			return (get_redirect_state(p_data->redirect_kind));
 	}
 }
 
@@ -113,7 +114,7 @@ t_state_shell_parse	treat_first_dquote_env(t_state_shell_parse state,
 			if (' ' == c)
 				return (S_P_REDIRECT_QUOTE);
 			else if ('"' == c)
-				return (p_data->redirect_kind);
+				return (get_redirect_state(p_data->redirect_kind));
 		}
 	}
 	else if ('?' == c)

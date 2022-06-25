@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.h                                            :+:      :+:    :+:   */
+/*   shell_parse_util_tree2.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 00:57:07 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 22:24:19 by min-jo           ###   ########.fr       */
+/*   Created: 2022/06/01 20:34:47 by min-jo            #+#    #+#             */
+/*   Updated: 2022/06/25 23:20:22 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINT_H
-# define PRINT_H
-# include "shell/shell.h"
+#ifndef SHELL_PARSE_UTIL_TREE2_H
+# define SHELL_PARSE_UTIL_TREE2_H
 
-void	print_tree(t_shell_data *shell);
-void	print_heredoc(t_shell_data *shell);
+# include "../shell/shell.h"
+# include "../tree_heredoc/shell_tree.h"
+
+t_state_shell_parse	get_redirect_state(t_shell_tree_kind kind);
+int					insert_heredoc_node(t_shell_data *p_data, char *str);
+char				*make_heredoc_filename(int *cnt);
 
 #endif

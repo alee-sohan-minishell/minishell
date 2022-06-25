@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 21:00:46 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/20 19:39:26 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 23:08:58 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	heredoc_list_add(t_shell_heredoc_list *list, t_shell_heredoc_node *node)
 	node->next = &list->tail;
 	list->tail.pre->next = node;
 	list->tail.pre = node;
+	++list->cnt;
 }
 
 void	heredoc_list_free(t_shell_heredoc_list *list)

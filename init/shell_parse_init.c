@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_parse_init.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:19:56 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 16:45:43 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/25 23:16:32 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	shell_tree_init(t_shell_tree_node *node)
 // 더미라서 init에서 한 번 초기화
 void	shell_heredoc_init(t_shell_heredoc_list *list)
 {
+	list->cnt = 0;
 	list->head.pre = NULL;
 	list->head.next = &list->tail;
 	list->head.delimiter = NULL;
@@ -59,6 +60,7 @@ int	shell_parse_init(t_shell_data *p_data)
 	shell_tree_init(&p_data->tree);
 	p_data->focus = &p_data->tree;
 	shell_heredoc_init(&p_data->heredoc_list);
+	p_data->heredoc_cnt = 0;
 	shell_list_init(&p_data->parse_list);
 	p_data->parse_tmp = shell_parse_new_node();
 	if (NULL == p_data->parse_tmp)

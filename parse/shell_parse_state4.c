@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/22 23:39:01 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 21:47:37 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "shell_parse_node_list.h"
 #include "shell_parse_util_node_list.h"
 #include "../tree_heredoc/shell_tree.h"
+#include "../tree_heredoc/shell_heredoc.h"
 #include "shell_parse_util_tree.h"
 
 t_state_shell_parse	shell_parse_bool_and(t_shell_data *p_data, char c)

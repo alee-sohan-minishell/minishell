@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 20:22:28 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 21:58:20 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "shell_parse_util_tree.h"
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_util_state.h"
+#include "shell_parse_util_tree2.h"
 
 t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c)
 {
@@ -44,7 +45,7 @@ t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_redirect_quote(t_shell_data *p_data, char c)
 {
 	if ('\'' == c)
-		return (p_data->redirect_kind);
+		return (get_redirect_state(p_data->redirect_kind));
 	if (shell_parse_node_add_char(p_data->parse_tmp, c))
 		return (S_P_ERROR);
 	return (S_P_REDIRECT_QUOTE);
@@ -53,7 +54,7 @@ t_state_shell_parse	shell_parse_redirect_quote(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_redirect_dquote(t_shell_data *p_data, char c)
 {
 	if ('"' == c)
-		return (p_data->redirect_kind);
+		return (get_redirect_state(p_data->redirect_kind));
 	else if ('$' == c)
 		return (S_P_REDIRECT_DQUOTE_ENV);
 	if (shell_parse_node_add_char(p_data->parse_tmp, c))
@@ -73,7 +74,7 @@ t_state_shell_parse	shell_parse_redirect_dquote_env(t_shell_data *p_data,
 		if (shell_parse_find_str_in_env(p_data))
 			return (S_P_ERROR);
 		if ('"' == c)
-			return (p_data->redirect_kind);
+			return (get_redirect_state(p_data->redirect_kind));
 		else if ('$' == c)
 			return (S_P_REDIRECT_DQUOTE_ENV);
 		if (shell_parse_node_add_char(p_data->parse_tmp, c))

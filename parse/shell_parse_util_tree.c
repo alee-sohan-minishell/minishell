@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 23:07:09 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/24 23:24:34 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 23:25:37 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_state.h"
 #include "shell_parse_util_tree_push.h"
+#include "shell_parse_util_tree2.h"
 
 int	is_redirect(t_shell_tree_kind kind)
 {
@@ -66,6 +67,7 @@ int	shell_parse_util_insert_redirect(t_shell_data *p_data)
 {
 	char				*str;
 	t_shell_tree_node	*tree_node;
+	char				*filename;
 
 	str = shell_parse_node_to_str(p_data->parse_tmp);
 	if (NULL == str)
@@ -73,10 +75,16 @@ int	shell_parse_util_insert_redirect(t_shell_data *p_data)
 	p_data->parse_tmp = shell_parse_new_node();
 	if (NULL == p_data->parse_tmp)
 		return (-1);
-	tree_node = tree_new_node(p_data->redirect_kind, NULL, -1, str); // str의 포인터가 그대로 filepath로 들어가기 때문에 str free 해주면 안됨
+	filename = make_heredoc_filename(&p_data->heredoc_cnt);
+	if (NULL == filename)
+		return (-1);
+	tree_node = tree_new_node(p_data->redirect_kind, NULL, -1, filename);
 	if (NULL == tree_node)
 		return (-1);
 	shell_parse_util_push_tree(&p_data->focus, tree_node);
+	if (T_REDIRECT_HEREDOC == p_data->redirect_kind)
+		if (insert_heredoc_node(p_data, str)) // str의 포인터가 그대로 delimiter로 들어가기 때문에 str free 해주면 안됨
+			return (-1);
 	return (0);
 }
 
