@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:57:15 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/23 00:08:19 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 14:28:17 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../libft/libft.h"
 #include "shell_parse_util_node_list.h"
 #include "../env/env_list_interface_01.h"
-#include "../utils/error_msg_utils_01.h"
 
 int	shell_parse_node_add_char(t_parse_node *node, char c)
 {
@@ -103,18 +102,16 @@ int	shell_parse_find_str_in_env(t_shell_data *p_data)
 	char		*key;
 	t_env_node	*env_node;
 	int			cnt;
+	int			res;
 
 	key = shell_parse_node_to_str(p_data->parse_env);
 	if (NULL == key)
 		return (-1);
 	p_data->parse_env = shell_parse_new_node();
-	if (env_node_search(&p_data->env_list, key, &env_node) == 0)
-	{
-		ft_perror_param("env", key, 0);
-		free(key);
-		return (-1);
-	}
+	res = env_node_search(&p_data->env_list, key, &env_node);
 	free(key);
+	if (0 == res)
+		return (0);
 	cnt = -1;
 	while (env_node->value[++cnt])
 		if (shell_parse_node_add_char(p_data->parse_tmp, env_node->value[cnt]))

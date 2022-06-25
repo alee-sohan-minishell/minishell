@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:48:16 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/24 19:32:59 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 14:25:20 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	print_tree(t_shell_data *shell)
 	print_recur(cur, 0);
 	printf("\n");
 	count = 0;
-	//shell_parse_free(shell);
-	//shell->pipe_count = 0;
-	//shell_parse_init(shell);
-	//ft_set_status(shell, S_LINE_READ);
+	// shell_parse_free(shell);
+	// shell->pipe_count = 0;
+	// shell_parse_init(shell);
+	// ft_set_status(shell, S_LINE_READ);
 }
