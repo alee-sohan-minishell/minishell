@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:07:44 by alee              #+#    #+#             */
-/*   Updated: 2022/06/05 16:57:45 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 20:14:01 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c);
 */
 t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_redirect_in_space(t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state3.c

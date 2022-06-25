@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/24 23:18:24 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 17:04:22 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,6 @@ void	shell_parse_free(t_shell_data *p_data)
 	p_data->parse_tmp = NULL;
 	shell_parse_node_free(p_data->parse_env);
 	p_data->parse_env = NULL;
-}
-
-int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state)
-{
-	if (S_P_QUOTE == state || S_P_DQUOTE == state
-		|| S_P_OPEN == state || S_P_AND == state || S_P_PIPE == state
-		|| S_P_BOOL_AND == state || S_P_BOOL_OR == state)
-		return (-1);
-	if (p_data->parse_env->cnt) // 아직 남아 있는게 있으면
-	{
-		if (shell_parse_find_str_in_env(p_data)) // p_data->parse_env에 있는 문자 key로 env 찾아서 p_data->parse_tmp에 바로 add_char 함
-			return (-1);
-	}
-	if (is_redirect_state(state))
-	{
-		if (p_data->parse_tmp->cnt == 0)
-			return (-1);
-		if (shell_parse_util_insert_redirect(p_data))
-			return (-1);
-	}
-	else if (p_data->parse_tmp->cnt)
-	{
-		if (shell_parse_list_append_node(&p_data->parse_list, &(p_data->parse_tmp)))
-			return (-1);
-	}
-	if (p_data->parse_list.cnt)
-		if (shell_parse_util_insert_cmd(p_data))
-			return (-1);
-	return (0);
 }
 
 char	*loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
@@ -89,6 +60,27 @@ char	*loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 		++str;
 	}
 	return (NULL);
+}
+
+int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state,
+		char **ret)
+{
+	if (*ret)
+		return (-1);
+	else if (S_P_QUOTE == state || S_P_DQUOTE == state
+		|| S_P_OPEN == state || S_P_AND == state || S_P_PIPE == state
+		|| S_P_BOOL_AND == state || S_P_BOOL_OR == state)
+		return (-1);
+	*ret = loop_parse(p_data, &state, " ");
+	if (*ret)
+		return (-1);
+	if (p_data->parse_tmp->cnt
+		&& shell_parse_list_append_node(&p_data->parse_list,
+		&(p_data->parse_tmp)))
+		return (-1);
+	if (p_data->parse_list.cnt && shell_parse_util_insert_cmd(p_data))
+		return (-1);
+	return (0);
 }
 
 // \ 이 중간에 포함 되거나, ' " 개수가 홀 수 일 때 parse 안 함
@@ -125,7 +117,7 @@ void	shell_parse(t_shell_data *p_data)
 	state = S_P_SPACE;
 	ret = loop_parse(p_data, &state, p_data->line);
 	p_data->cmd_count = 0;
-	if (shell_parse_check(p_data, state)
+	if (shell_parse_check(p_data, state, &ret)
 		&& shell_parse_check_tree(p_data->focus) && ret)
 	{
 		ft_perror_param("error while parse", ret, 0); // TODO 뒷 문장 전체 출력하는 걸로 괜찮은가?
@@ -136,19 +128,3 @@ void	shell_parse(t_shell_data *p_data)
 	ft_set_status(p_data, S_CMD); // TODO 바로 CMD로 넘어가기 때문에 CMD에서 shell_parse_free() 호출해줘야 함
 	return ;
 }
-
-//# 여러 개 찾는 걸로 바꾸기
-/*char	*ft_strchr(const char *s, int c)
-{
-	size_t	cur_idx;
-	size_t	search_idx;
-
-	cur_idx = 0;
-	search_idx = ft_strlen(s) + 1;
-	while (cur_idx < search_idx)
-	{
-		if (*((char *)s + cur_idx) == (char)c)
-			return ((char *)s + cur_idx);
-		cur_idx++;
-	}
-}*/

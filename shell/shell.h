@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/06/20 20:50:02 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 20:48:12 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,13 @@ typedef struct s_shell_data
 	int				pipe_index;
 	int				pipe_num;
 	t_data			global_data;
+	unsigned char	exit_code;
 	int				process_exit_status;
 	int				cmd_count;
 	int				pfds[2];
 	int				is_piped;
 	int				is_fileio_success;
-	
+
 	//terminal attr
 	struct termios	default_term_attr;
 	struct termios	new_term_attr;

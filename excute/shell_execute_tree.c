@@ -62,7 +62,7 @@ int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 		{
 			p_data->is_fileio_success = 0;
 			return (-1);
-			
+
 		}
 		p_data->is_fileio_success = 1;
 	}
@@ -186,6 +186,7 @@ void	shell_execute_tree(t_shell_data *p_data)
 	dup2(p_data->fd_in_old, STDIN_FILENO);
 	close(p_data->fd_out_old);
 	close(p_data->fd_in_old);
+	p_data->exit_code = p_data->global_data.pipe_status[p_data->pipe_count]; // free 하기전에 마지막 파이프 exit_code 가지고 있어야 파싱에서 $? 치환할 때 사용 가능
 	p_data->pipe_count = 0;
 	free(p_data->pipe_fd);
 	free(p_data->global_data.pipe_status);

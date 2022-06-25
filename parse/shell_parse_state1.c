@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 23:22:13 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/25 20:24:40 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "shell_parse_node_list.h"
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_util_tree.h"
+#include "shell_parse_util_state.h"
 
 /*
 if (' ' == c || '\'' == c || '"' == c || '$' == c
@@ -68,14 +69,8 @@ t_state_shell_parse	shell_parse_dquote(t_shell_data *p_data, char c)
 
 t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c)
 {
-	if (' ' == c && p_data->parse_env->cnt == 0) // 일반적이지 않은 상황, ls$ -la 같은 경우, env 문자 담은거 아무 것도 없을 때 (처음 시작할 때)
-	{
-		if (shell_parse_node_add_char(p_data->parse_tmp, '$')) // $를 문자 취급해서 add 한다
-			return (S_P_ERROR);
-		if (shell_parse_list_append_node(&p_data->parse_list, &(p_data->parse_tmp)))
-			return (S_P_ERROR);
-		return (S_P_SPACE);
-	}
+	if (p_data->parse_env->cnt == 0 && (' ' == c || '?' == c)) // 일반적이지 않는 경우 ls$ -la나 $? 경우
+		return (treat_first_env(S_P_ENV, p_data, c));
 	else if (' ' == c || '\'' == c || '"' == c || '$' == c // 공백이 위에도 있지만 여기 이미 env 몇 글자 들어온 상황 때문에 또 있음
 		|| '(' == c || ')' == c || '&' == c
 		|| '|' == c || '<' == c || '>' == c) // 일반적이면서 env 끝나는 상황
@@ -85,9 +80,10 @@ t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c)
 		if (' ' == c || '(' == c || ')' == c
 			|| '&' == c || '|' == c || '<' == c || '>' == c)
 		{
-			if (shell_parse_list_append_node(&p_data->parse_list,
-				&(p_data->parse_tmp)))
-				return (S_P_ERROR);
+			if (p_data->parse_tmp->cnt)
+				if (shell_parse_list_append_node(&p_data->parse_list,
+					&(p_data->parse_tmp)))
+					return (S_P_ERROR);
 			if (' ' != c)
 				if (shell_parse_util_insert_cmd(p_data))
 					return (S_P_ERROR);
@@ -101,12 +97,8 @@ t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c)
 
 t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c)
 {
-	if ('"' == c && p_data->parse_env->cnt == 0)
-	{
-		if (shell_parse_node_add_char(p_data->parse_tmp, '$'))
-			return (S_P_ERROR);
-		return (S_P_STRING);
-	}
+	if (p_data->parse_env->cnt == 0 && (' ' == c || '"' == c || '?' == c))
+		return (treat_first_dquote_env(S_P_DQUOTE_ENV, p_data, c));
 	if (' ' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
 		|| '|' == c || '<' == c || '>' == c)
