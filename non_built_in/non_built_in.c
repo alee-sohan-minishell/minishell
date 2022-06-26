@@ -154,10 +154,56 @@ int	ft_exec_command(t_shell_data *p_data)
 			if (pid > 0)
 			{
 				p_data->global_data.pipe_pid[p_data->cmd_count] = pid;
+				if (p_data->is_piped)
+				{
+					if (p_data->cmd_count < p_data->pipe_count)
+					{
+						close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
+						dup2(p_data->pipe_fd[p_data->cmd_count][READ], STDIN_FILENO);
+						close(p_data->pipe_fd[p_data->cmd_count][READ]);
+					}
+					else
+					{
+						/*for (int i = 0; i < p_data->pipe_count; i++)
+						{
+							for (int j = 0; j < 2; j++)
+							{
+								close(p_data->pipe_fd[i][j]);
+							}
+						}*/
+						//dup2(p_data->fd_out_old, STDOUT_FILENO);
+						//dup2(p_data->fd_in_old, STDOUT_FILENO);
+					}
+						//dup2(p_data->pipe_fd[p_data->cmd_count - 1][WRITE], STDOUT_FILENO);
+					//p_data->fd_in_new = p_data->pipe_fd[p_data->cmd_count][READ];
+
+					//close(p_data->pipe_fd[p_data->cmd_count + 1][READ]);
+					//dup2(p_data->pipe_fd[p_data->cmd_count + 1][WRITE], STDOUT_FILENO);
+				}
 			}
 			else if (pid == 0)
 			{
 				set_tc_attr_to_default(p_data);
+				if (p_data->is_piped)
+				{
+					if (p_data->cmd_count < p_data->pipe_count)
+					{
+						for (int i = 0; i < p_data->cmd_count - 1; i++)
+						{
+							close(p_data->pipe_fd[i][READ]);
+							close(p_data->pipe_fd[i][WRITE]);
+						}
+						close(p_data->pipe_fd[p_data->cmd_count][READ]);
+						dup2(p_data->pipe_fd[p_data->cmd_count][WRITE], STDOUT_FILENO);	
+						//close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
+						for (int i = p_data->cmd_count + 1; i < p_data->pipe_count; i++)
+						{
+							close(p_data->pipe_fd[i][READ]);
+							close(p_data->pipe_fd[i][WRITE]);
+						}
+						//close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
+					}
+				}
 				/*if (p_data->is_piped)
 				{
 					for (int i = 0; i < p_data->cmd_count - 1; i++)
@@ -183,10 +229,10 @@ int	ft_exec_command(t_shell_data *p_data)
 						close(p_data->pipe_fd[i][WRITE]);
 					}
 				}*/
-				dup2(p_data->fd_in_new, STDIN_FILENO);
-				dup2(p_data->fd_out_new, STDOUT_FILENO);
-				close(p_data->fd_in_new);
-				close(p_data->fd_out_new);
+				//dup2(p_data->fd_in_new, STDIN_FILENO);
+				//dup2(p_data->fd_out_new, STDOUT_FILENO);
+				//close(p_data->fd_in_new);
+				//close(p_data->fd_out_new);
 				if (p_data->is_fileio_success)
 				{
 					//dup2(p_data->fd_in_new, STDIN_FILENO);
