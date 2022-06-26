@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 20:24:40 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 13:57:42 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c)
 		return (treat_first_env(S_P_ENV, p_data, c));
 	else if (' ' == c || '\'' == c || '"' == c || '$' == c // 공백이 위에도 있지만 여기 이미 env 몇 글자 들어온 상황 때문에 또 있음
 		|| '(' == c || ')' == c || '&' == c
-		|| '|' == c || '<' == c || '>' == c) // 일반적이면서 env 끝나는 상황
+		|| '|' == c || '<' == c || '>' == c
+		|| '-' == c) // 일반적이면서 env 끝나는 상황
 	{
 		if (shell_parse_find_str_in_env(p_data)) // p_data->parse_env에 있는 문자 key로 env 찾아서 p_data->parse_tmp에 바로 add_char 함
 			return (S_P_ERROR);
@@ -101,7 +102,8 @@ t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c)
 		return (treat_first_dquote_env(S_P_DQUOTE_ENV, p_data, c));
 	if (' ' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
-		|| '|' == c || '<' == c || '>' == c)
+		|| '|' == c || '<' == c || '>' == c
+		|| '-' == c)
 	{
 		if (shell_parse_find_str_in_env(p_data))
 			return (S_P_ERROR);
