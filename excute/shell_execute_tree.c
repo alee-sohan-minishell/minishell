@@ -142,8 +142,8 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 		set_fd(p_data, cmd_tree);
 		//else
 		//	p_data->is_fileio_success = 1;
-		if (cmd_tree->kind == T_PIPE)
-			set_pipe_fd(p_data);
+		//if (cmd_tree->kind == T_PIPE)
+		//	set_pipe_fd(p_data);
 		if (cmd_tree->kind == T_COMMAND)
 		{
 			p_data->cmd = cmd_tree->argv;
@@ -153,11 +153,11 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 		tree_traverse_exe_cmd(p_data, cmd_tree->left);
 		// TODO && ||
 		//dup2(p_data->fd_out_old, STDOUT_FILENO);
-		if (cmd_tree->kind == T_PIPE)
-		{
-			++p_data->pipe_num;
-			set_pipe_fd(p_data);
-		}
+		//if (cmd_tree->kind == T_PIPE)
+		//{
+		//	++p_data->pipe_num;
+		//	set_pipe_fd(p_data);
+		//}
 		tree_traverse_exe_cmd(p_data, cmd_tree->right);
 	}
 }
@@ -194,6 +194,8 @@ void	shell_execute_tree(t_shell_data *p_data)
 		p_data->global_data.pipe_status[1] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
 	}
 	else*/
+		dup2(p_data->fd_out_old, STDOUT_FILENO);
+		dup2(p_data->fd_in_old, STDIN_FILENO);
 		if (p_data->is_piped)
 		{
 			for (int i = 0; i < p_data->pipe_count; i++)
@@ -204,8 +206,8 @@ void	shell_execute_tree(t_shell_data *p_data)
 				}
 			}
 		}
-			close(p_data->fd_in_new);
-			close(p_data->fd_out_new);
+			//close(p_data->fd_in_new);
+			//close(p_data->fd_out_new);
 		//close(p_data->pipe_fd[1]);
 		//close(p_data->pipe_fd[0]);
 		while (1)
