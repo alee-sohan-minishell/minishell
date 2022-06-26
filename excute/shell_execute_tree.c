@@ -171,8 +171,8 @@ void	shell_execute_tree(t_shell_data *p_data)
 		return ;
 	p_data->fd_out_old = dup(STDOUT_FILENO);
 	p_data->fd_in_old = dup(STDIN_FILENO);
-	p_data->fd_out_new = dup(STDOUT_FILENO);
-	p_data->fd_in_new = dup(STDIN_FILENO);
+	//p_data->fd_out_new = dup(STDOUT_FILENO);
+	//p_data->fd_in_new = dup(STDIN_FILENO);
 	p_data->pipe_index = 0;
 	p_data->pipe_fd = malloc(p_data->pipe_count * sizeof(int[2]));
 	p_data->global_data.pipe_status = malloc((p_data->pipe_count + 1) * sizeof(int));
@@ -186,6 +186,8 @@ void	shell_execute_tree(t_shell_data *p_data)
 	cur = &p_data->tree;
 	p_data->cmd_count = 0;
 	p_data->pipe_num = p_data->pipe_count;
+	p_data->fd_out_new = 0;
+	p_data->fd_in_new = 0;
 	tree_traverse_exe_cmd(p_data, cur);
 	//fprintf(stderr,"i'm waiting for process id %d and %d\n", p_data->global_data.pipe_pid[0], p_data->global_data.pipe_pid[1]);
 	/*if (!p_data->is_piped)
