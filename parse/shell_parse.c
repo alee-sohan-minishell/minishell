@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/25 17:04:22 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 22:36:14 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,19 @@ char	*loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 	{
 		if (S_P_ERROR == *state)
 			return (str);
-		else if (S_P_SPACE == *state || S_P_QUOTE == *state
-			|| S_P_DQUOTE == *state || S_P_ENV == *state
-			|| S_P_DQUOTE_ENV == *state)
+		else if (S_P_SPACE <= *state && S_P_OPEN >= *state)
 			*state = shell_parse_state1(*state, p_data, *str);
-		else if (S_P_OPEN == *state || S_P_CLOSE == *state)
+		else if (S_P_CLOSE <= *state && S_P_REDIRECT_OUT >= *state)
 			*state = shell_parse_state2(*state, p_data, *str);
-		else if (S_P_AND == *state || S_P_PIPE == *state
-			|| S_P_REDIRECT_IN == *state || S_P_REDIRECT_OUT == *state)
+		else if (S_P_BOOL_AND <= *state && S_P_DQUOTE_ENV >= *state)
 			*state = shell_parse_state3(*state, p_data, *str);
-		else if (S_P_BOOL_AND == *state || S_P_BOOL_OR == *state
-			|| S_P_REDIRECT_HEREDOC == *state || S_P_REDIRECT_APPEND == *state
-			|| S_P_STRING == *state)
+		else if (S_P_REDIRECT_ENV <= *state && S_P_REDIRECT_STRING >= *state)
 			*state = shell_parse_state4(*state, p_data, *str);
-		else if (S_P_REDIRECT_ENV == *state || S_P_REDIRECT_QUOTE == *state
-			|| S_P_REDIRECT_DQUOTE == *state
-			|| S_P_REDIRECT_DQUOTE_ENV == *state)
+		else if (S_P_REDIRECT_STRING_ENV <= *state && S_P_STRING >= *state)
 			*state = shell_parse_state5(*state, p_data, *str);
+		else if (S_P_DQUOTE_QUOTE <= *state
+			&& S_P_REDIRECT_STRING_DQUOTE_QUOTE >= *state)
+			*state = shell_parse_state6(*state, p_data, *str);
 		++str;
 	}
 	return (NULL);
@@ -126,5 +122,6 @@ void	shell_parse(t_shell_data *p_data)
 		return ;
 	}
 	ft_set_status(p_data, S_CMD); // TODO 바로 CMD로 넘어가기 때문에 CMD에서 shell_parse_free() 호출해줘야 함
+	p_data->heredoc_cnt = 0; // TODO make_heredoc_filename() 함수를 그대로 사용할거면 heredoc_cnt 초기화 하고 써야 됨, 호출한 순서대로 파일이름 메겨지니까
 	return ;
 }

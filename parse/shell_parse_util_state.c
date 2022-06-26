@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:40:49 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/26 14:07:33 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 21:05:33 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,68 +63,40 @@ int	add_char_exit_code(t_shell_data *p_data)
 
 // 일반적이지 않은 상황, ls$ -la 같은 경우, env 문자 담은거 아무 것도 없을 때 (처음 시작할 때)
 // $? 같은 경우
-t_state_shell_parse	treat_first_env(t_state_shell_parse state,
-						t_shell_data *p_data, char c)
+t_state_shell_parse	treat_first_env(t_shell_data *p_data, char c)
 {
 	if (' ' == c || '\t' == c)
 	{
 		if (shell_parse_node_add_char(p_data->parse_tmp, '$')) // $를 문자 취급해서 add 한다
 			return (S_P_ERROR);
-		if (S_P_ENV == state
-			&& shell_parse_list_append_node(&p_data->parse_list,
+		if (shell_parse_list_append_node(&p_data->parse_list,
 			&(p_data->parse_tmp)))
 			return (S_P_ERROR);
-		else if (S_P_REDIRECT_ENV == state)
-		{
-			if (shell_parse_util_insert_redirect(p_data))
-				return (S_P_ERROR);
-			p_data->redirect_kind = T_EMPTY;
-		}
 		return (S_P_SPACE);
-	}
-	else // if ('?' == c)
-	{
-		if (add_char_exit_code(p_data))
-			return (S_P_ERROR);
-		if (S_P_ENV == state)
-			return (S_P_STRING);
-		else // if (S_P_REDIRECT_ENV == state)
-			return (get_redirect_state(p_data->redirect_kind));
-	}
+	} // else if ('?' == c)
+	if (add_char_exit_code(p_data))
+		return (S_P_ERROR);
+	return (S_P_STRING);
 }
 
 // 일반적이지 않은 상황, ls$ -la 같은 경우, env 문자 담은거 아무 것도 없을 때 (처음 시작할 때)
 // $? 같은 경우
-t_state_shell_parse	treat_first_dquote_env(t_state_shell_parse state,
-						t_shell_data *p_data, char c)
+t_state_shell_parse	treat_first_dquote_env(t_shell_data *p_data, char c)
 {
 	if (' ' == c || '\t' == c || '"' == c)
 	{
 		if (shell_parse_node_add_char(p_data->parse_tmp, '$'))
 			return (S_P_ERROR);
-		if (S_P_DQUOTE_ENV == state)
+		if (' ' == c || '\t' == c)
 		{
-			if (' ' == c || '\t' == c)
-				return (S_P_QUOTE);
-			else if ('"' == c)
-				return (S_P_STRING);
-		}
-		else // (S_P_REDIRECT_DQUOTE_ENV == state)
-		{
-			if (' ' == c || '\t' == c)
-				return (S_P_REDIRECT_QUOTE);
-			else if ('"' == c)
-				return (get_redirect_state(p_data->redirect_kind));
-		}
-	}
-	else if ('?' == c)
-	{
-		if (add_char_exit_code(p_data))
-			return (S_P_ERROR);
-		if (S_P_DQUOTE_ENV == state)
+			if (shell_parse_node_add_char(p_data->parse_tmp, c))
+				return (S_P_ERROR);
 			return (S_P_DQUOTE);
-		else if (S_P_REDIRECT_DQUOTE_ENV == state)
-			return (S_P_REDIRECT_DQUOTE);
-	}
-	return (S_P_STRING);
+		}
+		else if ('"' == c)
+			return (S_P_STRING);
+	} // else if ('?' == c)
+	if (add_char_exit_code(p_data))
+		return (S_P_ERROR);
+	return (S_P_DQUOTE);
 }

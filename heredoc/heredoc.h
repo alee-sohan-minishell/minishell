@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:36:50 by alee              #+#    #+#             */
-/*   Updated: 2022/06/22 17:27:55 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/26 16:55:12 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../tree_heredoc/shell_tree.h"
 
 int	heredoc(t_shell_data *p_data, const char *eof);
-int	heredoc_readline(int *heredoc_pipe, const char *eof);
+int	heredoc_readline(const char *filename, const char *eof);
+int	heredoc_input(t_shell_data *p_data);
 
 #endif
