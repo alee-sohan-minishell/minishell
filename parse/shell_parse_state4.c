@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 21:47:37 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 14:10:18 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_state_shell_parse	shell_parse_bool_and(t_shell_data *p_data, char c)
 	if (NULL == and)
 		return (S_P_ERROR);
 	shell_parse_util_push_tree(&p_data->focus, and);
-	if (' ' == c || '\'' == c || '"' == c || '$' == c
+	if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c
 		|| '|' == c || '<' == c || '>' == c)
 		return (shell_parse_util_get_state(c));
@@ -46,7 +46,7 @@ t_state_shell_parse	shell_parse_bool_or(t_shell_data *p_data, char c)
 	if (NULL == or)
 		return (S_P_ERROR);
 	shell_parse_util_push_tree(&p_data->focus, or);
-	if (' ' == c || '\'' == c || '"' == c || '$' == c
+	if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
 		|| '<' == c || '>' == c)
 		return (shell_parse_util_get_state(c));
@@ -60,9 +60,9 @@ t_state_shell_parse	shell_parse_bool_or(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_redirect_heredoc(t_shell_data *p_data, char c)
 {
 	p_data->redirect_kind = T_REDIRECT_HEREDOC;
-	if (' ' == c &&  p_data->parse_tmp->cnt == 0)
+	if (p_data->parse_tmp->cnt == 0 && (' ' == c || '\t' == c))
 		return (S_P_REDIRECT_HEREDOC);
-	else if (' ' == c || '(' == c || ')' == c
+	else if (' ' == c || '\t' == c || '(' == c || ')' == c
 		|| '&' == c || '|' == c
 		|| '<' == c || '>' == c)
 	{
@@ -85,9 +85,9 @@ t_state_shell_parse	shell_parse_redirect_heredoc(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char c)
 {
 	p_data->redirect_kind = T_REDIRECT_APPEND;
-	if (' ' == c &&  p_data->parse_tmp->cnt == 0)
+	if (p_data->parse_tmp->cnt == 0 && (' ' == c || '\t' == c))
 		return (S_P_REDIRECT_APPEND);
-	else if (' ' == c || '(' == c || ')' == c
+	else if (' ' == c || '\t' == c || '(' == c || ')' == c
 		|| '&' == c || '|' == c
 		|| '<' == c || '>' == c)
 	{
@@ -109,7 +109,7 @@ t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char c)
 
 t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char c)
 {
-	if (' ' == c)
+	if (' ' == c || '\t' == c)
 	{
 		if (shell_parse_list_append_node(&p_data->parse_list,
 				&(p_data->parse_tmp)))

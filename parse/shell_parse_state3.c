@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/24 20:07:47 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 15:44:38 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c)
 	++p_data->pipe_count;
 	pipe->pnum = p_data->pipe_count;
 	shell_parse_util_push_tree(&p_data->focus, pipe);
-	if (' ' == c || '\'' == c || '"' == c || '$' == c
+	if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || '<' == c || '>' == c)
 		return (shell_parse_util_get_state(c));
 	else if (')' == c || '&' == c)
@@ -52,9 +52,9 @@ t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c)
 {
 	// 임시 node에 add_char 하다가 list로 넣을지, redirect tree_insert 할지 결정하자
 	p_data->redirect_kind = T_REDIRECT_IN;
-	if (' ' == c &&  p_data->parse_tmp->cnt == 0) // 아무것도 없이 처음에 ' ' 만났을 때만, 아닌 경우는 문자 추가하러 가야 됨
+	if (p_data->parse_tmp->cnt == 0 && (' ' == c || '\t' == c)) // 아무것도 없이 처음에 ' ' 만났을 때만, 아닌 경우는 문자 추가하러 가야 됨
 		return (S_P_REDIRECT_IN);
-	else if (' ' == c || '(' == c || ')' == c
+	else if (' ' == c || '\t' == c || '(' == c || ')' == c
 		|| '&' == c || '|' == c || '>' == c)
 	{
 		if (shell_parse_util_insert_redirect(p_data))
@@ -78,9 +78,9 @@ t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c)
 {
 	p_data->redirect_kind = T_REDIRECT_OUT;
-	if (' ' == c && p_data->parse_tmp->cnt == 0)
+	if (p_data->parse_tmp->cnt == 0 && (' ' == c || '\t' == c))
 		return (S_P_REDIRECT_OUT);
-	else if (' ' == c || '(' == c || ')' == c
+	else if (' ' == c || '\t' == c || '(' == c || ')' == c
 		|| '&' == c || '|' == c || '<' == c)
 	{
 		if (shell_parse_util_insert_redirect(p_data))

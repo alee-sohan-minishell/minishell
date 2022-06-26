@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 20:16:05 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 14:11:31 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c)
 	if (NULL == empty)
 		return (S_P_ERROR);
 	shell_parse_util_push_tree(&p_data->focus, empty);
-	if (' ' == c || '\'' == c || '"' == c || '$' == c
+	if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c
 		|| '<' == c || '>' == c)
 		return (shell_parse_util_get_state(c));
@@ -40,7 +40,7 @@ t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char c)
 {
 	if (p_data->focus->parent)
 		p_data->focus = p_data->focus->parent;
-	if (' ' == c || '\'' == c || '"' == c || '$' == c
+	if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
 		|| '|' == c || '<' == c || '>' == c)
 		return (shell_parse_util_get_state(c));

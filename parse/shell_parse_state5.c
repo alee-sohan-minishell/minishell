@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 21:58:20 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 14:08:41 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c)
 {
-	if (p_data->parse_env->cnt == 0 && (' ' == c || '?' == c))
+	if (p_data->parse_env->cnt == 0 && (' ' == c || '\t' == c || '?' == c))
 		return (treat_first_env(S_P_REDIRECT_ENV, p_data, c));
-	else if (' ' == c || '\'' == c || '"' == c || '$' == c // 공백이 위에도 있지만 여기 이미 env 몇 글자 들어온 상황 때문에 또 있음
+	else if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c // 공백이 위에도 있지만 여기 이미 env 몇 글자 들어온 상황 때문에 또 있음
 		|| '(' == c || ')' == c || '&' == c
 		|| '|' == c || '<' == c || '>' == c) // 일반적이면서 env 끝나는 상황
 	{
@@ -65,9 +65,10 @@ t_state_shell_parse	shell_parse_redirect_dquote(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_redirect_dquote_env(t_shell_data *p_data,
 						char c)
 {
-	if (p_data->parse_env->cnt == 0 && (' ' == c || '"' == c || '?' == c))
+	if (p_data->parse_env->cnt == 0
+		&& (' ' == c || '\t' == c || '"' == c || '?' == c))
 		return (treat_first_dquote_env(S_P_REDIRECT_DQUOTE_ENV, p_data, c));
-	else if (' ' == c || '\'' == c || '"' == c || '$' == c
+	else if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
 		|| '|' == c || '<' == c || '>' == c)
 	{
