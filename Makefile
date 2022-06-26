@@ -6,7 +6,7 @@
 #    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/06/25 22:28:24 by min-jo           ###   ########.fr        #
+#    Updated: 2022/06/26 22:31:31 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SHELL_PARSE_FILE = shell_parse_check_tree shell_parse_node_list \
 			shell_parse_state3 shell_parse_state4 shell_parse_state5 \
 			shell_parse_util_node_list shell_parse_util_state \
 			shell_parse_util_tree shell_parse shell_parse_util_tree_push \
-			shell_parse_util_tree2
+			shell_parse_util_tree2 shell_parse_util_state2 shell_parse_state6
 TREE_HEREDOC_FILE = shell_tree shell_heredoc
 
 READLINE_ROOT = $(shell brew --prefix readline)

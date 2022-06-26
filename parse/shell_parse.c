@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/26 17:11:31 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/26 22:36:14 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,19 @@ char	*loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 	{
 		if (S_P_ERROR == *state)
 			return (str);
-		else if (S_P_SPACE == *state || S_P_QUOTE == *state
-			|| S_P_DQUOTE == *state || S_P_ENV == *state
-			|| S_P_DQUOTE_ENV == *state)
+		else if (S_P_SPACE <= *state && S_P_OPEN >= *state)
 			*state = shell_parse_state1(*state, p_data, *str);
-		else if (S_P_OPEN == *state || S_P_CLOSE == *state)
+		else if (S_P_CLOSE <= *state && S_P_REDIRECT_OUT >= *state)
 			*state = shell_parse_state2(*state, p_data, *str);
-		else if (S_P_AND == *state || S_P_PIPE == *state
-			|| S_P_REDIRECT_IN == *state || S_P_REDIRECT_OUT == *state)
+		else if (S_P_BOOL_AND <= *state && S_P_DQUOTE_ENV >= *state)
 			*state = shell_parse_state3(*state, p_data, *str);
-		else if (S_P_BOOL_AND == *state || S_P_BOOL_OR == *state
-			|| S_P_REDIRECT_HEREDOC == *state || S_P_REDIRECT_APPEND == *state
-			|| S_P_STRING == *state)
+		else if (S_P_REDIRECT_ENV <= *state && S_P_REDIRECT_STRING >= *state)
 			*state = shell_parse_state4(*state, p_data, *str);
-		else if (S_P_REDIRECT_ENV == *state || S_P_REDIRECT_QUOTE == *state
-			|| S_P_REDIRECT_DQUOTE == *state
-			|| S_P_REDIRECT_DQUOTE_ENV == *state)
+		else if (S_P_REDIRECT_STRING_ENV <= *state && S_P_STRING >= *state)
 			*state = shell_parse_state5(*state, p_data, *str);
+		else if (S_P_DQUOTE_QUOTE <= *state
+			&& S_P_REDIRECT_STRING_DQUOTE_QUOTE >= *state)
+			*state = shell_parse_state6(*state, p_data, *str);
 		++str;
 	}
 	return (NULL);

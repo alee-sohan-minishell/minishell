@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:07:44 by alee              #+#    #+#             */
-/*   Updated: 2022/06/25 20:14:01 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 22:37:45 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@
 typedef enum e_state_shell_parse
 {
 	S_P_ERROR = -1,
+
 	S_P_SPACE,
 	S_P_QUOTE,
 	S_P_DQUOTE,
 	S_P_ENV,
-
 	S_P_OPEN,
+
 	S_P_CLOSE,
 	S_P_AND,
 	S_P_PIPE,
@@ -33,14 +34,23 @@ typedef enum e_state_shell_parse
 	S_P_BOOL_OR,
 	S_P_REDIRECT_HEREDOC,
 	S_P_REDIRECT_APPEND,
-
 	S_P_DQUOTE_ENV,
+
 	S_P_REDIRECT_ENV,
 	S_P_REDIRECT_QUOTE,
 	S_P_REDIRECT_DQUOTE,
 	S_P_REDIRECT_DQUOTE_ENV,
+	S_P_REDIRECT_STRING,
 
+	S_P_REDIRECT_STRING_ENV,
+	S_P_REDIRECT_STRING_QUOTE,
+	S_P_REDIRECT_STRING_DQUOTE,
+	S_P_REDIRECT_STRING_DQUOTE_ENV,
 	S_P_STRING,
+
+	S_P_DQUOTE_QUOTE,
+	S_P_REDIRECT_DQUOTE_QUOTE,
+	S_P_REDIRECT_STRING_DQUOTE_QUOTE,
 }	t_state_shell_parse;
 
 /*
@@ -64,38 +74,57 @@ t_state_shell_parse	shell_parse_space(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_quote(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_dquote(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_env(t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state2.c
 */
-t_state_shell_parse	shell_parse_open(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_close(t_shell_data *p_data, char c);
-
-/*
-* shell_parse_state3.c
-*/
 t_state_shell_parse	shell_parse_and(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_pipe(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_in(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_out(t_shell_data *p_data, char c);
 
 /*
-* shell_parse_state4.c
+* shell_parse_state3.c
 */
 t_state_shell_parse	shell_parse_bool_and(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_bool_or(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_heredoc(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c);
 
 /*
-* shell_parse_state5.c
+* shell_parse_state4.c
 */
 t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_quote(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_dquote(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_dquote_env(t_shell_data *p_data,
 						char c);
+t_state_shell_parse	shell_parse_redirect_string(t_shell_data *p_data, char c);
 
+/*
+* shell_parse_state5.c
+*/
+t_state_shell_parse	shell_parse_redirect_string_env(t_shell_data *p_data,
+						char c);
+t_state_shell_parse	shell_parse_redirect_string_quote(t_shell_data *p_data,
+						char c);
+t_state_shell_parse	shell_parse_redirect_string_dquote(t_shell_data *p_data,
+						char c);
+t_state_shell_parse	shell_parse_redirect_string_dquote_env(t_shell_data *p_data,
+						char c);
+t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char c);
+
+/*
+* shell_parse_state6.c
+*/
+t_state_shell_parse	shell_parse_state6(t_state_shell_parse state,
+			t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_dquote_quote(t_shell_data *p_data, char c);
+t_state_shell_parse	shell_parse_redirect_dquote_quote(t_shell_data *p_data,
+						char c);
+t_state_shell_parse	shell_parse_redirect_string_dquote_quote(
+						t_shell_data *p_data, char c);
 #endif

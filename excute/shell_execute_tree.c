@@ -115,6 +115,7 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 			++p_data->cmd_count;
 		}
 		tree_traverse_exe_cmd(p_data, cmd_tree->left);
+		// TODO && ||
 		tree_traverse_exe_cmd(p_data, cmd_tree->right);
 	}
 }

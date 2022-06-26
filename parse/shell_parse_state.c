@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:40:49 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 15:03:21 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 18:38:49 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,17 @@ t_state_shell_parse	shell_parse_state1(t_state_shell_parse state,
 		return (shell_parse_dquote(p_data, c));
 	else if (S_P_ENV == state)
 		return (shell_parse_env(p_data, c));
-	else if (S_P_DQUOTE_ENV == state)
-		return (shell_parse_dquote_env(p_data, c));
+	else if (S_P_OPEN == state)
+		return (shell_parse_open(p_data, c));
 	return (S_P_ERROR);
 }
 
 t_state_shell_parse	shell_parse_state2(t_state_shell_parse state,
 			t_shell_data *p_data, char c)
 {
-	if (S_P_OPEN == state)
-		return (shell_parse_open(p_data, c));
-	else if (S_P_CLOSE == state)
+	if (S_P_CLOSE == state)
 		return (shell_parse_close(p_data, c));
-	return (S_P_ERROR);
-}
-
-t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
-			t_shell_data *p_data, char c)
-{
-	if (S_P_AND == state)
+	else if (S_P_AND == state)
 		return (shell_parse_and(p_data, c));
 	else if (S_P_PIPE == state)
 		return (shell_parse_pipe(p_data, c));
@@ -52,7 +44,7 @@ t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
 	return (S_P_ERROR);
 }
 
-t_state_shell_parse	shell_parse_state4(t_state_shell_parse state,
+t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
 			t_shell_data *p_data, char c)
 {
 	if (S_P_BOOL_AND == state)
@@ -63,12 +55,12 @@ t_state_shell_parse	shell_parse_state4(t_state_shell_parse state,
 		return (shell_parse_redirect_heredoc(p_data, c));
 	else if (S_P_REDIRECT_APPEND == state)
 		return (shell_parse_redirect_append(p_data, c));
-	else if (S_P_STRING == state)
-		return (shell_parse_string(p_data, c));
+	else if (S_P_DQUOTE_ENV == state)
+		return (shell_parse_dquote_env(p_data, c));
 	return (S_P_ERROR);
 }
 
-t_state_shell_parse	shell_parse_state5(t_state_shell_parse state,
+t_state_shell_parse	shell_parse_state4(t_state_shell_parse state,
 			t_shell_data *p_data, char c)
 {
 	if (S_P_REDIRECT_ENV == state)
@@ -79,5 +71,23 @@ t_state_shell_parse	shell_parse_state5(t_state_shell_parse state,
 		return (shell_parse_redirect_dquote(p_data, c));
 	else if (S_P_REDIRECT_DQUOTE_ENV == state)
 		return (shell_parse_redirect_dquote_env(p_data, c));
+	else if (S_P_REDIRECT_STRING == state)
+		return (shell_parse_redirect_string(p_data, c));
+	return (S_P_ERROR);
+}
+
+t_state_shell_parse	shell_parse_state5(t_state_shell_parse state,
+			t_shell_data *p_data, char c)
+{
+	if (S_P_REDIRECT_STRING_ENV == state)
+		return (shell_parse_redirect_string_env(p_data, c));
+	else if (S_P_REDIRECT_STRING_QUOTE == state)
+		return (shell_parse_redirect_string_quote(p_data, c));
+	else if (S_P_REDIRECT_STRING_DQUOTE == state)
+		return (shell_parse_redirect_string_dquote(p_data, c));
+	else if (S_P_REDIRECT_STRING_DQUOTE_ENV == state)
+		return (shell_parse_redirect_string_dquote_env(p_data, c));
+	else if (S_P_STRING == state)
+		return (shell_parse_string(p_data, c));
 	return (S_P_ERROR);
 }
