@@ -23,26 +23,26 @@ void	print_recur(t_shell_tree_node *t, int left, int *count)
 		"|", "&&", "||", "<", ">", "<<", ">>"};
 	int 		cnt = -1;
 
-	printf("%d: tree %s" , (*count)++, which[t->kind]);
+	fprintf(stderr, "%d: tree %s" , (*count)++, which[t->kind]);
 	if (t->kind == T_PIPE)
-		printf("%d", t->pnum);
-	printf(" %d\n", left);
+		fprintf(stderr,"%d", t->pnum);
+	fprintf(stderr," %d\n", left);
 	if (NULL == t->argv)
-		printf("	no argv\n");
+		fprintf(stderr,"	no argv\n");
 	else
 	{
 		while (t->argv[++cnt])
-			printf("	%d: %s\n", cnt, t->argv[cnt]);
+			fprintf(stderr,"	%d: %s\n", cnt, t->argv[cnt]);
 	}
 	if (NULL == t->filepath)
-		printf("	no filepath\n");
+		fprintf(stderr,"	no filepath\n");
 	else
-		printf("	file: %s\n", t->filepath);
+		fprintf(stderr,"	file: %s\n", t->filepath);
 	if (t->left)
 		print_recur(t->left, 1, count);
 	if (t->right)
 		print_recur(t->right, 0, count);
-	printf("up\n\n");
+	fprintf(stderr,"up\n\n");
 }
 
 void	print_heredoc(t_shell_data *shell)
@@ -54,10 +54,10 @@ void	print_heredoc(t_shell_data *shell)
 	node = shell->heredoc_list.head.next;
 	while (node != &shell->heredoc_list.tail)
 	{
-		printf("%d: heredoc, delimiter: %s\n", ++cnt, node->delimiter);
+		fprintf(stderr,"%d: heredoc, delimiter: %s\n", ++cnt, node->delimiter);
 		node = node->next;
 	}
-	printf("\n");
+	fprintf(stderr,"\n");
 }
 
 void	print_tree(t_shell_data *shell)
@@ -66,7 +66,7 @@ void	print_tree(t_shell_data *shell)
 
 	count = 0;
 	print_recur(&shell->tree, 0, &count);
-	printf("\n");
+	fprintf(stderr,"\n");
 	// shell_parse_free(shell);
 	// shell->pipe_count = 0;
 	// shell_parse_init(shell);

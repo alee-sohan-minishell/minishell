@@ -21,7 +21,7 @@ void	set_pipe(t_shell_data *p_data)
 {
 
 	if (pipe(p_data->pipe_fd[p_data->pipe_index]) == -1)
-		printf("pipe error\n");
+		fprintf(stderr,"pipe error\n");
 	++p_data->pipe_index;
 	//p_data->pipe_pid[0] = fork();
 	//p_data->pipe_pid[1] = fork();
@@ -31,7 +31,7 @@ void	set_pipe(t_shell_data *p_data)
 		dup2(p_data->pipe_fd[1], p_data->fd_out_new);
 		close(p_data->pipe_fd[0]);
 	}*/
-	//printf("fd[0]:%d fd[1]:%d\n", p_data->pipe_fd[p_data->pipe_index][0], p_data->pipe_fd[p_data->pipe_index][1]);
+	//fprintf(stderr,"fd[0]:%d fd[1]:%d\n", p_data->pipe_fd[p_data->pipe_index][0], p_data->pipe_fd[p_data->pipe_index][1]);
 	//++p_data->pipe_index;
 	p_data->is_piped = 1;
 	//if (p_data->pipe_pid[1] == 0)
@@ -142,7 +142,7 @@ void	shell_execute_tree(t_shell_data *p_data)
 	cur = &p_data->tree;
 	p_data->cmd_count = 0;
 	tree_traverse_exe_cmd(p_data, cur);
-	//printf("i'm waiting for process id %d and %d\n", p_data->global_data.pipe_pid[0], p_data->global_data.pipe_pid[1]);
+	//fprintf(stderr,"i'm waiting for process id %d and %d\n", p_data->global_data.pipe_pid[0], p_data->global_data.pipe_pid[1]);
 	/*if (!p_data->is_piped)
 	{
 		wait(&p_data->process_exit_status);
@@ -172,10 +172,10 @@ void	shell_execute_tree(t_shell_data *p_data)
 			if (pid == -1)
 				break ;
 		}
-	printf("exit:");
+	fprintf(stderr,"exit:");
 	for (int i = 0; i < p_data->pipe_count + 1; i++)
-		printf("%d ", p_data->global_data.pipe_status[i]);
-	printf("\n");
+		fprintf(stderr,"%d ", p_data->global_data.pipe_status[i]);
+	fprintf(stderr,"\n");
 		//while ((pid = wait(NULL)) != -1);
 	if (p_data->line)
 		free(p_data->line);
