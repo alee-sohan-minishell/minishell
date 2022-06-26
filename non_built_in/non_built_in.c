@@ -158,9 +158,9 @@ int	ft_exec_command(t_shell_data *p_data)
 			else if (pid == 0)
 			{
 				set_tc_attr_to_default(p_data);
-				if (p_data->is_piped)
+				/*if (p_data->is_piped)
 				{
-					for (int i = 0; i < p_data->cmd_count; i++)
+					for (int i = 0; i < p_data->cmd_count - 1; i++)
 					{
 						close(p_data->pipe_fd[i][READ]);
 						close(p_data->pipe_fd[i][WRITE]);
@@ -182,9 +182,19 @@ int	ft_exec_command(t_shell_data *p_data)
 						close(p_data->pipe_fd[i][READ]);
 						close(p_data->pipe_fd[i][WRITE]);
 					}
-				}
+				}*/
+				dup2(p_data->fd_in_new, STDIN_FILENO);
+				dup2(p_data->fd_out_new, STDOUT_FILENO);
+				close(p_data->fd_in_new);
+				close(p_data->fd_out_new);
 				if (p_data->is_fileio_success)
+				{
+					//dup2(p_data->fd_in_new, STDIN_FILENO);
+					//dup2(p_data->fd_out_new, STDOUT_FILENO);
 					execve(path_list[index], p_data->cmd, *p_data->p_env);
+				}
+				else
+					exit(p_data->fileio_errno);
 			}
 			//wait(&status);
 			//p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
