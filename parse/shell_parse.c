@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/25 17:04:22 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 17:11:31 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ void	shell_parse(t_shell_data *p_data)
 		return ;
 	}
 	ft_set_status(p_data, S_CMD); // TODO 바로 CMD로 넘어가기 때문에 CMD에서 shell_parse_free() 호출해줘야 함
+	p_data->heredoc_cnt = 0; // TODO make_heredoc_filename() 함수를 그대로 사용할거면 heredoc_cnt 초기화 하고 써야 됨, 호출한 순서대로 파일이름 메겨지니까
 	return ;
 }

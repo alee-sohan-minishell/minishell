@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:39:03 by alee              #+#    #+#             */
-/*   Updated: 2022/06/25 23:43:57 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/26 17:25:44 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "heredoc.h"
 #include "../signal/signal.h"
 #include <fcntl.h>
+#include "../parse/shell_parse_util_tree2.h"
+#include "../utils/state_machine_utils_01.h"
 
 int	heredoc(t_shell_data *p_data, const char *filename)
 {
@@ -34,7 +36,7 @@ int	heredoc(t_shell_data *p_data, const char *filename)
 	stdout_backup = ft_dup(STDOUT_FILENO);
 	ft_dup2(p_data->cp_stdout, STDOUT_FILENO);
 	ft_pipe(heredoc_pipe);
-	// result = heredoc_readline(heredoc_pipe, eof);
+
 	ft_dup2(stdout_backup, STDOUT_FILENO);
 	ft_close(stdout_backup);
 	ft_dup2(heredoc_pipe[0], STDIN_FILENO);
@@ -43,27 +45,46 @@ int	heredoc(t_shell_data *p_data, const char *filename)
 	return (1);
 }
 
-int	heredoc_readline(int *heredoc_pipe, const char *eof)
+int	heredoc_readline(const char *filename, const char *eof)
 {
 	char	*line;
+	int		fd;
 
+	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (fd == -1)
+		return (-1);
 	while (1)
 	{
 		set_signal_background();
 		line = readline("> ");
 		if (!line)
-		{
-			ft_close(heredoc_pipe[0]);
-			ft_close(heredoc_pipe[1]);
 			return (1);
-		}
-		if (ft_strcmp(line, eof) == 0 || line[0] == 10)
+		if (ft_strcmp(line, eof) == 0)
 		{
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(line, heredoc_pipe[1]);
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
 	return (0);
+}
+
+int	heredoc_input(t_shell_data *p_data)
+{
+	t_shell_heredoc_node	*node;
+	int						result;
+
+	node = p_data->heredoc_list.head.next;
+	while (node != &p_data->heredoc_list.tail)
+	{
+		result = heredoc_readline(make_heredoc_filename(&p_data->heredoc_cnt), node->delimiter);
+		if (result == -1)
+		{
+			ft_set_status(p_data, S_ERROR);
+			return (-1);
+		}
+		node = node->next;
+	}
+	return (1);
 }
