@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:09:58 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 00:12:03 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 01:04:51 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ void	shell_execute(t_shell_data *p_data)
 	if (!p_data->cmd[0])
 		ft_set_status(p_data, S_LINE_READ);
 	else if (ft_strcmp(p_data->cmd[0], "cd") == 0)
-		p_data->exit_code = ft_cd(p_data->cmd, p_data);
+		p_data->global_data.pipe_status[p_data->cmd_count] = ft_cd(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "pwd") == 0)
-		p_data->exit_code = ft_pwd(p_data->cmd);
+		p_data->global_data.pipe_status[p_data->cmd_count] = ft_pwd(p_data->cmd);
 	else if (ft_strcmp(p_data->cmd[0], "echo") == 0)
-		p_data->exit_code = ft_echo(p_data->cmd, p_data);
+		p_data->global_data.pipe_status[p_data->cmd_count] = ft_echo(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
-		p_data->exit_code = ft_exit(p_data->cmd, p_data->last_status);
+		p_data->global_data.pipe_status[p_data->cmd_count] = ft_exit(p_data->cmd, p_data->last_status);
 	else if (ft_strcmp(p_data->cmd[0], "env") == 0)
-		p_data->exit_code = ft_env(p_data->cmd, p_data);
+		p_data->global_data.pipe_status[p_data->cmd_count] = ft_env(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "unset") == 0)
-		p_data->exit_code = ft_unset(p_data->cmd, &p_data->env_list);
+		p_data->global_data.pipe_status[p_data->cmd_count] = ft_unset(p_data->cmd, &p_data->env_list);
 	else if (ft_strcmp(p_data->cmd[0], "export") == 0)
-		p_data->exit_code = ft_export(p_data->cmd, &p_data->env_list);
+		p_data->global_data.pipe_status[p_data->cmd_count] = ft_export(p_data->cmd, &p_data->env_list);
 	else
 	{
 		ft_exec_command(p_data);
