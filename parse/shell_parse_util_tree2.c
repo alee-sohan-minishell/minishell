@@ -6,10 +6,12 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:53:31 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 23:31:50 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 21:02:28 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include "../shell/shell.h"
 #include "shell_parse_state.h"
 #include "../tree_heredoc/shell_tree.h"
@@ -48,9 +50,25 @@ char	*make_heredoc_filename(int *cnt)
 	num = ft_itoa(*cnt);
 	if (NULL == num)
 		return (NULL);
-	joined = ft_strjoin("filename", num); // TODO filename이랑 path 뭐로 할지 정해야 함
+	joined = ft_strjoin("/dev/fd/minishell_heredoc_file_", num); // TODO filename이랑 path 뭐로 할지 정해야 함
+	free(num);
 	if (NULL == joined)
 		return (NULL);
 	++(*cnt);
 	return (joined);
+}
+
+void	heredoc_file_free(t_shell_data *p_data)
+{
+	int		cnt;
+	int		file_cnt;
+	char	*filename;
+
+	cnt = -1;
+	while (++cnt < p_data->heredoc_list.cnt)
+	{
+		filename = make_heredoc_filename(&file_cnt);
+		unlink(filename);
+		free(filename);
+	}
 }

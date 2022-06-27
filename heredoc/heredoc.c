@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:39:03 by alee              #+#    #+#             */
-/*   Updated: 2022/06/26 17:25:44 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/27 20:49:46 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "../shell/shell.h"
 #include "../utils/fd_utils_01.h"
 #include "../libft/libft.h"
@@ -74,11 +75,16 @@ int	heredoc_input(t_shell_data *p_data)
 {
 	t_shell_heredoc_node	*node;
 	int						result;
+	char					*filename;
 
 	node = p_data->heredoc_list.head.next;
 	while (node != &p_data->heredoc_list.tail)
 	{
-		result = heredoc_readline(make_heredoc_filename(&p_data->heredoc_cnt), node->delimiter);
+		filename = make_heredoc_filename(&p_data->heredoc_cnt);
+		if (NULL == filename)
+			return (-1);
+		result = heredoc_readline(filename, node->delimiter);
+		free(filename);
 		if (result == -1)
 		{
 			ft_set_status(p_data, S_ERROR);

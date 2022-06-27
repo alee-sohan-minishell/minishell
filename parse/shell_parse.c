@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/26 22:36:14 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 20:43:23 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 #include "../utils/state_machine_utils_01.h"
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_util_tree.h"
+#include "shell_parse_util_tree2.h"
 #include "shell_parse_util_state.h"
 
 void	shell_parse_free(t_shell_data *p_data)
 {
 	tree_free(&p_data->tree, 1);
 	p_data->focus = &p_data->tree;
+	heredoc_file_free(p_data);
 	heredoc_list_free(&p_data->heredoc_list);
 	shell_parse_list_free(&p_data->parse_list);
 	shell_parse_node_free(p_data->parse_tmp);
