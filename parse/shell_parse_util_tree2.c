@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 21:53:31 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/27 21:02:28 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:13:00 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*make_heredoc_filename(int *cnt)
 	num = ft_itoa(*cnt);
 	if (NULL == num)
 		return (NULL);
-	joined = ft_strjoin("/dev/fd/minishell_heredoc_file_", num); // TODO filename이랑 path 뭐로 할지 정해야 함
+	joined = ft_strjoin("minishell_heredoc_file_", num);
 	free(num);
 	if (NULL == joined)
 		return (NULL);
@@ -64,6 +64,7 @@ void	heredoc_file_free(t_shell_data *p_data)
 	int		file_cnt;
 	char	*filename;
 
+	file_cnt = 0;
 	cnt = -1;
 	while (++cnt < p_data->heredoc_list.cnt)
 	{

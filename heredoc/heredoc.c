@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:39:03 by alee              #+#    #+#             */
-/*   Updated: 2022/06/27 20:49:46 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:11:12 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,24 @@
 #include <fcntl.h>
 #include "../parse/shell_parse_util_tree2.h"
 #include "../utils/state_machine_utils_01.h"
+#include "../utils/error_msg_utils_01.h"
+#include <errno.h>
 
 int	heredoc(t_shell_data *p_data, const char *filename)
 {
-	int	stdout_backup;
-	int	heredoc_pipe[2];
 	int	fd;
 
-	// TODO 여기서는 main문 쪽에서 만든 file을 !!!!!!open!!!!!해서 dup2만 하면됨
-	// eof는 지우고, heredoc_readline()은 main 쪽으로 빠져야 됨
-	// TODO filename open 하고 그걸 dup2 해야 됨 됨
-	filename = NULL; // TODO 컴파일 안돼서 걍 해놓음
-	fd = 0;
+	fd = open(filename, O_RDONLY);
+	if (-1 == fd)
+	{
+		ft_perror_param((const char *)0, filename, errno);
+		p_data->fileio_errno = 1;
+		return (-1);
+	}
+	p_data->fd_in_new = fd;
+	ft_dup2(fd, STDIN_FILENO);
+	ft_close(fd);
 
-	ft_dup2(p_data->cp_stdin, STDIN_FILENO);
-	stdout_backup = ft_dup(STDOUT_FILENO);
-	ft_dup2(p_data->cp_stdout, STDOUT_FILENO);
-	ft_pipe(heredoc_pipe);
-
-	ft_dup2(stdout_backup, STDOUT_FILENO);
-	ft_close(stdout_backup);
-	ft_dup2(heredoc_pipe[0], STDIN_FILENO);
-	ft_close(heredoc_pipe[1]);
-	ft_close(heredoc_pipe[0]);
 	return (1);
 }
 
