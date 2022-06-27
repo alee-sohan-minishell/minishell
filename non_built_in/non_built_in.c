@@ -95,15 +95,13 @@ int	ft_exec_command(t_shell_data *p_data)
 	{
 		pid = fork();
 		if (pid > 0)
+		{	
 			signal(SIGINT, SIG_IGN);
+			p_data->global_data.pipe_pid[p_data->cmd_count] = pid;
+		}
 		else if (pid == 0)
 		{
 			set_tc_attr_to_default(p_data);
-			{
-				//p_data->fd_out_new = p_data->pipe_fd[1];
-				//dup2(p_data->pipe_fd[1], p_data->fd_out_new);
-				//close(p_data->pipe_fd[0]);
-			}
 			if (execve(p_data->cmd[0], p_data->cmd, *p_data->p_env) == -1)
 			{
 				if (errno == ENOEXEC)//이짓까지 해야될까?
@@ -158,30 +156,12 @@ int	ft_exec_command(t_shell_data *p_data)
 						close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
 						dup2(p_data->pipe_fd[p_data->cmd_count][READ], STDIN_FILENO);
 						close(p_data->pipe_fd[p_data->cmd_count][READ]);
-						/*if (p_data->fd_out_new)
-						{	
-							dup2(p_data->fd_out_new, STDOUT_FILENO);
-							close(p_data->fd_out_new);
-						}*/
 					}
 					else
 					{
-						/*for (int i = 0; i < p_data->pipe_count; i++)
-						{
-							for (int j = 0; j < 2; j++)
-							{
-								close(p_data->pipe_fd[i][j]);
-							}
-						}*/
 						dup2(p_data->fd_in_old, STDIN_FILENO);
 						close(p_data->fd_in_old);
-						//close(p_data->fd_in_old);
 					}
-						//dup2(p_data->pipe_fd[p_data->cmd_count - 1][WRITE], STDOUT_FILENO);
-					//p_data->fd_in_new = p_data->pipe_fd[p_data->cmd_count][READ];
-
-					//close(p_data->pipe_fd[p_data->cmd_count + 1][READ]);
-					//dup2(p_data->pipe_fd[p_data->cmd_count + 1][WRITE], STDOUT_FILENO);
 				}
 			}
 			else if (pid == 0)
@@ -206,49 +186,15 @@ int	ft_exec_command(t_shell_data *p_data)
 							close(p_data->pipe_fd[i][READ]);
 							close(p_data->pipe_fd[i][WRITE]);
 						}
-						//close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
 					}
 					else
-					{	
+					{
 						dup2(p_data->fd_out_old, STDOUT_FILENO);
 						close(p_data->fd_out_old);
 					}
 				}
-				/*if (p_data->is_piped)
-				{
-					for (int i = 0; i < p_data->cmd_count - 1; i++)
-					{
-						close(p_data->pipe_fd[i][READ]);
-						close(p_data->pipe_fd[i][WRITE]);
-					}
-					if (p_data->cmd_count > 0)
-					{
-						close(p_data->pipe_fd[p_data->cmd_count - 1][WRITE]);
-						dup2(p_data->pipe_fd[p_data->cmd_count - 1][READ], STDIN_FILENO);
-						close(p_data->pipe_fd[p_data->cmd_count - 1][READ]);
-					}
-					if (p_data->cmd_count < p_data->pipe_count)
-					{
-						close(p_data->pipe_fd[p_data->cmd_count][READ]);
-						dup2(p_data->pipe_fd[p_data->cmd_count][WRITE], STDOUT_FILENO);
-						close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
-					}
-					for (int i = p_data->cmd_count + 1; i < p_data->pipe_count; i++)
-					{
-						close(p_data->pipe_fd[i][READ]);
-						close(p_data->pipe_fd[i][WRITE]);
-					}
-				}*/
-				//if (p_data->fd_out_new)
-				//{
-				//	dup2(p_data->fd_out_new, STDOUT_FILENO);
-				//}
 				if (p_data->is_fileio_success)
-				{
-					//dup2(p_data->fd_in_new, STDIN_FILENO);
-					//dup2(p_data->fd_out_new, STDOUT_FILENO);
 					execve(path_list[index], p_data->cmd, *p_data->p_env);
-				}
 				else
 					exit(p_data->fileio_errno);
 			}
