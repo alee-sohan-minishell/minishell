@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 14:57:11 by alee              #+#    #+#             */
-/*   Updated: 2022/06/24 19:54:32 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 03:50:25 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,17 @@ int	ft_cd(char **cmd, t_shell_data *p_data)
 		{
 			if (o_home_path)
 				ret = chdir(o_home_path);
+			else
+				ret = 1;
 		}
 		else
+		{
 			ret = chdir(cmd[1]);
+		}
 		if (ret == -1)
 			return (cd_err_msg(cmd, o_home_path));
 	}
-	return (0);
+	return (ret);
 }
 
 int	is_chdir_home(char **cmd, char **o_home_path, t_shell_data *p_data)
@@ -51,6 +55,8 @@ int	is_chdir_home(char **cmd, char **o_home_path, t_shell_data *p_data)
 	{
 		if (env_node_search(&p_data->env_list, "HOME", &home_node) == 0)
 			ft_perror_param("cd", "HOME not set", 0);
+		else if (home_node->value == (char *)0)
+			ft_perror_param("cd", "HOME not set", 0);
 		else
 			*o_home_path = home_node->value;
 		return (1);
@@ -60,7 +66,9 @@ int	is_chdir_home(char **cmd, char **o_home_path, t_shell_data *p_data)
 		if (env_node_search(&p_data->env_list, "HOME", &home_node) == 0)
 			*o_home_path = p_data->env_default_home;
 		else
-			*o_home_path = home_node->value;
+		{
+			set_default_path(p_data, o_home_path, home_node);
+		}
 		return (1);
 	}
 	return (0);
@@ -73,4 +81,13 @@ int	cd_err_msg(char **cmd, char *home_path)
 	else
 		ft_perror_param("cd", cmd[1], 1);
 	return (1);
+}
+
+void	set_default_path(t_shell_data *p_data, char **o_home_path, t_env_node *home_node)
+{
+	if (home_node->value == (char *)0)
+		*o_home_path = p_data->env_default_home;
+	else
+		*o_home_path = home_node->value;
+	return ;
 }

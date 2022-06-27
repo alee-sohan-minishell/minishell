@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 00:14:26 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 02:32:56 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 int	main(int argc, char *argv[], char *env[])
 {
 	t_shell_data	shell;
-
+	if (argc == 3)
+		printf("%d [%s] \n", argc, argv[1]);
 	ft_bzero(&shell, sizeof(shell));
 	while (1)
 	{

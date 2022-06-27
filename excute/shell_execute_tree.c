@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:15:36 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 01:18:01 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 01:51:30 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,10 +214,10 @@ void	shell_execute_tree(t_shell_data *p_data)
 			if (pid == -1)
 				break ;
 	}
-	fprintf(stderr, "exit:");
-	for (int i = 0; i < p_data->pipe_count + 1; i++)
-		fprintf(stderr, "%d ", p_data->global_data.pipe_status[i]);
-	fprintf(stderr, "\n");
+	// fprintf(stderr, "exit:");
+	// for (int i = 0; i < p_data->pipe_count + 1; i++)
+	// 	fprintf(stderr, "%d ", p_data->global_data.pipe_status[i]);
+	// fprintf(stderr, "\n");
 	if (p_data->line)
 		free(p_data->line);
 	shell_parse_free(p_data);

@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 12:09:12 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 01:30:11 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 01:41:33 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	env_node_delete(t_env_list *p_list, const char *key)
 	free(del_node);
 	return (1);
 }
-
-#include <stdio.h>
 
 int	env_node_replace(t_env_list *p_list, char *p_key, char *p_value)
 {
