@@ -77,10 +77,13 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 	{
 		if (p_data->is_fileio_success)
 			set_fd(p_data, cmd_tree);
-		if (cmd_tree->kind == T_COMMAND)
+		if (!cmd_tree->left && !cmd_tree->right)
 		{
-			p_data->cmd = cmd_tree->argv;
-			shell_excute(p_data);
+			if (cmd_tree->kind == T_COMMAND)
+			{	
+				p_data->cmd = cmd_tree->argv;
+				shell_excute(p_data);
+			}
 			++p_data->cmd_count;
 			p_data->is_fileio_success = 1;
 		}
