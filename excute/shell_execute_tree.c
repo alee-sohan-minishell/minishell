@@ -46,7 +46,11 @@ int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 	if (cmd_tree->kind == T_REDIRECT_HEREDOC)
 	{
 		if (heredoc(p_data, cmd_tree->filepath) == -1)
+		{
+			p_data->is_fileio_success = 0;
 			return (-1);
+		}
+		p_data->is_fileio_success = 1;
 	}
 	else if (cmd_tree->kind == T_REDIRECT_IN)
 	{
@@ -60,12 +64,20 @@ int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 	else if (cmd_tree->kind == T_REDIRECT_OUT)
 	{
 		if (redirection_out(p_data, cmd_tree->filepath) == -1)
+		{
+			p_data->is_fileio_success = 0;
 			return (-1);
+		}
+		p_data->is_fileio_success = 1;
 	}
 	else if (cmd_tree->kind == T_REDIRECT_APPEND)
 	{
 		if (redirection_append(p_data, cmd_tree->filepath) == -1)
+		{
+			p_data->is_fileio_success = 0;
 			return (-1);
+		}
+		p_data->is_fileio_success = 1;
 	}
 	return (0);
 }
@@ -218,6 +230,10 @@ void	shell_execute_tree(t_shell_data *p_data)
 			if (pid == -1)
 				break ;
 	}
+	fprintf(stderr, "exit :");
+	for (int i = 0; i < p_data->pipe_count + 1; i++)
+		fprintf(stderr, "%d ", p_data->global_data.pipe_status[i]);
+	fprintf(stderr, "\n");
 	if (p_data->line)
 		free(p_data->line);
 	shell_parse_free(p_data);
