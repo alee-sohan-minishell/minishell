@@ -75,12 +75,14 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 {
 	if (cmd_tree)
 	{
-		set_fd(p_data, cmd_tree);
+		if (p_data->is_fileio_success)
+			set_fd(p_data, cmd_tree);
 		if (cmd_tree->kind == T_COMMAND)
 		{
 			p_data->cmd = cmd_tree->argv;
 			shell_excute(p_data);
 			++p_data->cmd_count;
+			p_data->is_fileio_success = 1;
 		}
 		tree_traverse_exe_cmd(p_data, cmd_tree->left);
 		//TODO : &&, || 처리
@@ -156,10 +158,10 @@ void	shell_execute_tree(t_shell_data *p_data)
 			if (pid == -1)
 				break ;
 	}
-	// fprintf(stderr,"exit:");
-	// for (int i = 0; i < p_data->pipe_count + 1; i++)
-	// 	fprintf(stderr,"%d ", p_data->global_data.pipe_status[i]);
-	// fprintf(stderr,"\n");
+	fprintf(stderr,"exit:");
+	for (int i = 0; i < p_data->pipe_count + 1; i++)
+		fprintf(stderr,"%d ", p_data->global_data.pipe_status[i]);
+	fprintf(stderr,"\n");
 	if (p_data->line)
 		free(p_data->line);
 	shell_parse_free(p_data);
