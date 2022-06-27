@@ -33,19 +33,19 @@ void	shell_excute(t_shell_data *p_data)
 	if (!p_data->cmd[0])
 		ft_set_status(p_data, S_LINE_READ);
 	else if (ft_strcmp(p_data->cmd[0], "cd") == 0)
-		ft_cd(p_data->cmd, p_data);
+		p_data->exit_code = ft_cd(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "pwd") == 0)
-		ft_pwd(p_data->cmd);
+		p_data->exit_code = ft_pwd(p_data->cmd);
 	else if (ft_strcmp(p_data->cmd[0], "echo") == 0)
-		ft_echo(p_data->cmd, p_data);
+		p_data->exit_code = ft_echo(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
-		ft_exit(p_data->cmd, p_data->last_status);
+		p_data->exit_code = ft_exit(p_data->cmd, p_data->last_status);
 	else if (ft_strcmp(p_data->cmd[0], "env") == 0)
-		ft_env(p_data->cmd, p_data);
+		p_data->exit_code = ft_env(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "unset") == 0)
-		ft_unset(p_data->cmd, &p_data->env_list);
+		p_data->exit_code = ft_unset(p_data->cmd, &p_data->env_list);
 	else if (ft_strcmp(p_data->cmd[0], "export") == 0)
-		ft_export(p_data->cmd, &p_data->env_list);
+		p_data->exit_code = ft_export(p_data->cmd, &p_data->env_list);
 	else
 	{
 		ft_exec_command(p_data);

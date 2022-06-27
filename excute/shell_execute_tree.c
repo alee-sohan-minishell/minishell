@@ -73,16 +73,73 @@ void	tree_traverse_set_pipe(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 
 void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 {
+	pid_t	pid;
+
 	if (cmd_tree)
 	{
 		if (p_data->is_fileio_success)
 			set_fd(p_data, cmd_tree);
 		if (!cmd_tree->left && !cmd_tree->right)
 		{
-			if (cmd_tree->kind == T_COMMAND)
+			if (p_data->is_piped)
+			{
+				pid = fork();
+				if (pid > 0)
+				{
+					p_data->global_data.pipe_pid[p_data->cmd_count] = pid;
+					if (p_data->cmd_count < p_data->pipe_count)
+					{
+						close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
+						dup2(p_data->pipe_fd[p_data->cmd_count][READ], STDIN_FILENO);
+						close(p_data->pipe_fd[p_data->cmd_count][READ]);
+					}
+					else
+					{
+						dup2(p_data->fd_in_old, STDIN_FILENO);
+						close(p_data->fd_in_old);
+					}
+				}	
+				else if (pid == 0)
+				{
+					set_tc_attr_to_default(p_data);
+						if (p_data->cmd_count < p_data->pipe_count)
+						{
+							for (int i = 0; i < p_data->cmd_count - 1; i++)
+							{
+								close(p_data->pipe_fd[i][READ]);
+								close(p_data->pipe_fd[i][WRITE]);
+							}
+						
+							close(p_data->pipe_fd[p_data->cmd_count][READ]);
+							if (!p_data->fd_out_new)
+								dup2(p_data->pipe_fd[p_data->cmd_count][WRITE], STDOUT_FILENO);	
+							close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
+							for (int i = p_data->cmd_count + 1; i < p_data->pipe_count; i++)
+							{
+								close(p_data->pipe_fd[i][READ]);
+								close(p_data->pipe_fd[i][WRITE]);
+							}
+						}
+						else
+						{
+							dup2(p_data->fd_out_old, STDOUT_FILENO);
+							close(p_data->fd_out_old);
+						}
+					if (cmd_tree->kind == T_COMMAND)
+					{	
+						p_data->cmd = cmd_tree->argv;
+						shell_excute(p_data);
+					}
+					exit(p_data->exit_code);
+				}
+			}
+			else
 			{	
-				p_data->cmd = cmd_tree->argv;
-				shell_excute(p_data);
+				if (cmd_tree->kind == T_COMMAND)
+				{	
+					p_data->cmd = cmd_tree->argv;
+					shell_excute(p_data);
+				}
 			}
 			++p_data->cmd_count;
 			p_data->is_fileio_success = 1;

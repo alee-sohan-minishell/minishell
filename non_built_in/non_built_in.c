@@ -145,7 +145,7 @@ int	ft_exec_command(t_shell_data *p_data)
 	{
 		if (stat(path_list[index], &s) == 0)
 		{
-			pid = fork();
+			/*pid = fork();
 			if (pid > 0)
 			{
 				p_data->global_data.pipe_pid[p_data->cmd_count] = pid;
@@ -192,12 +192,30 @@ int	ft_exec_command(t_shell_data *p_data)
 						dup2(p_data->fd_out_old, STDOUT_FILENO);
 						close(p_data->fd_out_old);
 					}
+				}*/
+				if (!p_data->is_piped)
+				{	
+					pid = fork();
+					if (pid > 0)
+					{
+						p_data->global_data.pipe_pid[p_data->cmd_count] = pid;
+					}
+					else if (pid == 0)
+					{
+						if (p_data->is_fileio_success)
+							execve(path_list[index], p_data->cmd, *p_data->p_env);
+						else
+							exit(p_data->fileio_errno);
+					}
 				}
-				if (p_data->is_fileio_success)
-					execve(path_list[index], p_data->cmd, *p_data->p_env);
 				else
-					exit(p_data->fileio_errno);
-			}
+				{	
+					if (p_data->is_fileio_success)
+						execve(path_list[index], p_data->cmd, *p_data->p_env);
+					else
+						exit(p_data->fileio_errno);
+				}
+		//	}
 			//wait(&status);
 			//p_data->term_status = (128 + (status & 0x7f)) * ((status & 0x7f) != 0) + (status >> 8);
 			break ;
@@ -209,6 +227,8 @@ int	ft_exec_command(t_shell_data *p_data)
 		ft_self_perror_param(NULL, p_data->cmd[0], "command not found");
 		p_data->global_data.pipe_status[p_data->cmd_count] = 127;
 		p_data->last_status = 127;
+		if (p_data->is_piped)
+			exit(127);
 	}
 	free_array(path_list);
 	return (0);
