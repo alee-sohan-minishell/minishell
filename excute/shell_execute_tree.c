@@ -105,8 +105,11 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 					}
 					else
 					{
-						dup2(p_data->fd_in_old, STDIN_FILENO);
-						close(p_data->fd_in_old);
+						if (!p_data->fd_in_new)
+						{
+							dup2(p_data->fd_in_old, STDIN_FILENO);
+							close(p_data->fd_in_old);
+						}
 					}
 				}
 				else if (pid == 0)
@@ -132,8 +135,11 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 						}
 						else
 						{
-							dup2(p_data->fd_out_old, STDOUT_FILENO);
-							close(p_data->fd_out_old);
+							if (!p_data->fd_out_new)
+							{
+								dup2(p_data->fd_out_old, STDOUT_FILENO);
+								close(p_data->fd_out_old);	
+							}
 						}
 					if (cmd_tree->kind == T_COMMAND)
 					{
@@ -153,6 +159,8 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 			}
 			++p_data->cmd_count;
 			p_data->is_fileio_success = 1;
+			p_data->fd_out_new = 0;
+			p_data->fd_in_new = 0;
 		}
 		tree_traverse_exe_cmd(p_data, cmd_tree->left);
 		tree_traverse_exe_cmd(p_data, cmd_tree->right);

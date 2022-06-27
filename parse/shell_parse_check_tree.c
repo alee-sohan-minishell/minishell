@@ -4,6 +4,7 @@ int	shell_parse_check_tree(t_shell_tree_node *focus)
 {
 	// TODO 순회하면서 다음 상황 만나면 에러
 	focus = NULL;
+	(void)focus;
 	return (0);
 	/*
 	// open
