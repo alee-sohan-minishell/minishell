@@ -142,7 +142,7 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 						p_data->cmd = cmd_tree->argv;
 						shell_execute(p_data);
 					}
-					exit(p_data->exit_code);
+					exit(p_data->global_data.pipe_status[p_data->cmd_count]);
 				}
 			}
 			else
@@ -214,6 +214,10 @@ void	shell_execute_tree(t_shell_data *p_data)
 			if (pid == -1)
 				break ;
 	}
+	fprintf(stderr, "exit:");
+	for (int i = 0; i < p_data->pipe_count + 1; i++)
+		fprintf(stderr, "%d ", p_data->global_data.pipe_status[i]);
+	fprintf(stderr, "\n");
 	if (p_data->line)
 		free(p_data->line);
 	shell_parse_free(p_data);
