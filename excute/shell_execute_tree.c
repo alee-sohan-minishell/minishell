@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell_execute_tree.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/28 00:15:36 by alee              #+#    #+#             */
+/*   Updated: 2022/06/28 00:26:29 by alee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../shell/shell.h"
 #include "../utils/state_machine_utils_01.h"
 #include "../built_in/ft_cd.h"
@@ -16,8 +28,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "../heredoc/heredoc.h"
-#define WRITE 1
-#define READ 0
 
 void	set_pipe(t_shell_data *p_data)
 {
@@ -98,7 +108,7 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 						dup2(p_data->fd_in_old, STDIN_FILENO);
 						close(p_data->fd_in_old);
 					}
-				}	
+				}
 				else if (pid == 0)
 				{
 					set_tc_attr_to_default(p_data);
@@ -109,10 +119,10 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 								close(p_data->pipe_fd[i][READ]);
 								close(p_data->pipe_fd[i][WRITE]);
 							}
-						
+
 							close(p_data->pipe_fd[p_data->cmd_count][READ]);
 							if (!p_data->fd_out_new)
-								dup2(p_data->pipe_fd[p_data->cmd_count][WRITE], STDOUT_FILENO);	
+								dup2(p_data->pipe_fd[p_data->cmd_count][WRITE], STDOUT_FILENO);
 							close(p_data->pipe_fd[p_data->cmd_count][WRITE]);
 							for (int i = p_data->cmd_count + 1; i < p_data->pipe_count; i++)
 							{
@@ -126,47 +136,25 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 							close(p_data->fd_out_old);
 						}
 					if (cmd_tree->kind == T_COMMAND)
-					{	
+					{
 						p_data->cmd = cmd_tree->argv;
-						shell_excute(p_data);
+						shell_execute(p_data);
 					}
 					exit(p_data->exit_code);
 				}
 			}
 			else
-			{	
+			{
 				if (cmd_tree->kind == T_COMMAND)
-				{	
+				{
 					p_data->cmd = cmd_tree->argv;
-					shell_excute(p_data);
+					shell_execute(p_data);
 				}
 			}
 			++p_data->cmd_count;
 			p_data->is_fileio_success = 1;
 		}
 		tree_traverse_exe_cmd(p_data, cmd_tree->left);
-		//TODO : &&, || 처리
-		// if (cmd_tree->kind == T_BOOL_AND && p_data->last_status == 0)
-		// {
-		//	printf("0 && 0 -> execute right node \n");
-		//	tree_traverse_exe_cmd(p_data, cmd_tree->right);
-		// }
-		// else if (cmd_tree->kind == T_BOOL_AND && p_data->last_status != 0)
-		// {
-		// 	printf("1 && 0 -> no execute right node \n");
-		//	return ;
-		// }
-		// else if (cmd_tree->kind == T_BOOL_OR && p_data->last_status == 0)
-		// {
-		// 	printf("0 || 0 -> no execute right node \n");
-		//	return ;
-		// }
-		// else if (cmd_tree->kind == T_BOOL_OR && p_data->last_status != 0)
-		// {
-		// 	printf("1 || 0 -> execute right node \n");
-		//	tree_traverse_exe_cmd(p_data, cmd_tree->right);
-		// }
-		// else
 		tree_traverse_exe_cmd(p_data, cmd_tree->right);
 	}
 }
@@ -178,6 +166,10 @@ void	shell_execute_tree(t_shell_data *p_data)
 
 	if (!p_data)
 		return ;
+#if DEBUG_TREE == 1
+	print_heredoc(p_data);
+	print_tree(p_data);
+#endif
 	p_data->fd_out_old = dup(STDOUT_FILENO);
 	p_data->fd_in_old = dup(STDIN_FILENO);
 	//p_data->fd_out_new = dup(STDOUT_FILENO);
@@ -201,7 +193,7 @@ void	shell_execute_tree(t_shell_data *p_data)
 	dup2(p_data->fd_out_old, STDOUT_FILENO);
 	dup2(p_data->fd_in_old, STDIN_FILENO);
 	for (int i = 0; i < p_data->pipe_count; i++)
-	{	
+	{
 		for (int j = 0; j < 2; j++)
 		{
 			close(p_data->pipe_fd[i][j]);
@@ -218,10 +210,6 @@ void	shell_execute_tree(t_shell_data *p_data)
 			if (pid == -1)
 				break ;
 	}
-	fprintf(stderr,"exit:");
-	for (int i = 0; i < p_data->pipe_count + 1; i++)
-		fprintf(stderr,"%d ", p_data->global_data.pipe_status[i]);
-	fprintf(stderr,"\n");
 	if (p_data->line)
 		free(p_data->line);
 	shell_parse_free(p_data);
@@ -231,7 +219,7 @@ void	shell_execute_tree(t_shell_data *p_data)
 	dup2(p_data->fd_in_old, STDIN_FILENO);
 	close(p_data->fd_out_old);
 	close(p_data->fd_in_old);
-	p_data->exit_code = p_data->global_data.pipe_status[p_data->pipe_count]; // free 하기전에 마지막 파이프 exit_code 가지고 있어야 파싱에서 $? 치환할 때 사용 가능
+	p_data->exit_code = p_data->global_data.pipe_status[p_data->pipe_count];
 	p_data->pipe_count = 0;
 	free(p_data->pipe_fd);
 	free(p_data->global_data.pipe_status);

@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 04:41:18 by alee              #+#    #+#             */
-/*   Updated: 2022/06/27 13:46:26 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 00:14:26 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,14 @@ int	main(int argc, char *argv[], char *env[])
 			shell_parse(&shell);
 		else if (shell.status == S_CMD)
 		{
-			print_heredoc(&shell); // TODO
-			print_tree(&shell); // TODO
 			if (shell.heredoc_list.cnt != 0)
-			{
 				if (heredoc_input(&shell) == -1)
 					continue ;
-			}
 			shell_execute_tree(&shell);
 		}
 		else if (shell.status == S_CLOSE || shell.status == S_ERROR)
 			break ;
 	}
-	shell_parse_free(&shell);
 	status_close(&shell);
 	return (shell.last_status);
 }

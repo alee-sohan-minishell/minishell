@@ -3,33 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
+#    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/06/27 22:36:54 by min-jo           ###   ########.fr        #
+#    Updated: 2022/06/28 00:24:05 by alee             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
+CFLAGS = -Wall -Wextra -Werror #-MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
 RM = rm -f
 
 NAME = minishell
 
-#FILE = $(if $(MAIN), $(MAIN))
 FILE = main print
 LIBFT = $(addprefix libft/, libft.a)
-#LIBFT_FILE = ft_isalnum ft_isprint ft_memcmp ft_putchar_fd ft_split \
-			ft_strlcat ft_strncmp ft_substr ft_atoi ft_isalpha \
-			ft_itoa ft_memcpy ft_putendl_fd ft_strchr ft_strlcpy \
-			ft_strnstr ft_tolower ft_bzero ft_isascii ft_memccpy \
-			ft_memmove ft_putnbr_fd ft_strdup ft_strlen ft_strrchr \
-			ft_toupper ft_calloc ft_isdigit ft_memchr ft_memset \
-			ft_putstr_fd ft_strjoin ft_strmapi ft_strtrim ft_strcmp \
-			ft_lstadd_back ft_lstadd_front ft_lstclear \
-			ft_lstdelone ft_lstiter ft_lstlast \
-			ft_lstmap ft_lstnew ft_lstsize
 
 LOGO_FILE = logo
 INIT_FILE = shell_init shell_utils_01 shell_parse_init
@@ -73,7 +62,6 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix parse/,$(addsuffix .c,$(SHELL_PARSE_FILE))) \
 	$(addprefix tree_heredoc/,$(addsuffix .c,$(TREE_HEREDOC_FILE))) \
 	$(addprefix heredoc/,$(addsuffix .c,$(HEREDOC_FILE))) \
-
 
 
 OBJ = $(SRC:.c=.o)

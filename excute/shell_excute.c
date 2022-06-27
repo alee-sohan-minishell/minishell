@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:09:58 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 22:04:55 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 00:12:03 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@
 #include "../non_built_in/non_built_in.h"
 #include "../init/shell_utils_01.h"
 
-//debug
-#include "../redirection/redirection.h"
-
-void	shell_excute(t_shell_data *p_data)
+void	shell_execute(t_shell_data *p_data)
 {
 	if (!p_data)
 		return ;

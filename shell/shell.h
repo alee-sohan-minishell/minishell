@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/06/27 22:39:38 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 00:23:02 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
-
-//---------------------------------------
-# define DEBUG
+# define WRITE 1
+# define READ 0
+# define DEBUG_TREE 0
+# define STR_SHELL "shell"
 # include <stdio.h>
-//---------------------------------------
 # include <termios.h>
 # include "../env/env_list.h"
 # include "../tree_heredoc/shell_tree.h"
 # include "../tree_heredoc/shell_heredoc.h"
 # include "../parse/shell_parse_node_list.h"
-
-# define STR_SHELL "shell"
 
 typedef struct s_pipe_data
 {
