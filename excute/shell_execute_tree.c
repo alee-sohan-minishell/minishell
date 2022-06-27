@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:15:36 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 00:26:29 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 01:18:01 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ void	set_pipe(t_shell_data *p_data)
 		fprintf(stderr,"pipe error\n");
 	p_data->is_piped = 1;
 }
-
-//debug
-#include <stdio.h>
-#include "../tree_heredoc/shell_heredoc.h"
 
 int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 {
@@ -138,7 +134,7 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 							if (!p_data->fd_out_new)
 							{
 								dup2(p_data->fd_out_old, STDOUT_FILENO);
-								close(p_data->fd_out_old);	
+								close(p_data->fd_out_old);
 							}
 						}
 					if (cmd_tree->kind == T_COMMAND)

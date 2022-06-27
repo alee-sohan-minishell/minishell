@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 12:09:12 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 13:31:32 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 01:30:11 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	env_node_delete(t_env_list *p_list, const char *key)
 	return (1);
 }
 
+#include <stdio.h>
+
 int	env_node_replace(t_env_list *p_list, char *p_key, char *p_value)
 {
 	t_env_node	*o_replace_node;
@@ -49,6 +51,8 @@ int	env_node_replace(t_env_list *p_list, char *p_key, char *p_value)
 			o_replace_node->value = (char *)0;
 	}
 	else
+	{
 		env_node_add_back(p_list, env_node_create(p_key, p_value));
+	}
 	return (1);
 }
