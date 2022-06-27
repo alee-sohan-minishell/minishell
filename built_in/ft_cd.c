@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 14:57:11 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 03:50:25 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 03:53:58 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int	cd_err_msg(char **cmd, char *home_path)
 	return (1);
 }
 
-void	set_default_path(t_shell_data *p_data, char **o_home_path, t_env_node *home_node)
+void	set_default_path(t_shell_data *p_data, char **o_home_path, \
+												t_env_node *home_node)
 {
 	if (home_node->value == (char *)0)
 		*o_home_path = p_data->env_default_home;
