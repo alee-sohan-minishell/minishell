@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:57:15 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 14:28:17 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:41:24 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	shell_parse_node_add_char(t_parse_node *node, char c)
 
 	if (node->cnt == node->size)
 	{
-		ret = malloc(sizeof(char) * (node->size + SHELL_PARSE_NODE_SIZE)); // node 크기가 SHELL_PARSE_NODE_SIZE 만큼 더해지고, 마지막에 '\0' 저장 안 하기 때문에 strdup 못 씀
+		ret = malloc(sizeof(char) * (node->size + SHELL_PARSE_NODE_SIZE));
 		if (NULL == ret)
 			return (-1);
 		node->size += SHELL_PARSE_NODE_SIZE;
@@ -34,8 +34,6 @@ int	shell_parse_node_add_char(t_parse_node *node, char c)
 	return (0);
 }
 
-// 원래 node free
-// node str에 마지막에 '\0' 저장 안 하기 때문에 strdup 못 씀
 char	*shell_parse_node_to_str(t_parse_node *node)
 {
 	char	*ret;
@@ -50,7 +48,7 @@ char	*shell_parse_node_to_str(t_parse_node *node)
 	return (ret);
 }
 
-char	**shell_parse_list_to_argv(t_parse_list *list) // 원래 list free
+char	**shell_parse_list_to_argv(t_parse_list *list)
 {
 	char			**argv;
 	int				cnt;
@@ -66,7 +64,7 @@ char	**shell_parse_list_to_argv(t_parse_list *list) // 원래 list free
 	while (++cnt < list->cnt)
 	{
 		list->head.next = node->next;
-		arg = shell_parse_node_to_str(node); // 원래 node free
+		arg = shell_parse_node_to_str(node);
 		if (NULL == arg)
 			shell_parse_util_argv_free(argv, cnt);
 		argv[cnt] = arg;

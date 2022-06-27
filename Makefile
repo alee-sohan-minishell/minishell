@@ -6,7 +6,7 @@
 #    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/06/26 22:31:31 by min-jo           ###   ########.fr        #
+#    Updated: 2022/06/27 22:36:54 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ LIBFT = $(addprefix libft/, libft.a)
 			ft_lstmap ft_lstnew ft_lstsize
 
 LOGO_FILE = logo
-SHELL_FILE =
 INIT_FILE = shell_init shell_utils_01 shell_parse_init
 READ_LINE_FILE = shell_readline
 UTILS_FILE = fd_utils_01 error_msg_utils_01 error_msg_utils_02 state_machine_utils_01 command_utils_01 \
@@ -62,7 +61,6 @@ LIBADD += -L$(READLINE_LIB) -lreadline -lhistory
 
 SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix logo/,$(addsuffix .c,$(LOGO_FILE))) \
-	$(addprefix shell/,$(addsuffix .c,$(SHELL_FILE))) \
 	$(addprefix init/,$(addsuffix .c,$(INIT_FILE)))	\
 	$(addprefix read_line/,$(addsuffix .c,$(READ_LINE_FILE)))	\
 	$(addprefix built_in/,$(addsuffix .c,$(BUILT_IN_FILE)))	\

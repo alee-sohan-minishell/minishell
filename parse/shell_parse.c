@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/27 20:43:23 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:55:06 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,14 @@ int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state,
 	if (*ret)
 		return (-1);
 	if (p_data->parse_tmp->cnt
-		&& shell_parse_list_append_node(&p_data->parse_list,
-		&(p_data->parse_tmp)))
+		&& shell_parse_list_append_node(&p_data->parse_list, \
+			&(p_data->parse_tmp)))
 		return (-1);
 	if (p_data->parse_list.cnt && shell_parse_util_insert_cmd(p_data))
 		return (-1);
 	return (0);
 }
 
-// \ 이 중간에 포함 되거나, ' " 개수가 홀 수 일 때 parse 안 함
 int	shell_parse_check_not_interpret(char *str)
 {
 	int	cnt_q;
@@ -118,12 +117,12 @@ void	shell_parse(t_shell_data *p_data)
 	if (shell_parse_check(p_data, state, &ret)
 		&& shell_parse_check_tree(p_data->focus) && ret)
 	{
-		ft_perror_param("error while parse", ret, 0); // TODO 뒷 문장 전체 출력하는 걸로 괜찮은가?
+		ft_perror_param("error while parse", ret, 0);
 		shell_parse_free(p_data);
 		ft_set_status(p_data, S_ERROR);
 		return ;
 	}
-	ft_set_status(p_data, S_CMD); // TODO 바로 CMD로 넘어가기 때문에 CMD에서 shell_parse_free() 호출해줘야 함
-	p_data->heredoc_cnt = 0; // TODO make_heredoc_filename() 함수를 그대로 사용할거면 heredoc_cnt 초기화 하고 써야 됨, 호출한 순서대로 파일이름 메겨지니까
+	ft_set_status(p_data, S_CMD);
+	p_data->heredoc_cnt = 0;
 	return ;
 }

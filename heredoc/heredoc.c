@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:39:03 by alee              #+#    #+#             */
-/*   Updated: 2022/06/27 22:11:12 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:51:28 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	heredoc(t_shell_data *p_data, const char *filename)
 	p_data->fd_in_new = fd;
 	ft_dup2(fd, STDIN_FILENO);
 	ft_close(fd);
-
 	return (1);
 }
 

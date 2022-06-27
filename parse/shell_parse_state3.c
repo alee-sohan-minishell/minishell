@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/26 21:07:20 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:43:05 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_state_shell_parse	shell_parse_redirect_heredoc(t_shell_data *p_data, char c)
 		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
 		p_data->redirect_kind = T_EMPTY;
-		if (' ' == c || '\t' == c )
+		if (' ' == c || '\t' == c)
 			return (S_P_REDIRECT_STRING);
 		return (shell_parse_util_get_state(c));
 	}
@@ -94,7 +94,7 @@ t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char c)
 		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
 		p_data->redirect_kind = T_EMPTY;
-		if (' ' == c || '\t' == c )
+		if (' ' == c || '\t' == c)
 			return (S_P_REDIRECT_STRING);
 		return (shell_parse_util_get_state(c));
 	}

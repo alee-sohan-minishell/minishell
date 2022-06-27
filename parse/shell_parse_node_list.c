@@ -6,14 +6,14 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 20:03:33 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 20:41:23 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:48:23 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "shell_parse_node_list.h"
 
-t_parse_node	*shell_parse_new_node()
+t_parse_node	*shell_parse_new_node(void)
 {
 	t_parse_node	*ret;
 
@@ -43,7 +43,6 @@ void	shell_parse_node_free(t_parse_node *node)
 	}
 }
 
-// 원래 node 그대로 list로 감, 원래 node 자리에 새로 동적할당
 int	shell_parse_list_append_node(t_parse_list *list, t_parse_node **p_node)
 {
 	(*p_node)->pre = list->tail.pre;

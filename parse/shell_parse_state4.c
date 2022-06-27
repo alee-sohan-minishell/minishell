@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/26 22:39:01 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:42:49 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c)
 {
 	if (p_data->parse_env->cnt == 0 && (' ' == c || '\t' == c || '?' == c))
 		return (treat_first_redirect_env(p_data, c));
-	else if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c // 공백이 위에도 있지만 여기 이미 env 몇 글자 들어온 상황 때문에 또 있음
+	else if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
-		|| '|' == c || '<' == c || '>' == c) // 일반적이면서 env 끝나는 상황
+		|| '|' == c || '<' == c || '>' == c)
 	{
-		if (shell_parse_find_str_in_env(p_data)) // p_data->parse_env에 있는 문자 key로 env 찾아서 p_data->parse_tmp에 바로 add_char 함
+		if (shell_parse_find_str_in_env(p_data))
 			return (S_P_ERROR);
 		if ('\'' == c)
 			return (S_P_REDIRECT_QUOTE);
@@ -37,9 +37,9 @@ t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c)
 		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
 		p_data->redirect_kind = T_EMPTY;
-		if (' ' == c || '\t' == c )
+		if (' ' == c || '\t' == c)
 			return (S_P_REDIRECT_STRING);
-		return (shell_parse_util_get_state(c)); //# TODO 여기 하던 중 다른데 여기랑 같은 구조인지 비교
+		return (shell_parse_util_get_state(c));
 	}
 	if (shell_parse_node_add_char(p_data->parse_env, c))
 		return (S_P_ERROR);

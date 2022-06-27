@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:07:44 by alee              #+#    #+#             */
-/*   Updated: 2022/06/26 22:37:45 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:53:17 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,31 @@
 typedef enum e_state_shell_parse
 {
 	S_P_ERROR = -1,
-
 	S_P_SPACE,
 	S_P_QUOTE,
 	S_P_DQUOTE,
 	S_P_ENV,
 	S_P_OPEN,
-
 	S_P_CLOSE,
 	S_P_AND,
 	S_P_PIPE,
 	S_P_REDIRECT_IN,
 	S_P_REDIRECT_OUT,
-
 	S_P_BOOL_AND,
 	S_P_BOOL_OR,
 	S_P_REDIRECT_HEREDOC,
 	S_P_REDIRECT_APPEND,
 	S_P_DQUOTE_ENV,
-
 	S_P_REDIRECT_ENV,
 	S_P_REDIRECT_QUOTE,
 	S_P_REDIRECT_DQUOTE,
 	S_P_REDIRECT_DQUOTE_ENV,
 	S_P_REDIRECT_STRING,
-
 	S_P_REDIRECT_STRING_ENV,
 	S_P_REDIRECT_STRING_QUOTE,
 	S_P_REDIRECT_STRING_DQUOTE,
 	S_P_REDIRECT_STRING_DQUOTE_ENV,
 	S_P_STRING,
-
 	S_P_DQUOTE_QUOTE,
 	S_P_REDIRECT_DQUOTE_QUOTE,
 	S_P_REDIRECT_STRING_DQUOTE_QUOTE,
@@ -57,15 +51,15 @@ typedef enum e_state_shell_parse
 * shell_parse_state.c
 */
 t_state_shell_parse	shell_parse_state1(t_state_shell_parse state,
-			t_shell_data *p_data, char c);
+						t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_state2(t_state_shell_parse state,
-			t_shell_data *p_data, char c);
+						t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_state3(t_state_shell_parse state,
-			t_shell_data *p_data, char c);
+						t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_state4(t_state_shell_parse state,
-			t_shell_data *p_data, char c);
+						t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_state5(t_state_shell_parse state,
-			t_shell_data *p_data, char c);
+						t_shell_data *p_data, char c);
 
 /*
 * shell_parse_state1.c
@@ -121,7 +115,7 @@ t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char c);
 * shell_parse_state6.c
 */
 t_state_shell_parse	shell_parse_state6(t_state_shell_parse state,
-			t_shell_data *p_data, char c);
+						t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_dquote_quote(t_shell_data *p_data, char c);
 t_state_shell_parse	shell_parse_redirect_dquote_quote(t_shell_data *p_data,
 						char c);

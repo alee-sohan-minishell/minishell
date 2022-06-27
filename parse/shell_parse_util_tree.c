@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 23:07:09 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/27 21:48:55 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:32:36 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	shell_parse_util_push_tree(t_shell_tree_node **p_f,
 	else if ((T_EMPTY == (*p_f)->kind && is_full(*p_f))
 		|| (T_PIPE == (*p_f)->kind && is_full(*p_f) && !is_redirect(item->kind))
 		|| (is_bool((*p_f)->kind) && is_full(*p_f) && T_PIPE != item->kind)
-		|| (is_redirect((*p_f)->kind) && !(*p_f)->left && !(*p_f)->right && T_PIPE == item->kind)
-		|| (is_redirect((*p_f)->kind) && (*p_f)->left && !is_redirect(item->kind)))
+		|| (is_redirect((*p_f)->kind) && !(*p_f)->left
+			&& !(*p_f)->right && T_PIPE == item->kind)
+		|| (is_redirect((*p_f)->kind) && (*p_f)->left
+			&& !is_redirect(item->kind)))
 		return (shell_tree_insert_push_focus(p_f, item, 1));
 	shell_parse_util_push_chld(p_f, item);
 }
@@ -56,7 +58,6 @@ int	shell_parse_util_insert_cmd(t_shell_data *p_data)
 		shell_parse_util_argv_free(argv, -1);
 		return (-1);
 	}
-	tree_node->cmdnum = p_data->cmd_count;
 	shell_parse_util_push_tree(&p_data->focus, tree_node);
 	++p_data->cmd_count;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:57:07 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/21 22:54:26 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:33:44 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,12 @@ typedef struct s_shell_tree_node
 	char						**argv;
 	int							fd;
 	char						*filepath;
-	//TODO
-	int							pnum;
-	int							cmdnum;
+	int							pnum; // TODO
 }	t_shell_tree_node;
 
 t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,
 						char *filepath);
-void				tree_free(t_shell_tree_node *tree, int filepath); // tree root가 dummy인 걸 고려한 free
+void				tree_free(t_shell_tree_node *tree, int filepath);
 void				tree_append(t_shell_tree_node **p_focus,
 						t_shell_tree_node *item);
 void				shell_tree_insert_push_child(t_shell_tree_node **p_focus,

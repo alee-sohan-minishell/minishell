@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/26 22:39:15 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:45:11 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 #include "shell_parse_util_state2.h"
 #include "shell_parse_util_tree.h"
 
-t_state_shell_parse	shell_parse_redirect_string_env(t_shell_data *p_data, char c)
+t_state_shell_parse	shell_parse_redirect_string_env(t_shell_data *p_data,
+						char c)
 {
-	if (p_data->parse_env->cnt == 0 && (' ' == c || '\t' == c || '?' == c)) // 일반적이지 않는 경우 ls$ -la나 $? 경우
+	if (p_data->parse_env->cnt == 0 && (' ' == c || '\t' == c || '?' == c))
 		return (treat_first_redirect_string_env(p_data, c));
-	else if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c // 공백이 위에도 있지만 여기 이미 env 몇 글자 들어온 상황 때문에 또 있음
+	else if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c || '|' == c || '<' == c || '>' == c
-		|| '-' == c) // 일반적이면서 env 끝나는 상황
+		|| '-' == c)
 	{
-		if (shell_parse_find_str_in_env(p_data)) // p_data->parse_env에 있는 문자 key로 env 찾아서 p_data->parse_tmp에 바로 add_char 함
+		if (shell_parse_find_str_in_env(p_data))
 			return (S_P_ERROR);
 		if ('-' == c)
 			return (S_P_REDIRECT_STRING);
@@ -46,7 +47,8 @@ t_state_shell_parse	shell_parse_redirect_string_env(t_shell_data *p_data, char c
 	return (S_P_REDIRECT_STRING_ENV);
 }
 
-t_state_shell_parse	shell_parse_redirect_string_quote(t_shell_data *p_data, char c)
+t_state_shell_parse	shell_parse_redirect_string_quote(t_shell_data *p_data,
+						char c)
 {
 	if ('\'' == c)
 		return (S_P_REDIRECT_STRING);
@@ -55,7 +57,8 @@ t_state_shell_parse	shell_parse_redirect_string_quote(t_shell_data *p_data, char
 	return (S_P_REDIRECT_STRING_QUOTE);
 }
 
-t_state_shell_parse	shell_parse_redirect_string_dquote(t_shell_data *p_data, char c)
+t_state_shell_parse	shell_parse_redirect_string_dquote(t_shell_data *p_data,
+						char c)
 {
 	if ('"' == c)
 		return (S_P_REDIRECT_STRING);
@@ -68,7 +71,8 @@ t_state_shell_parse	shell_parse_redirect_string_dquote(t_shell_data *p_data, cha
 	return (S_P_REDIRECT_STRING_DQUOTE);
 }
 
-t_state_shell_parse	shell_parse_redirect_string_dquote_env(t_shell_data *p_data, char c)
+t_state_shell_parse	shell_parse_redirect_string_dquote_env(t_shell_data *p_data,
+						char c)
 {
 	if (p_data->parse_env->cnt == 0
 		&& (' ' == c || '\t' == c || '"' == c || '?' == c))

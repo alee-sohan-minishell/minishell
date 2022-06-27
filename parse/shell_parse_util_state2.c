@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 19:58:14 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/26 21:32:50 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/27 22:28:22 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ t_state_shell_parse	treat_first_redirect_env(t_shell_data *p_data, char c)
 {
 	if (' ' == c || '\t' == c)
 	{
-		if (shell_parse_node_add_char(p_data->parse_tmp, '$')) // $를 문자 취급해서 add 한다
+		if (shell_parse_node_add_char(p_data->parse_tmp, '$'))
 			return (S_P_ERROR);
 		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
 		p_data->redirect_kind = T_EMPTY;
 		return (S_P_REDIRECT_STRING);
-	} // else if ('?' == c)
+	}
 	if (add_char_exit_code(p_data))
 		return (S_P_ERROR);
 	return (get_redirect_state(p_data->redirect_kind));
@@ -48,7 +48,7 @@ t_state_shell_parse	treat_first_redirect_dquote_env(t_shell_data *p_data,
 		}
 		else if ('"' == c)
 			return (get_redirect_state(p_data->redirect_kind));
-	} // else if ('?' == c)
+	}
 	if (add_char_exit_code(p_data))
 		return (S_P_ERROR);
 	return (S_P_REDIRECT_DQUOTE);
@@ -59,18 +59,17 @@ t_state_shell_parse	treat_first_redirect_string_env(t_shell_data *p_data,
 {
 	if (' ' == c || '\t' == c)
 	{
-		if (shell_parse_node_add_char(p_data->parse_tmp, '$')) // $를 문자 취급해서 add 한다
+		if (shell_parse_node_add_char(p_data->parse_tmp, '$'))
 			return (S_P_ERROR);
 		if (shell_parse_util_insert_argv_in_cmd(p_data))
 			return (S_P_ERROR);
 		return (S_P_REDIRECT_STRING);
-	} // if ('?' == c)
+	}
 	if (add_char_exit_code(p_data))
 		return (S_P_ERROR);
 	return (S_P_REDIRECT_STRING);
 }
 
-// TODO
 t_state_shell_parse	treat_first_redirect_string_dquote_env(t_shell_data *p_data,
 						char c)
 {
