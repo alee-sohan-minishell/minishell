@@ -230,7 +230,7 @@ void	shell_execute_tree(t_shell_data *p_data)
 			if (pid == -1)
 				break ;
 	}
-	fprintf(stderr, "exit :");
+	fprintf(stderr, "exit:");
 	for (int i = 0; i < p_data->pipe_count + 1; i++)
 		fprintf(stderr, "%d ", p_data->global_data.pipe_status[i]);
 	fprintf(stderr, "\n");
