@@ -6,7 +6,7 @@
 /*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 18:38:42 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 20:09:02 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/27 13:33:55 by alee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 #include "../env/env_list_interface_01.h"
 #include <signal.h>
 #include <sys/stat.h>
-
-//debug
-#include <stdio.h>
 #define WRITE 1
 #define READ 0
 

@@ -34,8 +34,6 @@ int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 {
 	if (cmd_tree->kind == T_REDIRECT_HEREDOC)
 	{
-		//TODO : heredoc의 eof 문자열이 파싱 구조에 보이지 않음
-		// p_data->heredoc_list.head.delimiter와 같이 heredoc리스트의 delimiter를 넣어주어야 한다.
 		if (heredoc(p_data, cmd_tree->filepath) == -1)
 			return (-1);
 	}
@@ -45,7 +43,6 @@ int	set_fd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 		{
 			p_data->is_fileio_success = 0;
 			return (-1);
-
 		}
 		p_data->is_fileio_success = 1;
 	}
@@ -85,8 +82,30 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 			++p_data->cmd_count;
 		}
 		tree_traverse_exe_cmd(p_data, cmd_tree->left);
-		// TODO && ||
-		tree_traverse_exe_cmd(p_data, cmd_tree->right);
+
+		//TODO : &&, || 처리
+		// if (cmd_tree->kind == T_BOOL_AND && p_data->last_status == 0)
+		// {
+		//	printf("0 && 0 -> execute right node \n");
+		//	tree_traverse_exe_cmd(p_data, cmd_tree->right);
+		// }
+		// else if (cmd_tree->kind == T_BOOL_AND && p_data->last_status != 0)
+		// {
+		// 	printf("1 && 0 -> no execute right node \n");
+		//	return ;
+		// }
+		// else if (cmd_tree->kind == T_BOOL_OR && p_data->last_status == 0)
+		// {
+		// 	printf("0 || 0 -> no execute right node \n");
+		//	return ;
+		// }
+		// else if (cmd_tree->kind == T_BOOL_OR && p_data->last_status != 0)
+		// {
+		// 	printf("1 || 0 -> execute right node \n");
+		//	tree_traverse_exe_cmd(p_data, cmd_tree->right);
+		// }
+		// else
+			tree_traverse_exe_cmd(p_data, cmd_tree->right);
 	}
 }
 
@@ -134,10 +153,10 @@ void	shell_execute_tree(t_shell_data *p_data)
 			if (pid == -1)
 				break ;
 		}
-	fprintf(stderr,"exit:");
-	for (int i = 0; i < p_data->pipe_count + 1; i++)
-		fprintf(stderr,"%d ", p_data->global_data.pipe_status[i]);
-	fprintf(stderr,"\n");
+	// fprintf(stderr,"exit:");
+	// for (int i = 0; i < p_data->pipe_count + 1; i++)
+	// 	fprintf(stderr,"%d ", p_data->global_data.pipe_status[i]);
+	// fprintf(stderr,"\n");
 	if (p_data->line)
 		free(p_data->line);
 	shell_parse_free(p_data);
