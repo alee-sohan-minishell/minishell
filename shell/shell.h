@@ -83,6 +83,8 @@ typedef struct s_shell_data
 	int				pfds[2];
 	int				is_piped;
 	int				is_fileio_success;
+	int				fileio_errno;
+	pid_t			pipepid;
 
 	//terminal attr
 	struct termios	default_term_attr;

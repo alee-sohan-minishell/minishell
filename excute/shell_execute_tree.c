@@ -16,13 +16,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "../heredoc/heredoc.h"
+#define WRITE 1
+#define READ 0
 
 void	set_pipe(t_shell_data *p_data)
 {
-
-	if (pipe(p_data->pipe_fd[p_data->pipe_index]) == -1)
+	--p_data->pipe_num;
+	if (pipe(p_data->pipe_fd[p_data->pipe_num]) == -1)
 		fprintf(stderr,"pipe error\n");
-	++p_data->pipe_index;
 	p_data->is_piped = 1;
 }
 
@@ -82,7 +83,6 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 			++p_data->cmd_count;
 		}
 		tree_traverse_exe_cmd(p_data, cmd_tree->left);
-
 		//TODO : &&, || 처리
 		// if (cmd_tree->kind == T_BOOL_AND && p_data->last_status == 0)
 		// {
@@ -105,7 +105,7 @@ void	tree_traverse_exe_cmd(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 		//	tree_traverse_exe_cmd(p_data, cmd_tree->right);
 		// }
 		// else
-			tree_traverse_exe_cmd(p_data, cmd_tree->right);
+		tree_traverse_exe_cmd(p_data, cmd_tree->right);
 	}
 }
 
@@ -118,41 +118,44 @@ void	shell_execute_tree(t_shell_data *p_data)
 		return ;
 	p_data->fd_out_old = dup(STDOUT_FILENO);
 	p_data->fd_in_old = dup(STDIN_FILENO);
-	p_data->fd_out_new = dup(STDOUT_FILENO);
-	p_data->fd_in_new = dup(STDIN_FILENO);
+	//p_data->fd_out_new = dup(STDOUT_FILENO);
+	//p_data->fd_in_new = dup(STDIN_FILENO);
 	p_data->pipe_index = 0;
 	p_data->pipe_fd = malloc(p_data->pipe_count * sizeof(int[2]));
 	p_data->global_data.pipe_status = malloc((p_data->pipe_count + 1) * sizeof(int));
 	p_data->global_data.pipe_pid = malloc((p_data->pipe_count + 1) * sizeof(pid_t));
 	p_data->is_piped = 0;
+	p_data->pipe_num = p_data->pipe_count;
 	p_data->is_fileio_success = 1;
 
 	cur = &p_data->tree;
 	tree_traverse_set_pipe(p_data, cur);
 	cur = &p_data->tree;
 	p_data->cmd_count = 0;
+	p_data->pipe_num = p_data->pipe_count;
+	p_data->fd_out_new = 0;
+	p_data->fd_in_new = 0;
 	tree_traverse_exe_cmd(p_data, cur);
-	if (p_data->is_piped)
-	{
-		for (int i = 0; i < p_data->pipe_count; i++)
+	dup2(p_data->fd_out_old, STDOUT_FILENO);
+	dup2(p_data->fd_in_old, STDIN_FILENO);
+	for (int i = 0; i < p_data->pipe_count; i++)
+	{	
+		for (int j = 0; j < 2; j++)
 		{
-			for (int j = 0; j < 2; j++)
-			{
-				close(p_data->pipe_fd[i][j]);
-			}
+			close(p_data->pipe_fd[i][j]);
 		}
 	}
-		while (1)
-		{
-			pid = wait(&p_data->process_exit_status);
-			for (int i = 0; i < p_data->pipe_count + 1; i++)
-				if (pid == p_data->global_data.pipe_pid[i])
+	while (1)
+	{
+		pid = wait(&p_data->process_exit_status);
+		for (int i = 0; i < p_data->pipe_count + 1; i++)
+			if (pid == p_data->global_data.pipe_pid[i])
 			{
 				p_data->global_data.pipe_status[i] = (128 + (p_data->process_exit_status & 0x7f)) * ((p_data->process_exit_status & 0x7f) != 0) + (p_data->process_exit_status >> 8);
 			}
 			if (pid == -1)
 				break ;
-		}
+	}
 	// fprintf(stderr,"exit:");
 	// for (int i = 0; i < p_data->pipe_count + 1; i++)
 	// 	fprintf(stderr,"%d ", p_data->global_data.pipe_status[i]);
