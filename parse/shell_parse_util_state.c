@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:40:49 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/27 22:30:33 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 22:08:55 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,32 @@ int	add_char_exit_code(t_shell_data *p_data)
 
 t_state_shell_parse	treat_first_env(t_shell_data *p_data, char c)
 {
-	if (' ' == c || '\t' == c)
+	if (' ' == c || '\t' == c || '\'' == c)
 	{
 		if (shell_parse_node_add_char(p_data->parse_tmp, '$'))
 			return (S_P_ERROR);
 		if (shell_parse_list_append_node(\
 			&p_data->parse_list, &(p_data->parse_tmp)))
 			return (S_P_ERROR);
+		if ('\'' == c)
+			return (S_P_QUOTE);
 		return (S_P_SPACE);
 	}
-	if (add_char_exit_code(p_data))
-		return (S_P_ERROR);
+	else if ('?' == c)
+	{
+		if (add_char_exit_code(p_data))
+			return (S_P_ERROR);
+	}
 	return (S_P_STRING);
 }
 
 t_state_shell_parse	treat_first_dquote_env(t_shell_data *p_data, char c)
 {
-	if (' ' == c || '\t' == c || '"' == c)
+	if (' ' == c || '\t' == c || '"' == c || '\'' == c)
 	{
 		if (shell_parse_node_add_char(p_data->parse_tmp, '$'))
 			return (S_P_ERROR);
-		if (' ' == c || '\t' == c)
+		if (' ' == c || '\t' == c || '\'' == c)
 		{
 			if (shell_parse_node_add_char(p_data->parse_tmp, c))
 				return (S_P_ERROR);
@@ -94,7 +99,10 @@ t_state_shell_parse	treat_first_dquote_env(t_shell_data *p_data, char c)
 		else if ('"' == c)
 			return (S_P_STRING);
 	}
-	if (add_char_exit_code(p_data))
-		return (S_P_ERROR);
+	else if ('?' == c)
+	{
+		if (add_char_exit_code(p_data))
+			return (S_P_ERROR);
+	}
 	return (S_P_DQUOTE);
 }

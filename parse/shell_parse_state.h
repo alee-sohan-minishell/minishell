@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:07:44 by alee              #+#    #+#             */
-/*   Updated: 2022/06/27 22:53:17 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 21:41:29 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ typedef enum e_state_shell_parse
 	S_P_REDIRECT_STRING_DQUOTE,
 	S_P_REDIRECT_STRING_DQUOTE_ENV,
 	S_P_STRING,
-	S_P_DQUOTE_QUOTE,
-	S_P_REDIRECT_DQUOTE_QUOTE,
-	S_P_REDIRECT_STRING_DQUOTE_QUOTE,
 }	t_state_shell_parse;
 
 /*
@@ -111,14 +108,4 @@ t_state_shell_parse	shell_parse_redirect_string_dquote_env(t_shell_data *p_data,
 						char c);
 t_state_shell_parse	shell_parse_string(t_shell_data *p_data, char c);
 
-/*
-* shell_parse_state6.c
-*/
-t_state_shell_parse	shell_parse_state6(t_state_shell_parse state,
-						t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_dquote_quote(t_shell_data *p_data, char c);
-t_state_shell_parse	shell_parse_redirect_dquote_quote(t_shell_data *p_data,
-						char c);
-t_state_shell_parse	shell_parse_redirect_string_dquote_quote(
-						t_shell_data *p_data, char c);
 #endif

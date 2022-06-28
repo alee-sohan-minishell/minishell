@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 20:51:59 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 21:40:16 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ char	*loop_parse(t_shell_data *p_data, t_state_shell_parse *state, char *str)
 			*state = shell_parse_state4(*state, p_data, *str);
 		else if (S_P_REDIRECT_STRING_ENV <= *state && S_P_STRING >= *state)
 			*state = shell_parse_state5(*state, p_data, *str);
-		else if (S_P_DQUOTE_QUOTE <= *state
-			&& S_P_REDIRECT_STRING_DQUOTE_QUOTE >= *state)
-			*state = shell_parse_state6(*state, p_data, *str);
 		++str;
 	}
 	return (NULL);

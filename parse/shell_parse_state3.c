@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/27 22:43:05 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 22:07:03 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_state_shell_parse	shell_parse_redirect_append(t_shell_data *p_data, char c)
 t_state_shell_parse	shell_parse_dquote_env(t_shell_data *p_data, char c)
 {
 	if (p_data->parse_env->cnt == 0
-		&& (' ' == c || '\t' == c || '"' == c || '?' == c))
+		&& (' ' == c || '\t' == c || '"' == c || '?' == c || '\'' == c))
 		return (treat_first_dquote_env(p_data, c));
 	if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c

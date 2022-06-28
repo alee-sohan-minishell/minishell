@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/27 22:42:49 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 21:52:47 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_state_shell_parse	shell_parse_redirect_dquote(t_shell_data *p_data, char c)
 {
 	if ('"' == c)
 		return (get_redirect_state(p_data->redirect_kind));
-	else if ('\'' == c)
-		return (S_P_REDIRECT_DQUOTE_QUOTE);
 	else if ('$' == c)
 		return (S_P_REDIRECT_DQUOTE_ENV);
 	if (shell_parse_node_add_char(p_data->parse_tmp, c))
