@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:17:30 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 00:23:02 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 20:04:56 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ typedef struct s_shell_data
 	int							is_piped;
 	int							is_fileio_success;
 	int							fileio_errno;
-	pid_t						pipepid; // TODO
 
 	struct termios				default_term_attr;
 	struct termios				new_term_attr;

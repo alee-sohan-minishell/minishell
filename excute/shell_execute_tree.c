@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_execute_tree.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:15:36 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 01:51:30 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/28 18:55:43 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "../heredoc/heredoc.h"
+#include "../print.h"
 
 void	set_pipe(t_shell_data *p_data)
 {

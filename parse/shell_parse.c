@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/27 22:55:06 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 20:51:59 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "shell_parse_util_tree.h"
 #include "shell_parse_util_tree2.h"
 #include "shell_parse_util_state.h"
+#include "../init/shell_parse_init.h"
 
 void	shell_parse_free(t_shell_data *p_data)
 {
@@ -113,14 +114,16 @@ void	shell_parse(t_shell_data *p_data)
 	}
 	state = S_P_SPACE;
 	ret = loop_parse(p_data, &state, p_data->line);
-	p_data->cmd_count = 0;
-	if (shell_parse_check(p_data, state, &ret)
-		&& shell_parse_check_tree(p_data->focus) && ret)
+	if (shell_parse_check(p_data, state, &ret) || ret)
 	{
 		ft_perror_param("error while parse", ret, 0);
 		shell_parse_free(p_data);
-		ft_set_status(p_data, S_ERROR);
-		return ;
+		shell_parse_init(p_data);
+	}
+	if (shell_parse_check_tree(&p_data->tree))
+	{
+		shell_parse_free(p_data);
+		shell_parse_init(p_data);
 	}
 	ft_set_status(p_data, S_CMD);
 	p_data->heredoc_cnt = 0;

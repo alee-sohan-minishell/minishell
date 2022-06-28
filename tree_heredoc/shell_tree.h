@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:57:07 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/27 22:33:44 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 19:00:13 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_shell_tree_node
 	char						**argv;
 	int							fd;
 	char						*filepath;
-	int							pnum; // TODO
+	int							pnum;
 }	t_shell_tree_node;
 
 t_shell_tree_node	*tree_new_node(t_shell_tree_kind kind, char **argv, int fd,

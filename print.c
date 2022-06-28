@@ -6,43 +6,64 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:48:16 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 22:45:11 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/28 19:07:45 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "init/shell_parse_init.h"
 #include "shell/shell.h"
 #include "parse/shell_parse.h"
 #include "utils/state_machine_utils_01.h"
+#include "libft/libft.h"
+
+static void	print_content(t_shell_tree_node *t)
+{
+	int			cnt;
+
+	if (NULL == t->argv)
+		ft_putstr_fd("	no argv\n", STDERR_FILENO);
+	else
+	{
+		cnt = -1;
+		while (t->argv[++cnt])
+		{
+			ft_putchar_fd('\t', STDERR_FILENO);
+			ft_putnbr_fd(cnt, STDERR_FILENO);
+			ft_putstr_fd(": ", STDERR_FILENO);
+			ft_putstr_fd(t->argv[cnt], STDERR_FILENO);
+			ft_putchar_fd('\n', STDERR_FILENO);
+		}
+	}
+	ft_putchar_fd('\t', STDERR_FILENO);
+	if (NULL == t->filepath)
+		ft_putstr_fd("no filepath\n", STDERR_FILENO);
+	else
+	{
+		ft_putstr_fd("file: ", STDERR_FILENO);
+		ft_putstr_fd(t->filepath, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
+	}
+}
 
 void	print_recur(t_shell_tree_node *t, int left, int *count)
 {
 	const char	*which[] = {
 		"root", "empty", "string", "int", "cmd",
 		"|", "&&", "||", "<", ">", "<<", ">>"};
-	int 		cnt = -1;
 
-	fprintf(stderr, "%d: tree %s" , (*count)++, which[t->kind]);
+	ft_putnbr_fd((*count)++, STDERR_FILENO);
+	ft_putstr_fd(": tree ", STDERR_FILENO);
+	ft_putstr_fd(which[t->kind], STDERR_FILENO);
 	if (t->kind == T_PIPE)
-		fprintf(stderr,"%d", t->pnum);
-	fprintf(stderr," %d\n", left);
-	if (NULL == t->argv)
-		fprintf(stderr,"	no argv\n");
-	else
-	{
-		while (t->argv[++cnt])
-			fprintf(stderr,"	%d: %s\n", cnt, t->argv[cnt]);
-	}
-	if (NULL == t->filepath)
-		fprintf(stderr,"	no filepath\n");
-	else
-		fprintf(stderr,"	file: %s\n", t->filepath);
+		ft_putnbr_fd(t->pnum, STDERR_FILENO);
+	ft_putnbr_fd(left, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
+	print_content(t);
 	if (t->left)
 		print_recur(t->left, 1, count);
 	if (t->right)
 		print_recur(t->right, 0, count);
-	fprintf(stderr,"up\n\n");
+	ft_putstr_fd("up\n", STDERR_FILENO);
 }
 
 void	print_heredoc(t_shell_data *shell)
@@ -54,10 +75,13 @@ void	print_heredoc(t_shell_data *shell)
 	node = shell->heredoc_list.head.next;
 	while (node != &shell->heredoc_list.tail)
 	{
-		fprintf(stderr,"%d: heredoc, delimiter: %s\n", ++cnt, node->delimiter);
+		ft_putnbr_fd(++cnt, STDERR_FILENO);
+		ft_putstr_fd(": heredoc, delimiter: ", STDERR_FILENO);
+		ft_putstr_fd("node->delimiter", STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
 		node = node->next;
 	}
-	fprintf(stderr,"\n");
+	ft_putchar_fd('\n', STDERR_FILENO);
 }
 
 void	print_tree(t_shell_data *shell)
@@ -66,9 +90,5 @@ void	print_tree(t_shell_data *shell)
 
 	count = 0;
 	print_recur(&shell->tree, 0, &count);
-	fprintf(stderr,"\n");
-	// shell_parse_free(shell);
-	// shell->pipe_count = 0;
-	// shell_parse_init(shell);
-	// ft_set_status(shell, S_LINE_READ);
+	ft_putchar_fd('\n', STDERR_FILENO);
 }
