@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   signal_with_no_foreground_process.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 18:36:39 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 21:41:47 by alee             ###   ########.fr       */
+/*   Created: 2022/06/29 11:11:38 by sohan             #+#    #+#             */
+/*   Updated: 2022/06/29 11:11:45 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "signal.h"
 #include "../shell/shell.h"
-#include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
+#include <readline/readline.h>
 
-static void	while_background_handler(int signo)
+static void	no_foreground_process_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -26,25 +25,12 @@ static void	while_background_handler(int signo)
 		write(1, "\n", 1);
 		rl_redisplay();
 		(void)signo;
+		g_exit_code = 1;
 	}
 }
 
-void	set_signal_background(void)
+void	no_foreground_process(void)
 {
-	signal(SIGINT, while_background_handler);
+	signal(SIGINT, no_foreground_process_handler);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-static void	while_foreground_handler(int signo)
-{
-	if (signo == SIGINT)
-		write(1, "\n", 1);
-	if (signo == SIGQUIT)
-		write(1, "Quit: 3\n", 8);
-}
-
-void	set_signal_foreground(void)
-{
-	signal(SIGINT, while_foreground_handler);
-	signal(SIGQUIT, while_foreground_handler);
 }

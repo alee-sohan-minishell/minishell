@@ -21,7 +21,7 @@
 
 void	shell_readline(t_shell_data *p_data)
 {
-	set_signal_background();
+	no_foreground_process();
 	p_data->line = readline(p_data->prompt_msg);
 	if (!p_data->line)
 	{

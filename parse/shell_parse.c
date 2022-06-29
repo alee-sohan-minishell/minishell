@@ -113,7 +113,6 @@ void	shell_parse(t_shell_data *p_data)
 	}
 	state = S_P_SPACE;
 	ret = loop_parse(p_data, &state, p_data->line);
-	p_data->cmd_count = 0;
 	if (shell_parse_check(p_data, state, &ret)
 		&& shell_parse_check_tree(p_data->focus) && ret)
 	{

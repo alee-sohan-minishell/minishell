@@ -34,7 +34,7 @@ int	heredoc(t_shell_data *p_data, const char *filename)
 		p_data->fileio_errno = 1;
 		return (-1);
 	}
-	p_data->fd_in_new = fd;
+	p_data->fd_new[IN] = fd;
 	ft_dup2(fd, STDIN_FILENO);
 	ft_close(fd);
 	return (1);
@@ -50,7 +50,7 @@ int	heredoc_readline(const char *filename, const char *eof)
 		return (-1);
 	while (1)
 	{
-		set_signal_background();
+		no_foreground_process();
 		line = readline("> ");
 		if (!line)
 			return (1);

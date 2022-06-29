@@ -10,9 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-# -fsanitize=address -g
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
+CFLAGS = -Wall -Wextra -Werror -MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
 RM = rm -f
 
 NAME = minishell
@@ -27,9 +26,9 @@ UTILS_FILE = fd_utils_01 error_msg_utils_01 error_msg_utils_02 state_machine_uti
 			string_utils_01 integer_utils_01
 BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export ft_export_utils
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
-SIGNAL_FILE = signal
-NON_BUILT_IN_FILE = non_built_in
-EXCUTE_FILE = shell_excute shell_execute_tree
+SIGNAL_FILE = signal_with_no_foreground_process signal_with_foreground_process
+NON_BUILT_IN_FILE = ft_non_built_in direct_execute search_execute
+EXECUTE_FILE = shell_execute_command_name shell_execute_tree shell_execute_tree_utils pipe_utils tree_traverse_execute
 REDIRECTION_FILE = redirection
 HEREDOC_FILE = heredoc
 SHELL_PARSE_FILE = shell_parse_check_tree shell_parse_node_list \
@@ -57,7 +56,7 @@ SRC = $(addsuffix .c,$(FILE)) \
 	$(addprefix utils/,$(addsuffix .c,$(UTILS_FILE))) \
 	$(addprefix signal/,$(addsuffix .c,$(SIGNAL_FILE))) \
 	$(addprefix non_built_in/,$(addsuffix .c,$(NON_BUILT_IN_FILE))) \
-	$(addprefix excute/,$(addsuffix .c,$(EXCUTE_FILE))) \
+	$(addprefix execute/,$(addsuffix .c,$(EXECUTE_FILE))) \
 	$(addprefix redirection/,$(addsuffix .c,$(REDIRECTION_FILE))) \
 	$(addprefix parse/,$(addsuffix .c,$(SHELL_PARSE_FILE))) \
 	$(addprefix tree_heredoc/,$(addsuffix .c,$(TREE_HEREDOC_FILE))) \
@@ -94,8 +93,5 @@ fclean: clean
 re:
 	make fclean
 	make all
-
-test: $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(LIBADD) $^ -o $@
 
 -include $(OBJ:.o=.d)

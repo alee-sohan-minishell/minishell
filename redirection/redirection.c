@@ -26,13 +26,11 @@ int	redirection_in(t_shell_data *p_data, const char *file)
 	if (file_fd == -1)
 	{
 		ft_perror_param((const char *)0, file, errno);
-		p_data->global_data.pipe_status[p_data->cmd_count] = 1;
-		p_data->fileio_errno = 1;
+		p_data->pipe_status[p_data->cmd_count] = 1;
 		return (-1);
 	}
-	p_data->global_data.pipe_status[p_data->cmd_count] = 0;
-	p_data->fileio_errno = 0;
-	p_data->fd_in_new = file_fd;
+	p_data->pipe_status[p_data->cmd_count] = 0;
+	p_data->fd_new[IN] = file_fd;
 	ft_dup2(file_fd, STDIN_FILENO);
 	ft_close(file_fd);
 	return (0);
@@ -46,13 +44,11 @@ int	redirection_out(t_shell_data *p_data, const char *file)
 	if (file_fd == -1)
 	{
 		ft_perror_param((const char *)0, file, 1);
-		p_data->fileio_errno = 1;
-		p_data->global_data.pipe_status[p_data->cmd_count] = 1;
+		p_data->pipe_status[p_data->cmd_count] = 1;
 		return (-1);
 	}
-	p_data->global_data.pipe_status[p_data->cmd_count] = 0;
-	p_data->fileio_errno = 0;
-	p_data->fd_out_new = file_fd;
+	p_data->pipe_status[p_data->cmd_count] = 0;
+	p_data->fd_new[OUT] = file_fd;
 	ft_dup2(file_fd, STDOUT_FILENO);
 	ft_close(file_fd);
 	return (0);
@@ -66,13 +62,11 @@ int	redirection_append(t_shell_data *p_data, const char *file)
 	if (file_fd == -1)
 	{
 		ft_perror_param((const char *)0, file, 1);
-		p_data->fileio_errno = 1;
-		p_data->global_data.pipe_status[p_data->cmd_count] = 1;
+		p_data->pipe_status[p_data->cmd_count] = 1;
 		return (-1);
 	}
-	p_data->global_data.pipe_status[p_data->cmd_count] = 0;
-	p_data->fileio_errno = 0;
-	p_data->fd_out_new = file_fd;
+	p_data->pipe_status[p_data->cmd_count] = 0;
+	p_data->fd_new[OUT] = file_fd;
 	ft_dup2(file_fd, STDOUT_FILENO);
 	ft_close(file_fd);
 	return (0);
