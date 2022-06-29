@@ -41,7 +41,6 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 	p_data->p_argv = argv;
 	p_data->p_env = env;
 	ft_set_status(p_data, S_LINE_READ);
-	p_data->exit_code = 0;
 	return ;
 }
 

@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 18:36:27 by alee              #+#    #+#             */
-/*   Updated: 2022/05/25 18:36:28 by alee             ###   ########.fr       */
+/*   Created: 2022/06/29 11:12:03 by sohan             #+#    #+#             */
+/*   Updated: 2022/06/29 11:12:13 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNAL_H
 # define SIGNAL_H
 
-void	set_signal_background(void);
-void	set_signal_foreground(void);
+void	no_foreground_process(void);
+void	shell_command_is_foreground_process(void);
+void	executable_file_is_foreground_process(void);
+void	minishell_is_foreground_process(void);
 
 #endif

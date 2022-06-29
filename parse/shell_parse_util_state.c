@@ -47,7 +47,7 @@ int	add_char_exit_code(t_shell_data *p_data)
 	char	*str;
 	int		cnt;
 
-	str = ft_itoa(p_data->exit_code);
+	str = ft_itoa(g_exit_code);
 	if (NULL == str)
 		return (-1);
 	cnt = -1;

@@ -17,7 +17,7 @@
 #include "read_line/shell_readline.h"
 #include "utils/state_machine_utils_01.h"
 #include "parse/shell_parse.h"
-#include "excute/shell_excute.h"
+#include "execute/shell_execute.h"
 #include "heredoc/heredoc.h"
 #include "print.h"
 

@@ -14,6 +14,8 @@
 # define SHELL_H
 # define WRITE 1
 # define READ 0
+# define OUT 1
+# define IN 0
 # define DEBUG_TREE 0
 # define STR_SHELL "shell"
 # include <stdio.h>
@@ -23,13 +25,7 @@
 # include "../tree_heredoc/shell_heredoc.h"
 # include "../parse/shell_parse_node_list.h"
 
-typedef struct s_pipe_data
-{
-	int		*pipe_status;
-	int		signal_status;
-	pid_t	*pipe_pid;
-	int		index;
-}	t_data;
+int	g_exit_code;
 
 typedef enum e_shell_status
 {
@@ -60,21 +56,15 @@ typedef struct s_shell_data
 
 	char						**cmd;
 
-	int							fd_in_old;
-	int							fd_out_old;
-	int							fd_in_new;
-	int							fd_out_new;
+	int							fd_std[2];
+	int							fd_new[2];
 	int							(*pipe_fd)[2];
 	int							pipe_count;
-	int							pipe_index;
 	int							pipe_num;
-	t_data						global_data;
-	unsigned char				exit_code;
-	int							process_exit_status;
+	pid_t						*pipe_pid;
+	int							*pipe_status;
 	int							cmd_count;
-	int							pfds[2];
 	int							is_piped;
-	int							is_fileio_success;
 	int							fileio_errno;
 
 	struct termios				default_term_attr;
