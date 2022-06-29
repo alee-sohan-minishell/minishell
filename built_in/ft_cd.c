@@ -54,9 +54,9 @@ int	is_chdir_home(char **cmd, char **o_home_path, t_shell_data *p_data)
 	if (get_cmd_count(cmd) == 1)
 	{
 		if (env_node_search(&p_data->env_list, "HOME", &home_node) == 0)
-			ft_perror_param("cd", "HOME not set", 0);
+			ft_self_perror_param(NULL, "cd", "HOME not set");
 		else if (home_node->value == (char *)0)
-			ft_perror_param("cd", "HOME not set", 0);
+			ft_self_perror_param(NULL, "cd", "HOME not set");
 		else
 			*o_home_path = home_node->value;
 		return (1);
