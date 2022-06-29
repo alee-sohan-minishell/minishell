@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 19:58:14 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/27 22:28:22 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/29 19:08:53 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ t_state_shell_parse	treat_first_redirect_env(t_shell_data *p_data, char c)
 t_state_shell_parse	treat_first_redirect_dquote_env(t_shell_data *p_data,
 						char c)
 {
-	if (' ' == c || '\t' == c || '"' == c)
+	if (' ' == c || '\t' == c || '"' == c || '\'' == c)
 	{
 		if (shell_parse_node_add_char(p_data->parse_tmp, '$'))
 			return (S_P_ERROR);
-		if (' ' == c || '\t' == c)
+		if (' ' == c || '\t' == c || '\'' == c)
 		{
 			if (shell_parse_node_add_char(p_data->parse_tmp, c))
 				return (S_P_ERROR);

@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+         #
+#    By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/07 07:23:33 by alee              #+#    #+#              #
-#    Updated: 2022/06/29 18:28:28 by alee             ###   ########.fr        #
+#    Updated: 2022/06/29 20:36:47 by min-jo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
+CFLAGS = -Wall -Wextra -Werror # -MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
 RM = rm -f
 
 NAME = minishell

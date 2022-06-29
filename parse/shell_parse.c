@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:08:02 by alee              #+#    #+#             */
-/*   Updated: 2022/06/28 21:40:16 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/29 20:51:44 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int	shell_parse_check(t_shell_data *p_data, t_state_shell_parse state,
 		return (-1);
 	if (p_data->parse_list.cnt && shell_parse_util_insert_cmd(p_data))
 		return (-1);
+	if (is_redirect_state(state))
+		if (shell_parse_util_insert_redirect(p_data))
+			return (-1);
 	return (0);
 }
 
@@ -121,6 +124,7 @@ void	shell_parse(t_shell_data *p_data)
 	{
 		shell_parse_free(p_data);
 		shell_parse_init(p_data);
+		ft_set_status(p_data, S_LINE_READ);
 	}
 	ft_set_status(p_data, S_CMD);
 	p_data->heredoc_cnt = 0;

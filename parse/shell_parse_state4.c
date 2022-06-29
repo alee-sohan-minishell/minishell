@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 01:34:57 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/28 21:52:47 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/29 20:32:30 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "shell_parse_util_node_list.h"
 #include "shell_parse_util_tree.h"
 #include "shell_parse_util_tree2.h"
+#include "shell_parse_check_tree.h"
 
 t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c)
 {
@@ -24,16 +25,12 @@ t_state_shell_parse	shell_parse_redirect_env(t_shell_data *p_data, char c)
 		return (treat_first_redirect_env(p_data, c));
 	else if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
-		|| '|' == c || '<' == c || '>' == c)
+		|| '|' == c || '<' == c || '>' == c || '-' == c)
 	{
 		if (shell_parse_find_str_in_env(p_data))
 			return (S_P_ERROR);
-		if ('\'' == c)
-			return (S_P_REDIRECT_QUOTE);
-		else if ('"' == c)
-			return (S_P_REDIRECT_DQUOTE);
-		else if ('$' == c)
-			return (S_P_REDIRECT_ENV);
+		if ('\'' == c || '"' == c || '$' == c || '-' == c)
+			return (return_redirect_env(p_data, c));
 		if (shell_parse_util_insert_redirect(p_data))
 			return (S_P_ERROR);
 		p_data->redirect_kind = T_EMPTY;
@@ -70,18 +67,23 @@ t_state_shell_parse	shell_parse_redirect_dquote_env(t_shell_data *p_data,
 						char c)
 {
 	if (p_data->parse_env->cnt == 0
-		&& (' ' == c || '\t' == c || '"' == c || '?' == c))
+		&& (' ' == c || '\t' == c || '"' == c || '?' == c || '\'' == c))
 		return (treat_first_redirect_dquote_env(p_data, c));
 	else if (' ' == c || '\t' == c || '\'' == c || '"' == c || '$' == c
 		|| '(' == c || ')' == c || '&' == c
-		|| '|' == c || '<' == c || '>' == c)
+		|| '|' == c || '<' == c || '>' == c || '-' == c)
 	{
 		if (shell_parse_find_str_in_env(p_data))
 			return (S_P_ERROR);
 		if ('"' == c)
 			return (get_redirect_state(p_data->redirect_kind));
-		else if ('$' == c)
+		if ('$' == c)
+		{
+			if ('-' == c)
+				if (shell_parse_node_add_char(p_data->parse_tmp, c))
+					return (S_P_ERROR);
 			return (S_P_REDIRECT_DQUOTE_ENV);
+		}
 		if (shell_parse_node_add_char(p_data->parse_tmp, c))
 			return (S_P_ERROR);
 		return (S_P_REDIRECT_DQUOTE);

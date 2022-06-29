@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_execute_tree.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:15:36 by alee              #+#    #+#             */
-/*   Updated: 2022/06/29 18:25:54 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/29 19:53:48 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "../utils/error_msg_utils_01.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include "../print.h"
 
 void	tree_traverse_get_pipe_fd(t_shell_data *p_data,
 												t_shell_tree_node *cmd_tree)
@@ -66,6 +67,8 @@ void	shell_execute_tree(t_shell_data *p_data)
 
 	if (!p_data)
 		return ;
+	if (DEBUG_TREE == 1)
+		print_tree(p_data);
 	shell_execute_tree_init(p_data);
 	cur = &p_data->tree;
 	tree_traverse_get_pipe_fd(p_data, cur);
@@ -85,5 +88,4 @@ void	shell_execute_tree(t_shell_data *p_data)
 		free(p_data->line);
 	set_tc_attr(p_data);
 	ft_set_status(p_data, S_LINE_READ);
-	return ;
 }

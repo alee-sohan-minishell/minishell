@@ -6,7 +6,7 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 18:19:56 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/25 23:16:32 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/29 20:54:31 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../tree_heredoc/shell_heredoc.h"
 #include "../parse/shell_parse_node_list.h"
 
-// 더미라서 init에서 한 번 초기화
 void	shell_tree_init(t_shell_tree_node *node)
 {
 	node->kind = T_ROOT;
@@ -27,7 +26,6 @@ void	shell_tree_init(t_shell_tree_node *node)
 	node->filepath = NULL;
 }
 
-// 더미라서 init에서 한 번 초기화
 void	shell_heredoc_init(t_shell_heredoc_list *list)
 {
 	list->cnt = 0;
@@ -39,7 +37,6 @@ void	shell_heredoc_init(t_shell_heredoc_list *list)
 	list->tail.delimiter = NULL;
 }
 
-// 더미라서 init에서 한 번 초기화
 void	shell_list_init(t_parse_list *list)
 {
 	list->cnt = 0;

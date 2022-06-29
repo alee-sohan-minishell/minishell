@@ -6,13 +6,16 @@
 /*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 19:11:20 by min-jo            #+#    #+#             */
-/*   Updated: 2022/06/28 20:07:50 by min-jo           ###   ########.fr       */
+/*   Updated: 2022/06/29 20:29:55 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell/shell.h"
 #include "../utils/error_msg_utils_01.h"
 #include "../parse/shell_parse_util_tree.h"
+#include "../parse/shell_parse_state.h"
+#include "../parse/shell_parse_util_node_list.h"
+#include "../parse/shell_parse_util_tree2.h"
 
 int	shell_parse_check_tree(t_shell_tree_node *t)
 {
@@ -35,4 +38,17 @@ int	shell_parse_check_tree(t_shell_tree_node *t)
 		if (shell_parse_check_tree(t->right))
 			return (-1);
 	return (0);
+}
+
+t_state_shell_parse	return_redirect_env(t_shell_data *p_data, char c)
+{
+	if ('\'' == c)
+		return (S_P_REDIRECT_QUOTE);
+	else if ('"' == c)
+		return (S_P_REDIRECT_DQUOTE);
+	else if ('$' == c)
+		return (S_P_REDIRECT_ENV);
+	if (shell_parse_node_add_char(p_data->parse_tmp, c))
+		return (S_P_ERROR);
+	return (get_redirect_state(p_data->redirect_kind));
 }

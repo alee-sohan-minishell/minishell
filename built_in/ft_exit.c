@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alee <alee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: min-jo <min-jo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 02:47:08 by alee              #+#    #+#             */
-/*   Updated: 2022/06/23 21:19:53 by alee             ###   ########.fr       */
+/*   Updated: 2022/06/29 20:49:11 by min-jo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 #include "../utils/error_msg_utils_02.h"
 #include "../built_in/ft_echo.h"
 #include "../utils/integer_utils_01.h"
-
-//debug
-#include <stdio.h>
 
 int	ft_exit(char **cmd, long long status)
 {
