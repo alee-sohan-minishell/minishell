@@ -77,7 +77,7 @@ void	shell_execute_tree(t_shell_data *p_data)
 	restore_stdio(p_data->fd_std);
 	close_pipe_fd(p_data);
 	wait_children(p_data);
-	g_exit_code = p_data->pipe_status[p_data->pipe_count];
+	g.exit_code = p_data->pipe_status[p_data->pipe_count];
 	shell_parse_free(p_data);
 	shell_parse_init(p_data);
 	p_data->pipe_count = 0;

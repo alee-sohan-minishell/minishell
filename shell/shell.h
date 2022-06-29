@@ -25,7 +25,13 @@
 # include "../tree_heredoc/shell_heredoc.h"
 # include "../parse/shell_parse_node_list.h"
 
-int	g_exit_code;
+typedef struct s_global
+{
+	int	exit_code;
+	int	init_status;
+}	t_global;
+
+t_global	g;
 
 typedef enum e_shell_status
 {
