@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"shell_execute.h": "c",
+		"signal.h": "c"
+	}
+}
