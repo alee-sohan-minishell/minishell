@@ -37,7 +37,7 @@ void	shell_execute_command_name(t_shell_data *p_data)
 		p_data->pipe_status[p_data->cmd_count] = ft_echo(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "exit") == 0)
 		p_data->pipe_status[p_data->cmd_count] = \
-									ft_exit(p_data->cmd, p_data->last_status);
+									ft_exit(p_data->cmd, g_data.exit_code);
 	else if (ft_strcmp(p_data->cmd[0], "env") == 0)
 		p_data->pipe_status[p_data->cmd_count] = ft_env(p_data->cmd, p_data);
 	else if (ft_strcmp(p_data->cmd[0], "unset") == 0)
