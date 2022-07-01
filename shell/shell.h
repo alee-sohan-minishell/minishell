@@ -29,6 +29,7 @@ typedef struct s_global
 {
 	int	exit_code;
 	int	init_status;
+	int	heredoc_quit;
 }	t_global;
 
 t_global	g_data;

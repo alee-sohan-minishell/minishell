@@ -24,7 +24,6 @@ static void	no_foreground_process_handler(int signo)
 		rl_replace_line("", 0);
 		write(1, "\n", 1);
 		rl_redisplay();
-		(void)signo;
 		g_data.exit_code = 1;
 	}
 }
@@ -32,5 +31,21 @@ static void	no_foreground_process_handler(int signo)
 void	no_foreground_process(void)
 {
 	signal(SIGINT, no_foreground_process_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+static void	heredoc_is_running_handler(int signo)
+{
+	if (signo == SIGINT)
+	{
+		g_data.heredoc_quit = 1;
+		g_data.exit_code = 1;
+		close(STDIN_FILENO);
+	}
+}
+
+void	heredoc_is_running(void)
+{
+	signal(SIGINT, heredoc_is_running_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

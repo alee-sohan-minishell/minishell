@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include "../shell/shell.h"
 #include "../utils/fd_utils_01.h"
+#include "../parse/shell_parse.h"
+#include "../init/shell_parse_init.h"
 #include "../libft/libft.h"
 #include <readline/readline.h>
 #include "heredoc.h"
@@ -40,7 +42,20 @@ int	heredoc(t_shell_data *p_data, const char *filename)
 	return (1);
 }
 
-int	heredoc_readline(const char *filename, const char *eof)
+int	heredoc_quit(t_shell_data *p_data, char *line)
+{
+	shell_parse_free(p_data);
+	shell_parse_init(p_data);
+	ft_set_status(p_data, S_LINE_READ);
+	g_data.heredoc_quit = 0;
+	p_data->pipe_count = 0;
+	free(line);
+	dup2(p_data->cp_stdin, STDIN_FILENO);
+	return (1);
+}
+
+int	heredoc_readline(t_shell_data *p_data, \
+										const char *filename, const char *eof)
 {
 	char	*line;
 	int		fd;
@@ -50,8 +65,10 @@ int	heredoc_readline(const char *filename, const char *eof)
 		return (-1);
 	while (1)
 	{
-		no_foreground_process();
+		heredoc_is_running();
 		line = readline("> ");
+		if (g_data.heredoc_quit)
+			return (heredoc_quit(p_data, line));
 		if (!line)
 			return (1);
 		if (ft_strcmp(line, eof) == 0)
@@ -77,13 +94,15 @@ int	heredoc_input(t_shell_data *p_data)
 		filename = make_heredoc_filename(&p_data->heredoc_cnt);
 		if (NULL == filename)
 			return (-1);
-		result = heredoc_readline(filename, node->delimiter);
+		result = heredoc_readline(p_data, filename, node->delimiter);
 		free(filename);
 		if (result == -1)
 		{
 			ft_set_status(p_data, S_ERROR);
 			return (-1);
 		}
+		else if (result == 1)
+			return (-1);
 		node = node->next;
 	}
 	return (1);

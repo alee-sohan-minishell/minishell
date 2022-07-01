@@ -16,7 +16,8 @@
 # include "../tree_heredoc/shell_tree.h"
 
 int	heredoc(t_shell_data *p_data, const char *eof);
-int	heredoc_readline(const char *filename, const char *eof);
+int	heredoc_readline(t_shell_data *p_data, \
+										const char *filename, const char *eof);
 int	heredoc_input(t_shell_data *p_data);
 
 #endif

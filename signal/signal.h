@@ -14,6 +14,7 @@
 # define SIGNAL_H
 
 void	no_foreground_process(void);
+void	heredoc_is_running(void);
 void	shell_command_is_foreground_process(void);
 void	executable_file_is_foreground_process(void);
 void	minishell_is_foreground_process(void);
