@@ -62,11 +62,9 @@ typedef struct s_shell_data
 
 	char						**cmd;
 
-	int							fd_std[2];
 	int							fd_new[2];
 	int							(*pipe_fd)[2];
 	int							pipe_count;
-	int							pipe_num;
 	pid_t						*pipe_pid;
 	int							*pipe_status;
 	int							cmd_count;

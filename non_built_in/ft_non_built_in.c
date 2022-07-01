@@ -13,6 +13,7 @@
 #include "non_built_in.h"
 #include "../libft/libft.h"
 #include "../env/env_list_interface_01.h"
+#include "../utils/error_msg_utils_02.h"
 
 static void	*free_empty_list(char **path_list)
 {
@@ -32,13 +33,15 @@ static char	**get_path_list(t_env_list *p_list)
 		return (NULL);
 	path_list = ft_split(cur_node->value, ':');
 	if (!path_list)
-		exit(1);
+		ft_self_perror_param_exit(NULL, "get_path_list()", \
+										"Error while malloc\n", 1);
 	while (path_list[index])
 	{
 		temp = path_list[index];
 		path_list[index] = ft_strjoin(path_list[index], "/");
 		if (!path_list[index])
-			exit(1);
+			ft_self_perror_param_exit(NULL, "get_path_list()", \
+											"Error while malloc\n", 1);
 		free(temp);
 		++index;
 	}
@@ -58,7 +61,8 @@ static char	**get_exec_path(t_shell_data *p_data, char **path_list)
 		temp = path_list[index];
 		path_list[index] = ft_strjoin(path_list[index], p_data->cmd[0]);
 		if (!path_list[index])
-			exit (1);
+			ft_self_perror_param_exit(NULL, "get_exec_list()", \
+											"Error while malloc\n", 1);
 		free(temp);
 		++index;
 	}

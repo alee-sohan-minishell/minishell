@@ -55,16 +55,19 @@ void	execute_command(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 void	fork_execute_command(t_shell_data *p_data, t_shell_tree_node *cmd_tree)
 {
 	pid_t	pid;
+	int		fd[2];
 
+	if (pipe(fd) == -1)
+		ft_perror_exit("pipe error", 1);
 	pid = fork();
 	if (pid > 0)
 	{
 		p_data->pipe_pid[p_data->cmd_count] = pid;
-		set_io_parent(p_data);
+		set_io_parent(p_data, fd);
 	}
 	else if (pid == 0)
 	{
-		set_io_child(p_data);
+		set_io_child(p_data, fd);
 		execute_command(p_data, cmd_tree);
 		exit(p_data->pipe_status[p_data->cmd_count]);
 	}

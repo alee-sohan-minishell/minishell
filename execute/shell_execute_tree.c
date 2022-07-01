@@ -15,27 +15,10 @@
 #include "../init/shell_utils_01.h"
 #include "../init/shell_parse_init.h"
 #include "../parse/shell_parse.h"
-#include "../utils/error_msg_utils_01.h"
+#include "../utils/error_msg_utils_02.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include "../print.h"
-
-void	tree_traverse_get_pipe_fd(t_shell_data *p_data,
-												t_shell_tree_node *cmd_tree)
-{
-	if (cmd_tree)
-	{
-		if (cmd_tree->kind == T_PIPE)
-		{
-			--p_data->pipe_num;
-			if (pipe(p_data->pipe_fd[p_data->pipe_num]) == -1)
-				ft_perror_exit("pipe error", 1);
-			p_data->is_piped = 1;
-		}
-		tree_traverse_get_pipe_fd(p_data, cmd_tree->left);
-		tree_traverse_get_pipe_fd(p_data, cmd_tree->right);
-	}
-}
 
 void	wait_children(t_shell_data *p_data)
 {
@@ -61,6 +44,26 @@ void	wait_children(t_shell_data *p_data)
 	}
 }
 
+void	restore_stdio(t_shell_data *p_data)
+{
+	dup2(p_data->cp_stdout, STDOUT_FILENO);
+	dup2(p_data->cp_stdin, STDIN_FILENO);
+}
+
+void	shell_execute_tree_init(t_shell_data *p_data)
+{
+	p_data->pipe_status = malloc((p_data->pipe_count + 1) * sizeof(int));
+	p_data->pipe_pid = malloc((p_data->pipe_count + 1) * sizeof(pid_t));
+	if (!p_data->pipe_status || !p_data->pipe_pid)
+		ft_self_perror_param_exit(NULL, "Init pipe data", \
+										"Error while malloc", 1);
+	p_data->cmd_count = 0;
+	p_data->fileio_errno = 0;
+	p_data->fd_new[OUT] = 0;
+	p_data->fd_new[IN] = 0;
+	p_data->is_piped = p_data->pipe_count;
+}
+
 void	shell_execute_tree(t_shell_data *p_data)
 {
 	t_shell_tree_node	*cur;
@@ -71,11 +74,8 @@ void	shell_execute_tree(t_shell_data *p_data)
 		print_tree(p_data);
 	shell_execute_tree_init(p_data);
 	cur = &p_data->tree;
-	tree_traverse_get_pipe_fd(p_data, cur);
-	cur = &p_data->tree;
 	tree_traverse_execute(p_data, cur);
-	restore_stdio(p_data->fd_std);
-	close_pipe_fd(p_data);
+	restore_stdio(p_data);
 	wait_children(p_data);
 	g.exit_code = p_data->pipe_status[p_data->pipe_count];
 	shell_parse_free(p_data);

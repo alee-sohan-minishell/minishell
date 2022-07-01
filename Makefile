@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror # -MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
+CFLAGS = -Wall -Wextra -Werror #-MD -g $(if $(SANITIZER),-fsanitize=$(SANITIZER))
 RM = rm -f
 
 NAME = minishell
@@ -28,7 +28,7 @@ BUILT_IN_FILE = ft_pwd ft_cd ft_echo ft_exit ft_env ft_unset ft_export ft_export
 ENV_FILE = env_list env_utils_01 env_list_interface_01 env_list_interface_02
 SIGNAL_FILE = signal_with_no_foreground_process signal_with_foreground_process
 NON_BUILT_IN_FILE = ft_non_built_in direct_execute search_execute
-EXECUTE_FILE = shell_execute_command_name shell_execute_tree shell_execute_tree_utils pipe_utils tree_traverse_execute
+EXECUTE_FILE = shell_execute_command_name shell_execute_tree pipe_utils tree_traverse_execute
 REDIRECTION_FILE = redirection
 HEREDOC_FILE = heredoc
 SHELL_PARSE_FILE = shell_parse_check_tree shell_parse_node_list \

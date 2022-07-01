@@ -19,11 +19,7 @@ void	shell_execute_command_name(t_shell_data *p_data);
 void	tree_traverse_execute(t_shell_data *p_data, \
 												t_shell_tree_node *cmd_tree);
 
-void	shell_execute_tree_init(t_shell_data *p_data);
-void	restore_stdio(int fd_std[]);
-void	close_pipe_fd(t_shell_data *p_data);
-
-void	set_io_parent(t_shell_data *p_data);
-void	set_io_child(t_shell_data *p_data);
+void	set_io_parent(t_shell_data *p_data, int fd[]);
+void	set_io_child(t_shell_data *p_data, int fd[]);
 
 #endif
