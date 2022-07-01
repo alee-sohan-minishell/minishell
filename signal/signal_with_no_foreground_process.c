@@ -25,7 +25,7 @@ static void	no_foreground_process_handler(int signo)
 		write(1, "\n", 1);
 		rl_redisplay();
 		(void)signo;
-		g.exit_code = 1;
+		g_data.exit_code = 1;
 	}
 }
 

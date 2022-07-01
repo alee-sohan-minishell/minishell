@@ -40,7 +40,7 @@ void	shell_init(t_shell_data *p_data, int argc, char **argv[], char **env[])
 	p_data->prompt_msg = "shell$ ";
 	p_data->p_argv = argv;
 	p_data->p_env = env;
-	g.init_status = 1;
+	g_data.init_status = 1;
 	ft_set_status(p_data, S_LINE_READ);
 	return ;
 }

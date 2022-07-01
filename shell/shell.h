@@ -31,7 +31,7 @@ typedef struct s_global
 	int	init_status;
 }	t_global;
 
-t_global	g;
+t_global	g_data;
 
 typedef enum e_shell_status
 {

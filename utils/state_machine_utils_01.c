@@ -26,7 +26,7 @@ int	status_close(t_shell_data *p_data)
 {
 	if (!p_data)
 		return (0);
-	if (!g.init_status)
+	if (!g_data.init_status)
 		return (1);
 	shell_parse_free(p_data);
 	if (p_data->env_default_home)
